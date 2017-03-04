@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+[@include.jquery_1_8_3 /]
+[@include.layui /]
+[@include.icon /]
+<script type="text/javascript"
+	src="${basePath}/common/js/preload_layer.js">
+</script>
+<script>
+var basePath = '${basePath}';
+function loadSelector(url, id, objName, textName, valueName, config,func,selValue) {
+	$.post(url,config,function(data) {
+						if (data.msg == "OK") {
+							if (data[objName] && data[objName].length > 0) {
+								var $selector = $('#'+id);
+								var rows = data[objName];
+								for ( var row in data[objName]) {
+									$selector
+											.append('<option value="'+rows[row][valueName]+'" '+(selValue==(rows[row][valueName]+'')?'selected':'')+'>'
+													+ rows[row][textName]
+													+ '</option>');
+								}
+								if(func && func!=undefined){
+									func();
+								}
+							}
+						}
+					}, 'json')
+}
+var form;
+function callback(){
+	form.render();
+}
+layui.use([ 'form','element', 'layer' ], function() {
+	window.element = layui.element(); // 导航的hover效果、二级菜单等功能，需要依赖element模块
+	window.layer = layui.layer;
+	form = layui.form();
+	// 初始化layer配置
+	layer.config({
+		extend : 'skin/blueskin/style.css', // 加载您的扩展样式
+		skin : 'layui-ext-blueskin'
+	});
+	form.verify({
+			username:[/[a-zA-Z](\w){5,11}$/,'用户名以字母或下划线开头，且为6-12个字符'],
+			password:[/^(\w){6,16}$/,'密码最低6位，最高16位'],
+			verifycode:[/^(\w){4}$/,'验证码错误']
+		}
+	);
+	loadSelector(basePath + '/admin/message/list', 'city', 'rows', 'content','id', {},callback,'52');
+});
+</script>
+</head>
+<body>
+	<form class="layui-form" action="">
+		<div class="layui-form-item">
+			<label class="layui-form-label">选择框</label>
+			<div class="layui-input-inline" id="city_container">
+				<select id="city" name="city" lay-verify="required">
+					<option></option>
+				</select>
+			</div>
+		</div>
+	</form>
+<button onclick="load()">load</button>
+</body>
+</html>

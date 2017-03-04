@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here2</title>
+[@include.jquery_1_8_3 /]
+[@include.layui /]
+[@include.icon /]
+</head>
+<body>
+	<ul class="layui-nav layui-nav-tree layui-nav-side" lay-filter="demo">
+		<li class="layui-nav-item layui-nav-itemed">
+			<a href="javascript:;">试题管理</a>
+			<dl class="layui-nav-child">
+				<dd>
+					<a href="javascript:;">
+						<i class="fa fa-camera-retro"></i>
+						<cite>创建题库</cite>
+					</a>
+				</dd>
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe614;</i>
+						<cite>管理题库</cite>
+					</a>
+				</dd>
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe608;</i>
+						<cite>添加试题</cite>
+					</a>
+				</dd>
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe614;</i>
+						<cite>管理试题</cite>
+					</a>
+				</dd>
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe624;</i>
+						<cite>试题类型管理</cite>
+					</a>
+				</dd>
+			</dl>
+		</li>
+		<li class="layui-nav-item layui-nav-itemed">
+			<a href="javascript:;">试卷管理</a>
+			<dl class="layui-nav-child">
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe624;</i>
+						<cite>创建试卷</cite>
+					</a>
+				</dd>
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe614;</i>
+						<cite>试卷管理</cite>
+					</a>
+				</dd>
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe608;</i>
+						<cite>试卷分类</cite>
+					</a>
+				</dd>
+			</dl>
+		</li>
+		<li class="layui-nav-item layui-nav-itemed">
+			<a href="javascript:;">统计分析</a>
+			<dl class="layui-nav-child">
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe624;</i>
+						<cite>试题分析</cite>
+					</a>
+				</dd>
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe608;</i>
+						<cite>成绩分类</cite>
+					</a>
+				</dd>
+			</dl>
+		</li>
+		<li class="layui-nav-item layui-nav-itemed">
+			<a href="javascript:;">用户管理</a>
+			<dl class="layui-nav-child">
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe624;</i>
+						<cite>管理用户</cite>
+					</a>
+				</dd>
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe608;</i>
+						<cite>管理部门</cite>
+					</a>
+				</dd>
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe608;</i>
+						<cite>批量导入用户</cite>
+					</a>
+				</dd>
+			</dl>
+		</li>
+		<li class="layui-nav-item layui-nav-itemed">
+			<a href="javascript:;">通知公告</a>
+			<dl class="layui-nav-child">
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe624;</i>
+						<cite>发布公告</cite>
+					</a>
+				</dd>
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe608;</i>
+						<cite>公告分类管理</cite>
+					</a>
+				</dd>
+			</dl>
+		</li>
+		<li class="layui-nav-item layui-nav-itemed">
+			<a href="javascript:;">系统管理</a>
+			<dl class="layui-nav-child">
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe608;</i>
+						<cite>系统设置</cite>
+					</a>
+				</dd>
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe624;</i>
+						<cite>管理员列表</cite>
+					</a>
+				</dd>
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe608;</i>
+						<cite>部门管理</cite>
+					</a>
+				</dd>
+				<dd>
+					<a href="javascript:;">
+						<i class="layui-icon" style="top: 3px;">&#xe608;</i>
+						<cite>批量导入用户</cite>
+					</a>
+				</dd>
+			</dl>
+		</li>
+	</ul>
+	<form class="layui-form" action=""></form>
+
+	<script>
+		//Demo
+		layui.use('form', function() {
+			var form = layui.form();
+
+			//监听提交
+			form.on('submit(formDemo)', function(data) {
+				layer.msg(JSON.stringify(data.field));
+				return false;
+			});
+		});
+	</script>
+</body>
+</html>

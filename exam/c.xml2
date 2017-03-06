@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<com.tom.model.paper.QuestionMultipleChoice>
+	\n
+	<id>00be0845-acaa-4d32-a002-0f5f843b3575</id>
+	\n
+	<type>2</type>
+	\n
+	<content>行人不得有下列哪些行为：</content>
+	\n
+	<key>ABC</key>
+	\n
+	<score>0</score>
+	\n
+	<options>
+		\n
+		<com.tom.model.paper.Option>
+			\n
+			<alisa>A</alisa>
+			\n
+			<text>跨越、倚坐道路隔离设施</text>
+			\n
+		</com.tom.model.paper.Option>
+		\n
+		<com.tom.model.paper.Option>
+			\n
+			<alisa>B</alisa>
+			\n
+			<text>扒车、强行拦车</text>
+			\n
+		</com.tom.model.paper.Option>
+		\n
+		<com.tom.model.paper.Option>
+			\n
+			<alisa>C</alisa>
+			\n
+			<text>实施妨碍道路交通安全的其他行为</text>
+			\n
+		</com.tom.model.paper.Option>
+		\n
+		<com.tom.model.paper.Option>
+			\n
+			<alisa>D</alisa>
+			\n
+			<text>在人行道左侧行走</text>
+			\n
+		</com.tom.model.paper.Option>
+		\n
+	</options>
+	\n
+</com.tom.model.paper.QuestionMultipleChoice>
+<com.tom.model.paper.QuestionJudgment>
+	\n
+	<id>2b94d57e-d5cb-408b-902d-9c5421c6fc4a</id>
+	\n
+	<type>3</type>
+	\n
+	<content>驾驶人要按照驾驶证载明的准驾车型驾驶车辆。</content>
+	\n
+	<key>Y</key>
+	\n
+	<score>0</score>
+	\n
+</com.tom.model.paper.QuestionJudgment>
+
+
+
+<com.tom.model.paper.Paper>
+  <id>4fa92e15-11c4-40ae-94ed-5d24dd97816e</id>
+  <name>2222222</name>
+  <status>1</status>
+  <starttime>2016-12-24 15:25:00.0 CST</starttime>
+  <endtime>2016-12-25 15:25:00.0 CST</endtime>
+  <duration>20</duration>
+  <showtime>2016-12-28 15:25:00.0 CST</showtime>
+  <totalscore>10</totalscore>
+  <passscore>6</passscore>
+  <ordertype>0</ordertype>
+  <papertype>0</papertype>
+  <remark>111</remark>
+  <sections>
+    <com.tom.model.paper.PaperSection>
+      <name>111</name>
+      <remark>111</remark>
+      <id>1</id>
+      <questions>
+        <com.tom.model.paper.Question>
+          <id>0c36e26c-0b35-4196-be93-e8027401a404</id>
+          <type>1</type>
+          <content>2313&#xd;
+</content>
+          <score>2</score>
+        </com.tom.model.paper.Question>
+        <com.tom.model.paper.Question>
+          <id>5d077168-5d4d-4b6e-a745-e640d505aa05</id>
+          <type>1</type>
+          <content>321123&#xd;
+</content>
+          <score>1</score>
+        </com.tom.model.paper.Question>
+        <com.tom.model.paper.Question>
+          <id>decaa060-89f4-4b02-a14b-9b52359b23fd</id>
+          <type>1</type>
+          <content>222&#xd;
+</content>
+          <score>1</score>
+        </com.tom.model.paper.Question>
+      </questions>
+      <rnum>0</rnum>
+      <rtype>0</rtype>
+      <rlevel>0</rlevel>
+      <rscore>0</rscore>
+    </com.tom.model.paper.PaperSection>
+    <com.tom.model.paper.PaperSection>
+      <name>222</name>
+      <remark>22</remark>
+      <id>2</id>
+      <questions>
+        <com.tom.model.paper.Question>
+          <id>1e65e7a9-2005-4cdf-9419-d14d4327ab8a</id>
+          <type>1</type>
+          <content>车辆在较窄的山路上行驶时，如果靠山体的一方不让行，应怎样做？</content>
+          <score>3</score>
+        </com.tom.model.paper.Question>
+        <com.tom.model.paper.Question>
+          <id>422d18ce-2092-4f6c-a8e9-b0971421e65b</id>
+          <type>1</type>
+          <content>醉酒驾驶机动车在道路上行驶会受到什么处罚？</content>
+          <score>3</score>
+        </com.tom.model.paper.Question>
+      </questions>
+      <rnum>0</rnum>
+      <rtype>0</rtype>
+      <rlevel>0</rlevel>
+      <rscore>0</rscore>
+    </com.tom.model.paper.PaperSection>
+  </sections>
+  <departments class="java.util.Arrays$ArrayList">
+    <a class="string-array">
+      <string>827ea7bb-138d-425e-9fdf-13e97172b039</string>
+    </a>
+  </departments>
+  <showKey>true</showKey>
+  <showMode>1</showMode>
+</com.tom.model.paper.Paper>
+
+
+
+
+
+
+
+
+
+<com.tom.model.paper.Paper>
+  <id>e9ebbe1d-892c-4c32-a6f0-ce9f2e5af298</id>
+  <name>123</name>
+  <status>1</status>
+  <starttime>2016-12-24 15:15:00.0 CST</starttime>
+  <endtime>2016-12-25 15:15:00.0 CST</endtime>
+  <duration>90</duration>
+  <showtime>2016-12-26 15:15:00.0 CST</showtime>
+  <totalscore>5</totalscore>
+  <passscore>3</passscore>
+  <ordertype>0</ordertype>
+  <papertype>1</papertype>
+  <remark>111</remark>
+  <sections>
+    <com.tom.model.paper.PaperSection>
+      <name>111</name>
+      <remark>222</remark>
+      <id>1</id>
+      <rnum>2</rnum>
+      <rtype>5</rtype>
+      <rlevel>1</rlevel>
+      <rdbid>9ef3867b-be99-459e-ad4a-79d1eabaa0ec</rdbid>
+      <rscore>2</rscore>
+    </com.tom.model.paper.PaperSection>
+    <com.tom.model.paper.PaperSection>
+      <name>333</name>
+      <remark>444</remark>
+      <id>2</id>
+      <rnum>1</rnum>
+      <rtype>1</rtype>
+      <rlevel>3</rlevel>
+      <rdbid>d7cf583d-0429-4c6b-a7bb-cfd2bd53c62b</rdbid>
+      <rscore>1</rscore>
+    </com.tom.model.paper.PaperSection>
+    <com.tom.model.paper.PaperSection>
+      <name>123</name>
+      <remark>3213</remark>
+      <id>3</id>
+      <rnum>2</rnum>
+      <rtype>1</rtype>
+      <rlevel>3</rlevel>
+      <rdbid>d7cf583d-0429-4c6b-a7bb-cfd2bd53c62b</rdbid>
+      <rscore>0</rscore>
+    </com.tom.model.paper.PaperSection>
+  </sections>
+  <departments class="java.util.Arrays$ArrayList">
+    <a class="string-array">
+      <string>827ea7bb-138d-425e-9fdf-13e97172b039</string>
+    </a>
+  </departments>
+  <showKey>true</showKey>
+  <showMode>1</showMode>
+</com.tom.model.paper.Paper>
+
+
+
+
+
+
+
+<com.tom.model.paper.Paper>
+  <id>e9ebbe1d-892c-4c32-a6f0-ce9f2e5af298</id>
+  <name>123</name>
+  <status>1</status>
+  <starttime>2016-12-24 15:15:00.0 CST</starttime>
+  <endtime>2016-12-25 15:15:00.0 CST</endtime>
+  <duration>90</duration>
+  <showtime>2016-12-26 15:15:00.0 CST</showtime>
+  <totalscore>5</totalscore>
+  <passscore>3</passscore>
+  <ordertype>0</ordertype>
+  <papertype>1</papertype>
+  <remark>111</remark>
+  <sections>
+    <com.tom.model.paper.PaperSection>
+      <name>111</name>
+      <remark>222</remark>
+      <id>1</id>
+      <questions/>
+      <rnum>2</rnum>
+      <rtype>1</rtype>
+      <rlevel>1</rlevel>
+      <rdbid>9ef3867b-be99-459e-ad4a-79d1eabaa0ec</rdbid>
+      <rscore>2</rscore>
+    </com.tom.model.paper.PaperSection>
+    <com.tom.model.paper.PaperSection>
+      <name>333</name>
+      <remark>444</remark>
+      <id>2</id>
+      <questions>
+        <com.tom.model.paper.QuestionSingleChoice>
+          <id>5d077168-5d4d-4b6e-a745-e640d505aa05</id>
+          <type>1</type>
+          <content>&lt;p&gt;321123&lt;/p&gt;&#xd;
+</content>
+          <key>D</key>
+          <score>1</score>
+          <ext>&lt;p&gt;4213123&lt;/p&gt;&#xd;
+</ext>
+          <options>
+            <com.tom.model.paper.Option>
+              <alisa>A</alisa>
+              <text>1</text>
+            </com.tom.model.paper.Option>
+            <com.tom.model.paper.Option>
+              <alisa>B</alisa>
+              <text>2</text>
+            </com.tom.model.paper.Option>
+            <com.tom.model.paper.Option>
+              <alisa>C</alisa>
+              <text>3</text>
+            </com.tom.model.paper.Option>
+            <com.tom.model.paper.Option>
+              <alisa>D</alisa>
+              <text>4</text>
+            </com.tom.model.paper.Option>
+          </options>
+        </com.tom.model.paper.QuestionSingleChoice>
+      </questions>
+      <rnum>1</rnum>
+      <rtype>1</rtype>
+      <rlevel>3</rlevel>
+      <rdbid>d7cf583d-0429-4c6b-a7bb-cfd2bd53c62b</rdbid>
+      <rscore>1</rscore>
+    </com.tom.model.paper.PaperSection>
+  </sections>
+  <departments>
+    <string>827ea7bb-138d-425e-9fdf-13e97172b039</string>
+  </departments>
+  <showKey>true</showKey>
+  <showMode>1</showMode>
+</com.tom.model.paper.Paper>

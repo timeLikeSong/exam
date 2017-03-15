@@ -1,7 +1,6 @@
 package com.lx.exam.po;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,15 +9,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import com.lx.exam.util.ObjectUtil;
+import org.springframework.beans.BeanUtils;
+
 import com.lx.exam.vo.PaperRandom;
-import com.lx.exam.vo.Question;
 
 @Entity
-@Table(name="PO_PAPER_RANDOM")
+@Table(name="T_PAPER_RANDOM")
 public class PoPaperRandom implements Serializable{
 
 	/**
@@ -36,27 +33,19 @@ public class PoPaperRandom implements Serializable{
 	@JoinColumn(name="paper_id")
 	private PoPaper poPaper;
 	/**
-	 * 所属用户
-	 */
-	@ManyToOne
-	@JoinColumn(name="user_id")
-	private PoUser poUser;
-	/**
 	 * xml保存随机试卷信息
 	 */
 	private String data;
 	public PoPaperRandom(){}
 	public PoPaperRandom(PaperRandom paperRandom){
-		ObjectUtil.o2o(this, paperRandom);
+		BeanUtils.copyProperties(paperRandom, this);
 		poPaper = new PoPaper();
 		poPaper.setId(paperRandom.getPaperId());
-		poUser.setId(paperRandom.getUserId());
 	}
 	public PoPaperRandom wrap(PaperRandom paperRandom){
-		ObjectUtil.o2o(this, paperRandom);
+		BeanUtils.copyProperties(paperRandom, this);
 		poPaper = new PoPaper();
 		poPaper.setId(paperRandom.getPaperId());
-		poUser.setId(paperRandom.getUserId());
 		return this;
 	}
 	public Long getId() {
@@ -70,12 +59,6 @@ public class PoPaperRandom implements Serializable{
 	}
 	public void setPoPaper(PoPaper poPaper) {
 		this.poPaper = poPaper;
-	}
-	public PoUser getPoUser() {
-		return poUser;
-	}
-	public void setPoUser(PoUser poUser) {
-		this.poUser = poUser;
 	}
 	public String getData() {
 		return data;

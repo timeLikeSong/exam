@@ -1,12 +1,9 @@
 package com.lx.exam.vo;
 
-import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 
 import com.lx.exam.po.PoFunction;
-import com.lx.exam.po.PoRole;
-import com.lx.exam.util.ObjectUtil;
 
 public class Function {
 	private Long id;

@@ -11,6 +11,7 @@ import com.lx.exam.po.PoFunction;
 import com.lx.exam.service.itf.FunctionService;
 import com.lx.exam.vo.Function;
 
+@SuppressWarnings("unused")
 @Controller
 @RequestMapping("/function/")
 public class FunctionAction {

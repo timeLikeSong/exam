@@ -1,39 +1,77 @@
 package com.lx.exam.vo;
 
-import java.util.Date;
+
+import org.springframework.beans.BeanUtils;
 
 import com.lx.exam.po.PoExam;
 import com.lx.exam.util.DateUtil;
-import com.lx.exam.util.ObjectUtil;
 
 public class Exam {
 	private Long id;
+	private String name;
+	private Integer step;
+	private String faceGroup;
+	private String canIn;
+	private Long eventId;
+	private String eventName;
 	private Long paperId;
 	private String paperName;
-	private Long userId;
-	private String userName;
 	private String startTime;
 	private String endTime;
-	private String ip;
-	private Integer score;
-	private Integer status;
-	private String data;
+	private Integer duration;
+	
 	
 	public Exam(){}
 	public Exam(PoExam poExam){
-		ObjectUtil.o2o(this, poExam);
+		BeanUtils.copyProperties(poExam,this);
+		eventId=poExam.getPoEvent().getId();
+		eventName=poExam.getPoEvent().getName();
 		paperId=poExam.getPoPaper().getId();
 		paperName=poExam.getPoPaper().getName();
-		userId=poExam.getPoUser().getId();
-		userName=poExam.getPoUser().getRealname();
-		startTime=DateUtil.format(poExam.getStartTime(),"yyyy-MM-dd HH:mm:ss");
-		endTime=DateUtil.format(poExam.getEndTime(),"yyyy-MM-dd HH:mm:ss");
+		startTime=DateUtil.format(poExam.getStartTime());
+		endTime=DateUtil.format(poExam.getEndTime());
 	}
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Integer getStep() {
+		return step;
+	}
+	public void setStep(Integer step) {
+		this.step = step;
+	}
+	public String getFaceGroup() {
+		return faceGroup;
+	}
+	public void setFaceGroup(String faceGroup) {
+		this.faceGroup = faceGroup;
+	}
+	public String getCanIn() {
+		return canIn;
+	}
+	public void setCanIn(String canIn) {
+		this.canIn = canIn;
+	}
+	public Long getEventId() {
+		return eventId;
+	}
+	public void setEventId(Long eventId) {
+		this.eventId = eventId;
+	}
+	public String getEventName() {
+		return eventName;
+	}
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
 	}
 	public Long getPaperId() {
 		return paperId;
@@ -47,18 +85,6 @@ public class Exam {
 	public void setPaperName(String paperName) {
 		this.paperName = paperName;
 	}
-	public Long getUserId() {
-		return userId;
-	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
 	public String getStartTime() {
 		return startTime;
 	}
@@ -71,29 +97,11 @@ public class Exam {
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	public String getIp() {
-		return ip;
+	public Integer getDuration() {
+		return duration;
 	}
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
-	public Integer getScore() {
-		return score;
-	}
-	public void setScore(Integer score) {
-		this.score = score;
-	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	public String getData() {
-		return data;
-	}
-	public void setData(String data) {
-		this.data = data;
+	public void setDuration(Integer duration) {
+		this.duration = duration;
 	}
 	
 	

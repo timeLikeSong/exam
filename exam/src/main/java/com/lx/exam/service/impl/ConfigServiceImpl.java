@@ -27,8 +27,8 @@ public class ConfigServiceImpl implements ConfigService {
 	}
 
 	@Override
-	public PoConfig getByKey(String key) {
-		return configRepository.findByConfigKey(key);
+	public PoConfig getByKey(String name) {
+		return configRepository.findByName(name);
 	}
 
 }

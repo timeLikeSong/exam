@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>${APP_NAME}-后台管理</title> [@include.common /][@include.layui_css
+/] [@include.icon /] [@include.bootstrap_css /] [@include.ztree3_css
+/][@include.iconpicker_css /] [@include.adminLTE_css/][@include.datatables_css/]
+<link rel="stylesheet" href="css/admin.css" />
+</head>
+<body class="skin-blue-light sidebar-mini ">
+	<div class="wrapper" style="height: auto;">
+		<header class="main-header">
+			<!-- Logo -->
+			<a href="index.html" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
+				<span class="logo-mini"><b>Java</b>竞赛</span> <!-- logo for regular state and mobile devices -->
+				<span class="logo-lg"><b>Java</b>在线竞赛管理系统</span>
+			</a>
+			<!-- Header Navbar -->
+			<nav class="navbar navbar-static-top" role="navigation">
+				<!-- Sidebar toggle button-->
+				<a href="#" class="sidebar-toggle" data-toggle="offcanvas"
+					role="button"> <span class="sr-only">切换菜单</span>
+				</a>
+				<!-- Navbar Right Menu -->
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+						<!-- Messages: style can be found in dropdown.less-->
+						<li class="dropdown messages-menu">
+							<!-- Menu toggle button --> <a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" aria-expanded="false"> <i
+								class="fa fa-envelope-o"></i> <span class="label label-success">n</span>
+						</a>
+							<ul class="dropdown-menu">
+								<li class="header">你有n条消息</li>
+								<li>
+									<!-- inner menu: contains the messages -->
+									<ul class="menu">
+										<li>
+											<!-- start message --> <a href="#">
+												<div class="pull-left">
+													<!-- User Image -->
+													<img src="image/user2-160x160.jpg" class="img-circle"
+														alt="User Image">
+												</div> <!-- Message title and timestamp -->
+												<h4>
+													Support Team <small><i class="fa fa-clock-o"></i> 5
+														mins</small>
+												</h4> <!-- The message -->
+												<p>Why not buy a new awesome theme?</p>
+										</a>
+										</li>
+										<!-- end message -->
+									</ul> <!-- /.menu -->
+								</li>
+								<li class="footer"><a href="#">See All Messages</a></li>
+							</ul>
+						</li>
+						<!-- /.messages-menu -->
+
+						<!-- Notifications Menu -->
+						<li class="dropdown notifications-menu">
+							<!-- Menu toggle button --> <a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" aria-expanded="false"> <i
+								class="fa fa-bell-o"></i> <span class="label label-warning">10</span>
+						</a>
+							<ul class="dropdown-menu">
+								<li class="header">You have 10 notifications</li>
+								<li>
+									<!-- Inner Menu: contains the notifications -->
+									<ul class="menu">
+										<li>
+											<!-- start notification --> <a href="#"> <i
+												class="fa fa-users text-aqua"></i> 5 new members joined
+												today
+										</a>
+										</li>
+										<!-- end notification -->
+									</ul>
+								</li>
+								<li class="footer"><a href="#">View all</a></li>
+							</ul>
+						</li>
+						<!-- Tasks Menu -->
+						<li class="dropdown tasks-menu">
+							<!-- Menu Toggle Button --> <a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" aria-expanded="false"> <i
+								class="fa fa-flag-o"></i> <span class="label label-danger">9</span>
+						</a>
+							<ul class="dropdown-menu">
+								<li class="header">You have 9 tasks</li>
+								<li>
+									<!-- Inner menu: contains the tasks -->
+									<ul class="menu">
+										<li>
+											<!-- Task item --> <a href="#"> <!-- Task title and progress text -->
+												<h3>
+													Design some buttons <small class="pull-right">20%</small>
+												</h3> <!-- The progress bar -->
+												<div class="progress xs">
+													<!-- Change the css width attribute to simulate progress -->
+													<div class="progress-bar progress-bar-aqua"
+														style="width: 20%" role="progressbar" aria-valuenow="20"
+														aria-valuemin="0" aria-valuemax="100">
+														<span class="sr-only">20% Complete</span>
+													</div>
+												</div>
+										</a>
+										</li>
+										<!-- end task item -->
+									</ul>
+								</li>
+								<li class="footer"><a href="#">View all tasks</a></li>
+							</ul>
+						</li>
+						<!-- User Account Menu -->
+						<li class="dropdown user user-menu">
+							<!-- Menu Toggle Button --> <a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" aria-expanded="false"> <!-- The user image in the navbar-->
+								<img src="image/user2-160x160.jpg" class="user-image"
+								alt="User Image"> <!-- hidden-xs hides the username on small devices so only the image appears. -->
+								<span class="hidden-xs">Alexander Pierce</span>
+						</a>
+							<ul class="dropdown-menu">
+								<!-- The user image in the menu -->
+								<li class="user-header"><img src="image/user2-160x160.jpg"
+									class="img-circle" alt="User Image">
+
+									<p>
+										Alexander Pierce - Web Developer <small>Member since
+											Nov. 2012</small>
+									</p></li>
+								<!-- Menu Body -->
+								<li class="user-body">
+									<div class="row">
+										<div class="col-xs-4 text-center">
+											<a href="#">Followers</a>
+										</div>
+										<div class="col-xs-4 text-center">
+											<a href="#">Sales</a>
+										</div>
+										<div class="col-xs-4 text-center">
+											<a href="#">Friends</a>
+										</div>
+									</div> <!-- /.row -->
+								</li>
+								<!-- Menu Footer-->
+								<li class="user-footer">
+									<div class="pull-left">
+										<a href="#" class="btn btn-default btn-flat">Profile</a>
+									</div>
+									<div class="pull-right">
+										<a href="#" class="btn btn-default btn-flat">Sign out</a>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<!-- Control Sidebar Toggle Button -->
+						<li><a href="#" data-toggle="control-sidebar"><i
+								class="fa fa-gears"></i></a></li>
+					</ul>
+				</div>
+			</nav>
+		</header>
+		<aside class="main-sidebar">
+
+			<!-- sidebar: style can be found in sidebar.less -->
+			<section class="sidebar">
+
+				<!-- Sidebar user panel (optional) -->
+				<div class="user-panel">
+					<div class="pull-left image">
+						<img src="image/user2-160x160.jpg" class="img-circle"
+							alt="User Image">
+					</div>
+					<div class="pull-left info">
+						<p>Alexander Pierce</p>
+						<!-- Status -->
+						<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+					</div>
+				</div>
+
+
+				<!-- Sidebar Menu -->
+				<ul class="sidebar-menu">
+					<li class="header">菜单</li>
+					<!-- Optionally, you can add icons to the links -->
+					<li class="treeview active"><a href="#"> <i
+							class="fa fa-link"></i> <span>竞赛</span> <span
+							class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li data-page="event"><a href="#">赛事管理</a></li>
+							<li data-page="exam"><a href="#">竞赛阶段管理</a></li>
+							<li data-page="questiondb"><a href="#">题库管理</a></li>
+							<li data-page="question"><a href="#">试题管理</a></li>
+							<li data-page="paper"><a href="#">试卷管理</a></li>
+							<li data-page="enroll"><a href="#">报名管理</a></li>
+							<li data-page="score"><a href="#">成绩管理</a></li>
+							<li data-page="result"><a href="#">竞赛结果管理</a></li>
+						</ul></li>
+					<li class="treeview"><a href="#"> <i class="fa fa-link"></i>
+							<span>用户</span> <span class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li data-page="user"><a href="#">用户管理</a></li>
+							<li data-page="team"><a href="#">队伍管理</a></li>
+							<li data-page="school"><a href="#">学校管理</a></li>
+							<li data-page="address"><a href="#">地址管理</a></li>
+						</ul></li>
+					<li class="treeview"><a href="#"> <i class="fa fa-link"></i>
+							<span>统计分析</span> <span class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li data-page="question-analytics"><a href="#">试题分析</a></li>
+							<li data-page="score-analytics"><a href="#">成绩分析</a></li>
+						</ul></li>
+					<li class="treeview"><a href="#"> <i class="fa fa-link"></i>
+							<span>通知公告</span> <span class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li data-page="news"><a href="#">公告管理</a></li>
+							<li data-page="message"><a href="#">消息管理</a></li>
+							<li data-page="email"><a href="#">邮件管理</a></li>
+						</ul></li>
+					<li class="treeview"><a href="#"> <i class="fa fa-link"></i>
+							<span>系统</span> <span class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li data-page="settings"><a href="#">设置</a></li>
+							<li data-page="datacode"><a href="#">数据代码</a></li>
+							<li data-page="admin"><a href="#">管理员</a></li>
+							<li data-page="role"><a href="#">角色管理</a></li>
+							<li data-page="function"><a href="#">权限管理</a></li>
+							<li data-page="status"><a href="#">系统状态</a></li>
+						</ul></li>
+				</ul>
+				<!-- /.sidebar-menu -->
+			</section>
+			<!-- /.sidebar -->
+		</aside>
+		[@include.jquery_3_1_1 /] [@include.bootstrap_js /]
+		[@include.layui_js /][@include.jquery_validation /]
+[@include.flat_ui_js /][@include.ztree3_js /][@include.iconpicker_js/]
+		[@include.adminLTE_js/][@include.datatables_js/]
+
+		<div class="content-wrapper" style="min-height: 849px;">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					系统环境 <small>配置、状态</small>
+				</h1>
+			</section>
+			<!-- Main content -->
+			<section class="content"></section>
+			<!-- /.content -->
+		</div>
+		<footer class="main-footer">
+			<!-- To the right -->
+			<div class="pull-right hidden-xs">Anything you want</div>
+			<!-- Default to the left -->
+			<strong>Copyright © 2017 <a href="#">Lx</a>.
+			</strong> All rights reserved.
+		</footer>
+	</div>
+	<script>
+		function loadPage(pageName) {
+			var url = '${basePath}/admin/' + pageName;
+			var options = {};
+			var callback = function(data) {
+				$('.content').html(data);
+			}
+			$.post(url, options, callback);
+		}
+		$(document).ready(function() {
+			$('.treeview-menu li').click(function(e) {
+				loadPage($(this).attr('data-page'));
+			})
+		})
+	</script>
+</body>
+
+</html>

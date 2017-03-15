@@ -4,113 +4,94 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.springframework.beans.BeanUtils;
+
 import com.lx.exam.util.DateUtil;
-import com.lx.exam.util.ObjectUtil;
 import com.lx.exam.vo.Log;
 
 import java.util.Date;
 @Entity
-@Table(name = "PO_LOG")
+@Table(name = "T_LOG")
 public class PoLog implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private String description;
-
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "S_PO_LOG")
-	@SequenceGenerator(name = "S_PO_LOG", sequenceName = "S_PO_LOG")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
-	private String ipaddress;
-
+	/**
+	 * 操作
+	 */
+	private String operation;
+	/**
+	 * 操作者 id
+	 */
+	private PoAdmin operator;
+	/**
+	 * 发生时间
+	 */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date logtime;
+	private Date time;
 
-	private String optype;
-
-	private String paras;
-
-	private String tname;
-
-	private String username;
-
+	private String ip;
 	public PoLog() {
 	}
 
 	public PoLog(Log log) {
-		ObjectUtil.o2o(this, log);
-		this.logtime = DateUtil.parseDate(log.getLogtime(), "yyyy-MM-dd HH:mm:ss");
+		BeanUtils.copyProperties(log, this);
+		time = DateUtil.parseDate(log.getTime());
+		operator = new PoAdmin();
+		operator.setId(log.getOperatorId());
+		
 	}
 
-	public String getDescription() {
-		return this.description;
+	public PoLog wrap(Log log) {
+		BeanUtils.copyProperties(log, this);
+		time = DateUtil.parseDate(log.getTime());
+		operator = new PoAdmin();
+		operator.setId(log.getOperatorId());
+		return this;
 	}
 
 	public Long getId() {
-		return this.id;
-	}
-
-	public String getIpaddress() {
-		return this.ipaddress;
-	}
-
-	public Date getLogtime() {
-		return this.logtime;
-	}
-
-	public String getOptype() {
-		return this.optype;
-	}
-
-
-	public String getParas() {
-		return this.paras;
-	}
-
-	public String getTname() {
-		return this.tname;
-	}
-
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public void setIpaddress(String ipaddress) {
-		this.ipaddress = ipaddress;
+	public String getOperation() {
+		return operation;
 	}
 
-	public void setLogtime(Date logtime) {
-		this.logtime = logtime;
+	public void setOperation(String operation) {
+		this.operation = operation;
 	}
 
-	public void setOptype(String optype) {
-		this.optype = optype;
+
+	public PoAdmin getOperator() {
+		return operator;
 	}
 
-	public void setParas(String paras) {
-		this.paras = paras;
+	public void setOperator(PoAdmin operator) {
+		this.operator = operator;
 	}
 
-	public void setTname(String tname) {
-		this.tname = tname;
+	public Date getTime() {
+		return time;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setTime(Date time) {
+		this.time = time;
 	}
 
-	public PoLog wrap(Log log) {
-		ObjectUtil.o2o(this, log);
-		this.logtime = DateUtil.parseDate(log.getLogtime(), "yyyy-MM-dd HH:mm:ss");
-		return this;
+	public String getIp() {
+		return ip;
 	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+	
 
 }

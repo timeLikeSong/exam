@@ -44,7 +44,7 @@ public class SchoolTest {
 	@Test
 	public void testCopyObj(){
 		User user = new User(2L,"lx","2016-12-1");
-		user.setAddrId(11L);
+		user.setAddressId(11L);
 		PoUser user2 = new PoUser(user);
 		System.out.println(user2);
 	}

@@ -63,6 +63,7 @@
 			<bean class="com.lx.exam.interceptor.BasePathInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
+	<!-- 
 	<mvc:resources location="/WEB-INF/common/js/" mapping="/common/js/**"/>
 	<mvc:resources location="/WEB-INF/user/js/" mapping="/user/js/**"/>
 	<mvc:resources location="/WEB-INF/admin/js/" mapping="/admin/js/**"/>
@@ -74,4 +75,5 @@
 	<mvc:resources location="/WEB-INF/admin/image/" mapping="/admin/image/**"/>
 	<mvc:resources location="/WEB-INF/upload/" mapping="/upload/**"/>
 	<mvc:resources location="/WEB-INF/Thirdparty/" mapping="/res/**"/>
+	-->
 </beans>

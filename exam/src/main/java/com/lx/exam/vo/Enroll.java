@@ -1,20 +1,30 @@
 package com.lx.exam.vo;
 
-import java.util.Date;
+
+import org.springframework.beans.BeanUtils;
 
 import com.lx.exam.po.PoEnroll;
-import com.lx.exam.util.ObjectUtil;
+import com.lx.exam.util.DateUtil;
 
 public class Enroll {
 	private Long id;
-	private Long paperId;
-	private String paperName;
-	private Integer status;
-	private Date enrollTime;
+	private String type;
+	private Long userId;
+	private String userName;
+	private String realName;
+	private String enrollTime;
+	private Long eventId;
+	private String eventName;
 	
 	public Enroll(){}
 	public Enroll(PoEnroll poEnroll){
-		ObjectUtil.o2o(this, poEnroll);
+		BeanUtils.copyProperties(poEnroll,this);
+		userId= poEnroll.getPoUser().getId();
+		userName=poEnroll.getPoUser().getUsername();
+		realName=poEnroll.getPoUser().getRealname();
+		enrollTime = DateUtil.format(poEnroll.getEnrollTime());
+		eventId = poEnroll.getPoEvent().getId();
+		eventName = poEnroll.getPoEvent().getName();
 	}
 	public Long getId() {
 		return id;
@@ -22,29 +32,47 @@ public class Enroll {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getPaperId() {
-		return paperId;
+	public String getType() {
+		return type;
 	}
-	public void setPaperId(Long paperId) {
-		this.paperId = paperId;
+	public void setType(String type) {
+		this.type = type;
 	}
-	public String getPaperName() {
-		return paperName;
+	public Long getUserId() {
+		return userId;
 	}
-	public void setPaperName(String paperName) {
-		this.paperName = paperName;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
-	public Integer getStatus() {
-		return status;
+	public String getUserName() {
+		return userName;
 	}
-	public void setStatus(Integer status) {
-		this.status = status;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-	public Date getEnrollTime() {
+	public String getRealName() {
+		return realName;
+	}
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+	public String getEnrollTime() {
 		return enrollTime;
 	}
-	public void setEnrollTime(Date enrollTime) {
+	public void setEnrollTime(String enrollTime) {
 		this.enrollTime = enrollTime;
+	}
+	public Long getEventId() {
+		return eventId;
+	}
+	public void setEventId(Long eventId) {
+		this.eventId = eventId;
+	}
+	public String getEventName() {
+		return eventName;
+	}
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
 	}
 	
 }

@@ -3,7 +3,6 @@ package com.lx.exam.po;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,10 +16,9 @@ import javax.persistence.Table;
 
 import org.springframework.beans.BeanUtils;
 
-import com.lx.exam.util.ObjectUtil;
 import com.lx.exam.vo.Function;
 @Entity
-@Table(name="PO_FUNCTION")
+@Table(name="T_FUNCTION")
 public class PoFunction implements Serializable{
 
 	/**
@@ -29,7 +27,6 @@ public class PoFunction implements Serializable{
 	private static final long serialVersionUID = 2830317559217305090L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	//,generator="S_PO_FUNCTION"
 	private Long id;
 	private String funcName;
 	private String url;

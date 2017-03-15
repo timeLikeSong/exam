@@ -3,6 +3,7 @@ package com.lx.exam.po;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,11 +12,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.beans.BeanUtils;
+
 import com.lx.exam.util.DateUtil;
 import com.lx.exam.util.ObjectUtil;
 import com.lx.exam.vo.News;
 @Entity
-@Table(name="PO_NEWS")
+@Table(name="T_NEWS")
 public class PoNews implements Serializable{
 
 	/**
@@ -33,40 +36,54 @@ public class PoNews implements Serializable{
 	 * 公告内容
 	 */
 	private String content;
+	/**
+	 * 发布者
+	 */
 	@ManyToOne
-	@JoinColumn(name="poster_id")
-	private PoAdmin poster;
+	@JoinColumn(name="publisher_id")
+	private PoAdmin publisher;
+	/**
+	 * 发布日期
+	 */
+	@Column(name="publish_date")
 	private Date publishDate;
+	/**
+	 * 修改者
+	 */
 	@ManyToOne
 	@JoinColumn(name="modifyor_id")
 	private PoAdmin modifyor;
+	/**
+	 * 修改日期
+	 */
+	@Column(name="modify_date")
 	private Date modifyDate;
 	/**
 	 * 公告类型
 	 */
 	@ManyToOne
-	@JoinColumn(name="news_type_id")
-	private PoNewsType poNewsType;
+	@JoinColumn(name="type_id")
+	private PoDataCode type;
 	
 	public PoNews(){}
 	public PoNews(News news){
-		ObjectUtil.o2o(this, news);
-		poNewsType = new PoNewsType();
-		poNewsType.setId(news.getNewsTypeId());
-		poster=new PoAdmin();
-		poster.setId(news.getPosterId());
-		publishDate=DateUtil.parseDate(news.getPublishDate(),"yyyy-MM-dd HH:mm:ss");
+		BeanUtils.copyProperties(news, this);
+		type = new PoDataCode();
+		type.setId(news.getTypeId());
+		publisher=new PoAdmin();
+		publisher.setId(news.getPublisherId());
+		publishDate=DateUtil.parseDate(news.getPublishDate());
 		modifyor=new PoAdmin();
 		modifyor.setId(news.getModifyorId());
-		modifyDate=DateUtil.parseDate(news.getModifyDate(),"yyyy-MM-dd HH:mm:ss");
+		modifyDate=DateUtil.parseDate(news.getModifyDate());
 	}
 	public PoNews wrap(News news){
 		ObjectUtil.o2o(this, news);
-		poNewsType = new PoNewsType();
-		poNewsType.setId(news.getNewsTypeId());
+		type = new PoDataCode();
+		type.setId(news.getTypeId());
 		modifyor=new PoAdmin();
 		modifyor.setId(news.getModifyorId());
-		modifyDate=DateUtil.parseDate(news.getModifyDate(),"yyyy-MM-dd HH:mm:ss");
+		modifyDate=DateUtil.parseDate(news.getModifyDate());
 		return this;
 	}
 	public Long getId() {
@@ -87,11 +104,11 @@ public class PoNews implements Serializable{
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public PoAdmin getPoster() {
-		return poster;
+	public PoAdmin getPublisher() {
+		return publisher;
 	}
-	public void setPoster(PoAdmin poster) {
-		this.poster = poster;
+	public void setPublisher(PoAdmin publisher) {
+		this.publisher = publisher;
 	}
 	public Date getPublishDate() {
 		return publishDate;
@@ -111,11 +128,11 @@ public class PoNews implements Serializable{
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}
-	public PoNewsType getPoNewsType() {
-		return poNewsType;
+	public PoDataCode getType() {
+		return type;
 	}
-	public void setPoNewsType(PoNewsType poNewsType) {
-		this.poNewsType = poNewsType;
+	public void setType(PoDataCode type) {
+		this.type = type;
 	}
 
 }

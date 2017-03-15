@@ -14,18 +14,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 
-import com.lx.exam.util.ObjectUtil;
 import com.lx.exam.vo.Admin;
 @Entity
-@Table(name="PO_ADMIN")
+@Table(name="T_ADMIN")
 public class PoAdmin implements Serializable{
 	private static final long serialVersionUID = -395929811594015977L;
 	
@@ -33,8 +31,7 @@ public class PoAdmin implements Serializable{
 	 * id
 	 */
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO,generator="S_PO_ADMIN")
-	@SequenceGenerator(name="S_PO_ADMIN",sequenceName="S_PO_ADMIN")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	/**
 	 * 管理员账号：唯一
@@ -56,26 +53,29 @@ public class PoAdmin implements Serializable{
 	/**
 	 * 手机号
 	 */
-	@Column(unique=true)
+	@Column(unique=true,length=11)
 	private String phone;
 	/**
-	 * 状态：0未激活，1待审核(开启审核配置时才有)，2冻结，3正常
+	 * 状态：0不可用 1可用
 	 */
+	@Value("1")
 	private Integer status;
 	/**
 	 * 描述
 	 */
 	private String description;
 	/**
-	 * 注册日期
-	 */
-	@Temporal(TemporalType.TIMESTAMP) 
-	private Date createDate;
-	/**
 	 * 邮箱：用于注册，找回密码 ，唯一
 	 */
 	@Column(unique=true)
 	private String email;
+	
+	/**
+	 * 注册日期
+	 */
+	@Temporal(TemporalType.TIMESTAMP) 
+	@Column(name="create_date")
+	private Date createDate;
 	/**
 	 * 角色
 	 */
@@ -85,6 +85,8 @@ public class PoAdmin implements Serializable{
 	public PoAdmin(){}
 	public PoAdmin(Admin admin){
 		BeanUtils.copyProperties(admin, this);
+		
+		
 		if(admin.getRoleIds()!=null && admin.getRoleIds().length>0){
 			this.poRoles=new HashSet<PoRole>();
 			for(Long pid:admin.getRoleIds()){

@@ -17,7 +17,7 @@ public class AddressServiceImpl implements AddressService {
 	@Override
 	public String getAllAddrName(Long id) {
 		if(id!=0){
-			return getAllAddrName(get(id).getPid())+" "+get(id).getAddrName();
+			return getAllAddrName(get(id).getPid())+" "+get(id).getName();
 		}
 		else{
 			return "";

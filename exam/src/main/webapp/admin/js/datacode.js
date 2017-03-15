@@ -1,4 +1,3 @@
-$(document).ready(function() {
 			initZTree();
 			$('#icon_picker').iconpicker({
 						align : 'center', // Only in div tag
@@ -22,7 +21,6 @@ $(document).ready(function() {
 						}
 						$('#icon').val(icon);
 					});
-		});
 
 function clearForm() {
 	$('#id').val('');

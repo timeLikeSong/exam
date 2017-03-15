@@ -49,7 +49,7 @@ public class DateUtil {
 	}
 
 	public static String format(java.util.Date date) {
-		return format(date, "yyyy-MM-dd");
+		return format(date, "yyyy-MM-dd HH:mm:ss");
 	}
 
 	/**
@@ -219,7 +219,7 @@ public class DateUtil {
 	}
 
 	public static java.util.Date parseDate(String dateStr) {
-		return parseDate(dateStr.replaceAll("/", "-"), "yyyy-MM-dd");
+		return parseDate(dateStr.replaceAll("/", "-"), "yyyy-MM-dd HH:mm:ss");
 	}
 
 	/**

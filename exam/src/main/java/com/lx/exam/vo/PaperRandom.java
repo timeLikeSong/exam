@@ -1,18 +1,17 @@
 package com.lx.exam.vo;
 
+import org.springframework.beans.BeanUtils;
+
 import com.lx.exam.po.PoPaperRandom;
-import com.lx.exam.util.ObjectUtil;
 
 public class PaperRandom {
 	private Long id;
 	private Long paperId;
-	private Long userId;
 	private String data;
 	public PaperRandom(){}
 	public PaperRandom(PoPaperRandom poPaperRandom){
-		ObjectUtil.o2o(this, poPaperRandom);
+		BeanUtils.copyProperties(poPaperRandom, this);
 		paperId=poPaperRandom.getPoPaper().getId();
-		userId=poPaperRandom.getPoUser().getId();
 	}
 	public Long getId() {
 		return id;
@@ -25,12 +24,6 @@ public class PaperRandom {
 	}
 	public void setPaperId(Long paperId) {
 		this.paperId = paperId;
-	}
-	public Long getUserId() {
-		return userId;
-	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
 	}
 	public String getData() {
 		return data;

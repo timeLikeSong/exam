@@ -17,7 +17,7 @@ public class Address implements Serializable{
 	
 	private Long pid;
 	
-	private String addrName;
+	private String name;
 
 	private Integer viewOrder;
 	public Address(){}
@@ -41,12 +41,11 @@ public class Address implements Serializable{
 		this.pid = pid;
 	}
 
-	public String getAddrName() {
-		return addrName;
+	public String getName() {
+		return name;
 	}
-
-	public void setAddrName(String addrName) {
-		this.addrName = addrName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public Integer getViewOrder() {
 		return viewOrder;

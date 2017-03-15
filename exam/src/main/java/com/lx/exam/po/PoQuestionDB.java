@@ -3,6 +3,7 @@ package com.lx.exam.po;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,10 +14,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.lx.exam.util.ObjectUtil;
+import org.springframework.beans.BeanUtils;
+
+import com.lx.exam.util.DateUtil;
 import com.lx.exam.vo.QuestionDB;
 @Entity
-@Table(name="PO_QUESTION_DB")
+@Table(name="T_QUESTION_DB")
 public class PoQuestionDB implements Serializable{
 
 	/**
@@ -52,6 +55,7 @@ public class PoQuestionDB implements Serializable{
 	 * 创建日期
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="create_date")
 	private Date createDate;
 	/**
 	 * 修改人
@@ -63,19 +67,23 @@ public class PoQuestionDB implements Serializable{
 	 * 修改日期
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="modify_date")
 	private Date modifyDate;
 	public PoQuestionDB(){}
 	public PoQuestionDB(QuestionDB questionDB){
-		ObjectUtil.o2o(this, questionDB);
-		this.poster=new PoAdmin();
-		this.poster.setId(questionDB.getPosterId());
-		this.modifyor=new PoAdmin();
-		this.modifyor.setId(questionDB.getModifyorId());
+		BeanUtils.copyProperties(questionDB, this);
+		poster=new PoAdmin();
+		poster.setId(questionDB.getPosterId());
+		modifyor=new PoAdmin();
+		modifyor.setId(questionDB.getModifyorId());
+		createDate = DateUtil.parseDate(questionDB.getCreateDate());
+		modifyDate = DateUtil.parseDate(questionDB.getModifyDate());
 	}                 
 	public PoQuestionDB wrap(QuestionDB questionDB){
-		ObjectUtil.o2o(this, questionDB);
-		this.modifyor=new PoAdmin();
-		this.modifyor.setId(questionDB.getModifyorId());
+		BeanUtils.copyProperties(questionDB, this);
+		modifyor=new PoAdmin();
+		modifyor.setId(questionDB.getModifyorId());
+		modifyDate = DateUtil.parseDate(questionDB.getModifyDate());
 		return this;
 	}
 	public Long getId() {

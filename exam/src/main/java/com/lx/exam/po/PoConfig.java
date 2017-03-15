@@ -7,14 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.beans.BeanUtils;
 
-import com.lx.exam.util.ObjectUtil;
 import com.lx.exam.vo.Config;
 @Entity
-@Table(name="PO_CONFIG")
+@Table(name="T_CONFIG")
 public class PoConfig implements Serializable {
 
 	/**
@@ -22,21 +21,19 @@ public class PoConfig implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(generator="S_PO_CONFIG",strategy=GenerationType.AUTO)
-	@SequenceGenerator(sequenceName="S_PO_CONFIG",name="S_PO_CONFIG")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	@Column(unique=true)
-	private String configKey;
-	private String configName;
-	private String configValue;
+	private String name;
+	private String value;
 	
 	public PoConfig(){}
 	
 	public PoConfig(Config config){
-		ObjectUtil.o2o(this, config);
+		BeanUtils.copyProperties(config, this);
 	}
 	public PoConfig wrap(Config config){
-		ObjectUtil.o2o(this, config);
+		BeanUtils.copyProperties(config, this);
 		return this;
 	}
 	public Long getId() {
@@ -46,33 +43,21 @@ public class PoConfig implements Serializable {
 		this.id = id;
 	}
 
-	public String getConfigKey() {
-		return configKey;
+	public String getName() {
+		return name;
 	}
 
-	public void setConfigKey(String configKey) {
-		this.configKey = configKey;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getConfigName() {
-		return configName;
+	public String getValue() {
+		return value;
 	}
 
-	public void setConfigName(String configName) {
-		this.configName = configName;
+	public void setValue(String value) {
+		this.value = value;
 	}
 
-	public String getConfigValue() {
-		return configValue;
-	}
-
-	public void setConfigValue(String configValue) {
-		this.configValue = configValue;
-	}
-
-
-
-	
-	
 
 }

@@ -1,13 +1,10 @@
 package com.lx.exam.po;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,12 +20,9 @@ import javax.persistence.TemporalType;
 
 import org.springframework.beans.BeanUtils;
 
-import com.lx.exam.util.DateUtil;
-import com.lx.exam.util.ObjectUtil;
-import com.lx.exam.vo.Function;
 import com.lx.exam.vo.Role;
 @Entity
-@Table(name="PO_ROLE")
+@Table(name="T_ROLE")
 public class PoRole implements Serializable{
 
 	/**
@@ -37,12 +31,12 @@ public class PoRole implements Serializable{
 	private static final long serialVersionUID = -2496464476710519717L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	//,generator="S_PO_ROLE"
 	private Long id;
 	@Column(unique=true)
 	private String roleName;
 	private Integer status;
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="create_date")
 	private Date createDate;
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="T_ROLE_FUNCTION",joinColumns=@JoinColumn(name="ROLE_ID"),inverseJoinColumns=@JoinColumn(name="FUNCTION_ID"))

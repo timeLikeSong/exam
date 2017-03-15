@@ -1,35 +1,41 @@
 package com.lx.exam.po;
 
 import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.springframework.beans.BeanUtils;
 
 import com.lx.exam.vo.DataCode;
 @Entity
-@Table(name="PO_DATACODE")
+@Table(name="T_DATACODE")
 public class PoDataCode implements Serializable{
 	private static final long serialVersionUID = -5449174047350692088L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
+	/**
+	 * 标题
+	 */
 	private String title;
+	/**
+	 * 描述
+	 */
 	private String description;
+	/**
+	 * 上级代码
+	 */
 	@ManyToOne
 	@JoinColumn(name = "PID",nullable=true)
 	private PoDataCode poDataCode;
+	/**
+	 * 图标类
+	 */
 	private String icon;
 	
 	public PoDataCode(){}

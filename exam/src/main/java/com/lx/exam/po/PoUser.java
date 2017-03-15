@@ -2,15 +2,19 @@ package com.lx.exam.po;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,11 +22,10 @@ import javax.persistence.TemporalType;
 import org.springframework.beans.BeanUtils;
 
 import com.lx.exam.util.DateUtil;
-import com.lx.exam.util.ObjectUtil;
 import com.lx.exam.vo.User;
 
 @Entity
-@Table(name="PO_USER")
+@Table(name="T_USER")
 public class PoUser implements Serializable{
 	private static final long serialVersionUID = 1L;
 
@@ -30,8 +33,7 @@ public class PoUser implements Serializable{
 	 * id
 	 */
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO,generator="S_PO_USER")
-	@SequenceGenerator(name="S_PO_USER",sequenceName="S_PO_USER")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	/**
 	 * 用户账号：唯一
@@ -53,21 +55,27 @@ public class PoUser implements Serializable{
 	/**
 	 * 身份证
 	 */
-	@Column(unique=true)
+	@Column(unique=true,length=18)
 	private String idcard;
 	/**
 	 * 手机号
 	 */
-	@Column(unique=true)
+	@Column(unique=true,length=11)
 	private String phone;
 	/**
 	 * 地址
 	 */
 	@ManyToOne
-	@JoinColumn(name="addr_id")
+	@JoinColumn(name="address_id")
 	private PoAddress address;
+	
 	/**
-	 * 状态：0未激活，1待审核(开启审核配置时才有)，2冻结，3正常
+	 * 详细地址
+	 */
+	@Column(name="address_detail")
+	private String addressDetail;
+	/**
+	 * 状态：0待审核，1正常，2冻结
 	 */
 	private Integer status;
 	/**
@@ -78,6 +86,7 @@ public class PoUser implements Serializable{
 	 * 注册日期
 	 */
 	@Temporal(TemporalType.TIMESTAMP) 
+	@Column(name="reg_date")
 	private Date regDate;
 	/**
 	 * 邮箱：用于注册，找回密码 ，唯一
@@ -91,25 +100,76 @@ public class PoUser implements Serializable{
 	@JoinColumn(name="school_id")
 	private PoSchool school;
 
+	/**
+	 * 类型
+	 */
+	@ManyToOne
+	@JoinColumn(name="type")
+	private PoDataCode type;
+	
+	/**
+	 * 最后一次登录时间
+	 */
+	@Temporal(TemporalType.TIMESTAMP) 
+	@Column(name="last_login_time")
+	private Date lastLoginTime;
+	/**
+	 * 年级
+	 */
+	
+	private String level;
+	/**
+	 * 所属队伍
+	 */
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name="T_TEAM_USER",joinColumns=@JoinColumn(name="USER_ID"),inverseJoinColumns=@JoinColumn(name="TEAM_ID"))
+	private Set<PoTeam> teams;
+	
 	public PoUser(){}
 	
 	public PoUser(User user){
-		ObjectUtil.o2o(this, user);
-		this.regDate=DateUtil.parseDate(user.getRegDate(), "yyyy-MM-dd HH:mm:ss");
+		BeanUtils.copyProperties(user, this);
+		this.regDate=DateUtil.parseDate(user.getRegDate());
+		this.lastLoginTime=DateUtil.parseDate(user.getLastLoginTime());
 		this.school=new PoSchool();
 		this.school.setId(user.getSchoolId());
 		this.address=new PoAddress();
-		this.address.setId(user.getAddrId());
+		this.address.setId(user.getAddressId());
+		this.type = new PoDataCode();
+		this.type.setId(user.getTypeId());
+		
+		if(user.getTeamIds()!=null && user.getTeamIds().length>0){
+			this.teams=new HashSet<PoTeam>();
+			for(Long pid:user.getTeamIds()){
+				PoTeam poTeam = new PoTeam();
+				poTeam.setId(pid);
+				this.teams.add(poTeam);
+			}
+		}
 	}
 	public PoUser wrap(User user){
-		ObjectUtil.o2o(this, user);
-		this.regDate=DateUtil.parseDate(user.getRegDate(), "yyyy-MM-dd HH:mm:ss");
+		BeanUtils.copyProperties(user, this);
+		this.regDate=DateUtil.parseDate(user.getRegDate());
+		this.lastLoginTime=DateUtil.parseDate(user.getLastLoginTime());
 		this.school=new PoSchool();
 		this.school.setId(user.getSchoolId());
 		this.address=new PoAddress();
-		this.address.setId(user.getAddrId());
+		this.address.setId(user.getAddressId());
+		this.type = new PoDataCode();
+		this.type.setId(user.getTypeId());
+		
+		if(user.getTeamIds()!=null && user.getTeamIds().length>0){
+			this.teams=new HashSet<PoTeam>();
+			for(Long pid:user.getTeamIds()){
+				PoTeam poTeam = new PoTeam();
+				poTeam.setId(pid);
+				this.teams.add(poTeam);
+			}
+		}
+		
 		return this;
 	}
+
 	public Long getId() {
 		return id;
 	}
@@ -166,13 +226,20 @@ public class PoUser implements Serializable{
 		this.phone = phone;
 	}
 
-
 	public PoAddress getAddress() {
 		return address;
 	}
 
 	public void setAddress(PoAddress address) {
 		this.address = address;
+	}
+
+	public String getAddressDetail() {
+		return addressDetail;
+	}
+
+	public void setAddressDetail(String addressDetail) {
+		this.addressDetail = addressDetail;
 	}
 
 	public Integer getStatus() {
@@ -207,15 +274,6 @@ public class PoUser implements Serializable{
 		this.email = email;
 	}
 
-
-	@Override
-	public String toString() {
-		return "PoUser [id=" + id + ", username=" + username + ", password=" + password + ", photo=" + photo
-				+ ", realname=" + realname + ", idcard=" + idcard + ", phone=" + phone + ", address=" + address
-				+ ", status=" + status + ", description=" + description + ", regDate=" + regDate + ", email=" + email
-				+ ", school=" + school.getName() + "]";
-	}
-
 	public PoSchool getSchool() {
 		return school;
 	}
@@ -223,5 +281,38 @@ public class PoUser implements Serializable{
 	public void setSchool(PoSchool school) {
 		this.school = school;
 	}
+
+	public PoDataCode getType() {
+		return type;
+	}
+
+	public void setType(PoDataCode type) {
+		this.type = type;
+	}
+
+	public Date getLastLoginTime() {
+		return lastLoginTime;
+	}
+
+	public void setLastLoginTime(Date lastLoginTime) {
+		this.lastLoginTime = lastLoginTime;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
+	public Set<PoTeam> getTeams() {
+		return teams;
+	}
+
+	public void setTeams(Set<PoTeam> teams) {
+		this.teams = teams;
+	}
+
 	
 }

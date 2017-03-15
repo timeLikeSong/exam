@@ -25,7 +25,7 @@ public class AddressTest {
 	@Test
 	public void testGet(){
 		address = addressService.get(11L);
-		System.out.println(address.getAddrName());
+		System.out.println(address.getName());
 	}
 	@Test
 	public void testGetAllAddrName(){
@@ -36,7 +36,7 @@ public class AddressTest {
 	@Test
 	public void testCopyObj(){
 		User user = new User(2L,"lx","2016-12-1");
-		user.setAddrId(11L);
+		user.setAddressId(11L);
 		PoUser user2 = new PoUser(user);
 		System.out.println(user2);
 	}

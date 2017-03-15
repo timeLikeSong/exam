@@ -8,25 +8,25 @@ public class News {
 	private Long id;
 	private String title;
 	private String content;
-	private Long posterId;
-	private String posterName;
+	private Long publisherId;
+	private String publisherName;
 	private String publishDate;
 	private Long modifyorId;
 	private String modifyorName;
 	private String modifyDate;
-	private Long newsTypeId;
-	private String newsTypeName;
+	private Long typeId;
+	private String typeName;
 	public News(){}
 	public News(PoNews poNews){
 		ObjectUtil.o2o(this, poNews);
-		posterId=poNews.getPoster().getId();
-		posterName=poNews.getPoster().getRealname();
+		publisherId=poNews.getPublisher().getId();
+		publisherName=poNews.getPublisher().getUsername();
 		modifyorId=poNews.getModifyor().getId();
-		modifyorName=poNews.getModifyor().getRealname();
-		publishDate=DateUtil.format(poNews.getPublishDate(),"yyyy-MM-dd HH:mm:ss");
-		modifyDate=DateUtil.format(poNews.getModifyDate(),"yyyy-MM-dd HH:mm:ss");
-		newsTypeId=poNews.getPoNewsType().getId();
-		newsTypeName=poNews.getPoNewsType().getName();
+		modifyorName=poNews.getModifyor().getUsername();
+		publishDate=DateUtil.format(poNews.getPublishDate());
+		modifyDate=DateUtil.format(poNews.getModifyDate());
+		typeId=poNews.getType().getId();
+		typeName=poNews.getType().getTitle();
 	}
 	public Long getId() {
 		return id;
@@ -46,17 +46,23 @@ public class News {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Long getPosterId() {
-		return posterId;
+	public Long getPublisherId() {
+		return publisherId;
 	}
-	public void setPosterId(Long posterId) {
-		this.posterId = posterId;
+	public void setPublisherId(Long publisherId) {
+		this.publisherId = publisherId;
 	}
-	public String getPosterName() {
-		return posterName;
+	public String getPublisherName() {
+		return publisherName;
 	}
-	public void setPosterName(String posterName) {
-		this.posterName = posterName;
+	public void setPublisherName(String publisherName) {
+		this.publisherName = publisherName;
+	}
+	public String getPublishDate() {
+		return publishDate;
+	}
+	public void setPublishDate(String publishDate) {
+		this.publishDate = publishDate;
 	}
 	public Long getModifyorId() {
 		return modifyorId;
@@ -70,31 +76,24 @@ public class News {
 	public void setModifyorName(String modifyorName) {
 		this.modifyorName = modifyorName;
 	}
-	public Long getNewsTypeId() {
-		return newsTypeId;
-	}
-	public void setNewsTypeId(Long newsTypeId) {
-		this.newsTypeId = newsTypeId;
-	}
-	public String getNewsTypeName() {
-		return newsTypeName;
-	}
-	public void setNewsTypeName(String newsTypeName) {
-		this.newsTypeName = newsTypeName;
-	}
-	public String getPublishDate() {
-		return publishDate;
-	}
-	public void setPublishDate(String publishDate) {
-		this.publishDate = publishDate;
-	}
 	public String getModifyDate() {
 		return modifyDate;
 	}
 	public void setModifyDate(String modifyDate) {
 		this.modifyDate = modifyDate;
 	}
-	
+	public Long getTypeId() {
+		return typeId;
+	}
+	public void setTypeId(Long typeId) {
+		this.typeId = typeId;
+	}
+	public String getTypeName() {
+		return typeName;
+	}
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
 	
 	
 }

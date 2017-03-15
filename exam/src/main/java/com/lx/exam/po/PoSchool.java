@@ -2,25 +2,21 @@ package com.lx.exam.po;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.springframework.beans.BeanUtils;
 
-import com.lx.exam.util.ObjectUtil;
 import com.lx.exam.vo.School;
 @Entity
-@Table(name="PO_SCHOOL")
+@Table(name="T_SCHOOL")
 public class PoSchool implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "S_PO_SCHOOL")
-	@SequenceGenerator(name = "S_PO_SCHOOL", sequenceName = "S_PO_SCHOOL")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	/**
 	 * 学校名称
@@ -41,10 +37,10 @@ public class PoSchool implements Serializable{
 	public PoSchool(){}
 	
 	public PoSchool(School school){
-		ObjectUtil.o2o(this, school);
+		BeanUtils.copyProperties(school,this);
 	}
 	public PoSchool wrap(School school){
-		ObjectUtil.o2o(this, school);
+		BeanUtils.copyProperties(school,this);
 		return this;
 	}
 	public Long getId() {

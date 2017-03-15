@@ -1,17 +1,13 @@
 package com.lx.exam.vo;
 
-import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 
 import com.lx.exam.po.PoAdmin;
-import com.lx.exam.po.PoFunction;
 import com.lx.exam.po.PoRole;
 import com.lx.exam.util.DateUtil;
-import com.lx.exam.util.ObjectUtil;
 
 public class Admin {
 	private Long id;
@@ -24,7 +20,6 @@ public class Admin {
 	private String description;
 	private String createDate;
 	private String email;
-	private String roleName;
 	private Long[] roleIds;
 	private Set<Role> roles;
 	public Admin(){}
@@ -99,12 +94,6 @@ public class Admin {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getRoleName() {
-		return roleName;
-	}
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
 	public Long[] getRoleIds() {
 		return roleIds;
 	}
@@ -116,13 +105,6 @@ public class Admin {
 	}
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
-	}
-	@Override
-	public String toString() {
-		return "Admin [id=" + id + ", username=" + username + ", password=" + password + ", photo=" + photo
-				+ ", realname=" + realname + ", phone=" + phone + ", status=" + status + ", description=" + description
-				+ ", createDate=" + createDate + ", email=" + email + ", roleName=" + roleName + ", roleIds="
-				+ Arrays.toString(roleIds) + ", roles=" + roles + "]";
 	}
 	
 	

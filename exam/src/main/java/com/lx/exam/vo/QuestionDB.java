@@ -20,11 +20,11 @@ public class QuestionDB {
 	public QuestionDB(PoQuestionDB poQuestionDB){
 		ObjectUtil.o2o(this, poQuestionDB);
 		this.posterId=poQuestionDB.getPoster().getId();
-		this.posterName=poQuestionDB.getPoster().getRealname();
-		this.createDate=DateUtil.format(poQuestionDB.getCreateDate(),"yyyy-MM-dd HH:mm:ss");
+		this.posterName=poQuestionDB.getPoster().getUsername();
+		this.createDate=DateUtil.format(poQuestionDB.getCreateDate());
 		this.modifyorId=poQuestionDB.getModifyor().getId();
-		this.modifyorName=poQuestionDB.getModifyor().getRealname();
-		this.modifyDate=DateUtil.format(poQuestionDB.getModifyDate(),"yyyy-MM-dd HH:mm:ss");
+		this.modifyorName=poQuestionDB.getModifyor().getUsername();
+		this.modifyDate=DateUtil.format(poQuestionDB.getModifyDate());
 	}
 	public Long getId() {
 		return id;

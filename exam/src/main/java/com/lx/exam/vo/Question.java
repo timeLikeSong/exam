@@ -1,37 +1,45 @@
 package com.lx.exam.vo;
 
-import java.util.Date;
 
-import com.lx.exam.po.PoAdmin;
+import org.springframework.beans.BeanUtils;
+
 import com.lx.exam.po.PoQuestion;
 import com.lx.exam.util.DateUtil;
-import com.lx.exam.util.ObjectUtil;
 
 public class Question {
 	private Long id;
-	private String name;
-	private String logo;
+	private Long questionDBId;
+	private String questionDBName;
+	private Long typeId;
+	private String typeName;
+	private Long levelId;
+	private String levelName;
 	private Integer status;
-	private String description;
+	private String content;
+	private String answer;
+	private String resolve;
 	private String posterName;
 	private Long posterId;
 	private String createDate;
 	private Long modifyorId;
 	private String modifyorName;
 	private String modifyDate;
-	private Long typeId;
-	private String typeName;
+	private String data;
 	public Question(){}
 	public Question(PoQuestion poQuestion){
-		ObjectUtil.o2o(this, poQuestion);
-		posterName=poQuestion.getPoster().getRealname();
+		BeanUtils.copyProperties(poQuestion, this);
+		questionDBId = poQuestion.getPoQuestionDB().getId();
+		questionDBName=poQuestion.getPoQuestionDB().getName();
+		typeId = poQuestion.getType().getId();
+		typeName = poQuestion.getType().getTitle();
+		levelId=poQuestion.getLevel().getId();
+		levelName= poQuestion.getLevel().getTitle();
+		posterName=poQuestion.getPoster().getUsername();
 		posterId = poQuestion.getPoster().getId();
 		modifyorId = poQuestion.getModifyor().getId();
-		modifyorName= poQuestion.getModifyor().getRealname();
+		modifyorName= poQuestion.getModifyor().getUsername();
 		createDate=DateUtil.format(poQuestion.getCreateDate());
 		modifyDate=DateUtil.format(poQuestion.getModifyDate());
-		typeId=poQuestion.getType().getId();
-		typeName=poQuestion.getType().getName();
 	}
 	public Long getId() {
 		return id;
@@ -39,17 +47,41 @@ public class Question {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public Long getQuestionDBId() {
+		return questionDBId;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setQuestionDBId(Long questionDBId) {
+		this.questionDBId = questionDBId;
 	}
-	public String getLogo() {
-		return logo;
+	public String getQuestionDBName() {
+		return questionDBName;
 	}
-	public void setLogo(String logo) {
-		this.logo = logo;
+	public void setQuestionDBName(String questionDBName) {
+		this.questionDBName = questionDBName;
+	}
+	public Long getTypeId() {
+		return typeId;
+	}
+	public void setTypeId(Long typeId) {
+		this.typeId = typeId;
+	}
+	public String getTypeName() {
+		return typeName;
+	}
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+	public Long getLevelId() {
+		return levelId;
+	}
+	public void setLevelId(Long levelId) {
+		this.levelId = levelId;
+	}
+	public String getLevelName() {
+		return levelName;
+	}
+	public void setLevelName(String levelName) {
+		this.levelName = levelName;
 	}
 	public Integer getStatus() {
 		return status;
@@ -57,11 +89,23 @@ public class Question {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	public String getDescription() {
-		return description;
+	public String getContent() {
+		return content;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public String getAnswer() {
+		return answer;
+	}
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+	public String getResolve() {
+		return resolve;
+	}
+	public void setResolve(String resolve) {
+		this.resolve = resolve;
 	}
 	public String getPosterName() {
 		return posterName;
@@ -99,17 +143,11 @@ public class Question {
 	public void setModifyDate(String modifyDate) {
 		this.modifyDate = modifyDate;
 	}
-	public Long getTypeId() {
-		return typeId;
+	public String getData() {
+		return data;
 	}
-	public void setTypeId(Long typeId) {
-		this.typeId = typeId;
-	}
-	public String getTypeName() {
-		return typeName;
-	}
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
+	public void setData(String data) {
+		this.data = data;
 	}
 	
 	

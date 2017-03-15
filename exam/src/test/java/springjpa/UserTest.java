@@ -22,16 +22,16 @@ public class UserTest {
 	UserService userService;
 	
 //	
-//	@Test
-//	public void testAdd(){
-//		user=new PoUser();
-//		user.setId(11L);
-//		user.setUsername("lx2");
-//		user.setEmail("15732154918@163.com");
-//		user.setPassword("123123");
-//		userService.save(user);
-//		
-//	}
+	@Test
+	public void testAdd(){
+		user=new PoUser();
+		user.setId(11L);
+		user.setUsername("lx2");
+		user.setEmail("15732154918@163.com");
+		user.setPassword("123123");
+		userService.save(user);
+		
+	}
 //	@Test
 //	public void testGet(){
 //		user = userService.get(1L);

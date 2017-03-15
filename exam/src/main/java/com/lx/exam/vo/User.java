@@ -1,8 +1,12 @@
 package com.lx.exam.vo;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.BeanUtils;
 
+import com.lx.exam.po.PoTeam;
 import com.lx.exam.po.PoUser;
 import com.lx.exam.util.DateUtil;
 
@@ -16,25 +20,22 @@ public class User implements Serializable{
 	private String realname;
 	private String idcard;
 	private String phone;
-	private Long addrId;
-	private String addrName;
+	private Long addressId;
+	private String addressName;
+	private String addressDetail;
 	private Integer status;
 	private String description;
 	private String regDate;
 	private String email;
 	private Long schoolId;
-
-	public Long getSchoolId() {
-		return schoolId;
-	}
-
-	public void setSchoolId(Long schoolId) {
-		this.schoolId = schoolId;
-	}
-
 	private String schoolName;
+	private Long typeId;
+	private String typeName;
+	private String lastLoginTime;
+	private String level;
+	private Long[] teamIds;
+	private Set<Team> teams;
 	
-
 	public User(){}
 	
 	public User(Long id,String username,String regDate){
@@ -44,10 +45,23 @@ public class User implements Serializable{
 	}
 	public User(PoUser poUser){
 		BeanUtils.copyProperties(poUser, this);
-		this.regDate=DateUtil.format(poUser.getRegDate(), "yyyy-MM-dd");
+		this.regDate=DateUtil.format(poUser.getRegDate());
+		this.lastLoginTime = DateUtil.format(poUser.getLastLoginTime());
 		this.schoolName=poUser.getSchool().getName();
 		this.schoolId=poUser.getSchool().getId();
+		this.addressId = poUser.getAddress().getId();
+		this.addressName = poUser.getAddress().getName();
+		this.typeId = poUser.getType().getId();
+		this.typeName = poUser.getType().getTitle();
+		
+		if(poUser.getTeams()!=null && poUser.getTeams().size()>0){
+			teams = new HashSet<Team>();
+			for(PoTeam poTeam:poUser.getTeams()){
+				teams.add(new Team(poTeam));
+			}
+		}
 	}
+
 	public Long getId() {
 		return id;
 	}
@@ -104,21 +118,28 @@ public class User implements Serializable{
 		this.phone = phone;
 	}
 
-
-	public Long getAddrId() {
-		return addrId;
+	public Long getAddressId() {
+		return addressId;
 	}
 
-	public void setAddrId(Long addrId) {
-		this.addrId = addrId;
+	public void setAddressId(Long addressId) {
+		this.addressId = addressId;
 	}
 
-	public String getAddrName() {
-		return addrName;
+	public String getAddressName() {
+		return addressName;
 	}
 
-	public void setAddrName(String addrName) {
-		this.addrName = addrName;
+	public void setAddressName(String addressName) {
+		this.addressName = addressName;
+	}
+
+	public String getAddressDetail() {
+		return addressDetail;
+	}
+
+	public void setAddressDetail(String addressDetail) {
+		this.addressDetail = addressDetail;
 	}
 
 	public Integer getStatus() {
@@ -137,6 +158,13 @@ public class User implements Serializable{
 		this.description = description;
 	}
 
+	public String getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
 
 	public String getEmail() {
 		return email;
@@ -146,12 +174,12 @@ public class User implements Serializable{
 		this.email = email;
 	}
 
-	public String getRegDate() {
-		return regDate;
+	public Long getSchoolId() {
+		return schoolId;
 	}
 
-	public void setRegDate(String regDate) {
-		this.regDate = regDate;
+	public void setSchoolId(Long schoolId) {
+		this.schoolId = schoolId;
 	}
 
 	public String getSchoolName() {
@@ -162,6 +190,53 @@ public class User implements Serializable{
 		this.schoolName = schoolName;
 	}
 
+	public Long getTypeId() {
+		return typeId;
+	}
+
+	public void setTypeId(Long typeId) {
+		this.typeId = typeId;
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+
+	public String getLastLoginTime() {
+		return lastLoginTime;
+	}
+
+	public void setLastLoginTime(String lastLoginTime) {
+		this.lastLoginTime = lastLoginTime;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
+	public Long[] getTeamIds() {
+		return teamIds;
+	}
+
+	public void setTeamIds(Long[] teamIds) {
+		this.teamIds = teamIds;
+	}
+
+	public Set<Team> getTeams() {
+		return teams;
+	}
+
+	public void setTeams(Set<Team> teams) {
+		this.teams = teams;
+	}
 
 	
 }

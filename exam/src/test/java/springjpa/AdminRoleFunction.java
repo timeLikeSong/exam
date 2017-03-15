@@ -29,6 +29,7 @@ import com.lx.exam.service.itf.RoleService;
 import com.lx.exam.vo.Admin;
 import com.lx.exam.vo.Function;
 import com.lx.exam.vo.Role;
+@SuppressWarnings("unused")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:applicationContext-*.xml"})
 public class AdminRoleFunction {

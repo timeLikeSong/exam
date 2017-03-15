@@ -9,5 +9,5 @@ import com.lx.exam.po.PoAddress;
 import com.lx.exam.po.PoSchool;
 
 public interface SchoolRepository extends CrudRepository<PoSchool, Long>,SchoolRepositoryExt{
-	List<PoSchool> findByNameLike(String shoolName);
+	List<PoSchool> findByNameLike(String schoolName);
 }

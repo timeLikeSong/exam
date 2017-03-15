@@ -7,9 +7,8 @@ import com.lx.exam.po.PoConfig;
 
 public class Config {
 	private Long id;
-	private String configKey;
-	private String configName;
-	private String configValue;
+	private String name;
+	private String value;
 	public Config(){}
 	
 	public Config(PoConfig poConfig){
@@ -24,28 +23,21 @@ public class Config {
 		this.id = id;
 	}
 
-	public String getConfigKey() {
-		return configKey;
+	public String getName() {
+		return name;
 	}
 
-	public void setConfigKey(String configKey) {
-		this.configKey = configKey;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getConfigName() {
-		return configName;
+	public String getValue() {
+		return value;
 	}
 
-	public void setConfigName(String configName) {
-		this.configName = configName;
+	public void setValue(String value) {
+		this.value = value;
 	}
 
-	public String getConfigValue() {
-		return configValue;
-	}
-
-	public void setConfigValue(String configValue) {
-		this.configValue = configValue;
-	}
 	
 }

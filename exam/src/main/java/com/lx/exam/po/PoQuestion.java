@@ -3,6 +3,7 @@ package com.lx.exam.po;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,11 +14,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.beans.BeanUtils;
+
 import com.lx.exam.util.ObjectUtil;
 import com.lx.exam.vo.Question;
 
 @Entity
-@Table(name="PO_QUESTION")
+@Table(name="T_QUESTION")
 public class PoQuestion implements Serializable{
 
 	/**
@@ -37,13 +40,17 @@ public class PoQuestion implements Serializable{
 	/**
 	 * 类型
 	 */
-	private PoQuestionType type;
+	@ManyToOne
+	@JoinColumn(name="type")
+	private PoDataCode type;
 	/**
 	 * 难度等级
 	 */
-	private Integer level;
+	@ManyToOne
+	@JoinColumn(name="level")
+	private PoDataCode level;
 	/**
-	 * 状态
+	 * 试题状态，0不可用，1可用
 	 */
 	private Integer status;
 	/**
@@ -68,6 +75,7 @@ public class PoQuestion implements Serializable{
 	 * 创建日期
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="create_date")
 	private Date createDate;
 	/**
 	 * 修改人
@@ -79,6 +87,7 @@ public class PoQuestion implements Serializable{
 	 * 修改日期
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="modify_date")
 	private Date modifyDate;
 	/**
 	 * xml格式的数据
@@ -86,20 +95,29 @@ public class PoQuestion implements Serializable{
 	private String data;
 	public PoQuestion(){}
 	public PoQuestion(Question question){
-		ObjectUtil.o2o(this,question);
+		BeanUtils.copyProperties(question, this);
 		poster=new PoAdmin();
 		poster.setId(question.getPosterId());
 		modifyor=new PoAdmin();
 		modifyor.setId(question.getModifyorId());
+		poQuestionDB= new PoQuestionDB();
+		poQuestionDB.setId(question.getQuestionDBId());
+		type = new PoDataCode();
 		type.setId(question.getTypeId());
+		level = new PoDataCode();
+		level.setId(question.getLevelId());
+		
 	}
 	public PoQuestion wrap(Question question){
 		ObjectUtil.o2o(this,question);
-		poster=new PoAdmin();
-		poster.setId(question.getPosterId());
 		modifyor=new PoAdmin();
 		modifyor.setId(question.getModifyorId());
+		poQuestionDB= new PoQuestionDB();
+		poQuestionDB.setId(question.getQuestionDBId());
+		type = new PoDataCode();
 		type.setId(question.getTypeId());
+		level = new PoDataCode();
+		level.setId(question.getLevelId());
 		return this;
 	}
 	public Long getId() {
@@ -114,16 +132,16 @@ public class PoQuestion implements Serializable{
 	public void setPoQuestionDB(PoQuestionDB poQuestionDB) {
 		this.poQuestionDB = poQuestionDB;
 	}
-	public PoQuestionType getType() {
+	public PoDataCode getType() {
 		return type;
 	}
-	public void setType(PoQuestionType type) {
+	public void setType(PoDataCode type) {
 		this.type = type;
 	}
-	public Integer getLevel() {
+	public PoDataCode getLevel() {
 		return level;
 	}
-	public void setLevel(Integer level) {
+	public void setLevel(PoDataCode level) {
 		this.level = level;
 	}
 	public Integer getStatus() {

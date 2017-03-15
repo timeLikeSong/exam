@@ -1,40 +1,36 @@
 package com.lx.exam.vo;
 
+
+import org.springframework.beans.BeanUtils;
+
 import com.lx.exam.po.PoPaper;
 import com.lx.exam.util.DateUtil;
-import com.lx.exam.util.ObjectUtil;
 
 public class Paper {
 	private Long id;
 	private String name;
-	private Integer status;
-	private String startTime;
-	private String endTime;
-	private String enrollStart;
-	private String enrollEnd;
-	private Integer duration;
 	private String description;
-	private String showTime;
 	private Long posterId;
 	private String posterName;
 	private Long modifyorId;
 	private String modifyorName;
-	private Integer questionOrder;
-	private Integer isRandom;
-	private Integer isAutoCheck;
-	private Integer isShowAnswer;
+	private Integer viewOrder;
+	private Boolean isRandom;
+	private Boolean isAutoCheck;
+	private Boolean isShowAnswer;
+	private String data;
+	private Double totalScore;
+	private String createDate;
+	private String modifyDate;
 	public Paper(){}
 	public Paper(PoPaper poPaper){
-		ObjectUtil.o2o(this, poPaper);
+		BeanUtils.copyProperties(poPaper, this);
 		posterId=poPaper.getPoster().getId();
-		posterName=poPaper.getPoster().getRealname();
+		posterName=poPaper.getPoster().getUsername();
 		modifyorId=poPaper.getModifyor().getId();
-		modifyorName=poPaper.getModifyor().getRealname();
-		startTime=DateUtil.format(poPaper.getStartTime(),"yyyy-MM-dd HH:mm:ss");
-		endTime=DateUtil.format(poPaper.getEndTime(),"yyyy-MM-dd HH:mm:ss");
-		enrollStart=DateUtil.format(poPaper.getEnrollStart(),"yyyy-MM-dd HH:mm:ss");
-		enrollEnd=DateUtil.format(poPaper.getEnrollEnd(),"yyyy-MM-dd HH:mm:ss");
-		showTime=DateUtil.format(poPaper.getShowTime(),"yyyy-MM-dd HH:mm:ss");
+		modifyorName=poPaper.getModifyor().getUsername();
+		createDate = DateUtil.format(poPaper.getCreateDate());
+		modifyDate=DateUtil.format(poPaper.getModifyDate());
 	}
 	public Long getId() {
 		return id;
@@ -48,53 +44,11 @@ public class Paper {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	public String getStartTime() {
-		return startTime;
-	}
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
-	}
-	public String getEndTime() {
-		return endTime;
-	}
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
-	}
-	public String getEnrollStart() {
-		return enrollStart;
-	}
-	public void setEnrollStart(String enrollStart) {
-		this.enrollStart = enrollStart;
-	}
-	public String getEnrollEnd() {
-		return enrollEnd;
-	}
-	public void setEnrollEnd(String enrollEnd) {
-		this.enrollEnd = enrollEnd;
-	}
-	public Integer getDuration() {
-		return duration;
-	}
-	public void setDuration(Integer duration) {
-		this.duration = duration;
-	}
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	public String getShowTime() {
-		return showTime;
-	}
-	public void setShowTime(String showTime) {
-		this.showTime = showTime;
 	}
 	public Long getPosterId() {
 		return posterId;
@@ -120,29 +74,53 @@ public class Paper {
 	public void setModifyorName(String modifyorName) {
 		this.modifyorName = modifyorName;
 	}
-	public Integer getQuestionOrder() {
-		return questionOrder;
+	public Integer getViewOrder() {
+		return viewOrder;
 	}
-	public void setQuestionOrder(Integer questionOrder) {
-		this.questionOrder = questionOrder;
+	public void setViewOrder(Integer viewOrder) {
+		this.viewOrder = viewOrder;
 	}
-	public Integer getIsRandom() {
+	public Boolean getIsRandom() {
 		return isRandom;
 	}
-	public void setIsRandom(Integer isRandom) {
+	public void setIsRandom(Boolean isRandom) {
 		this.isRandom = isRandom;
 	}
-	public Integer getIsAutoCheck() {
+	public Boolean getIsAutoCheck() {
 		return isAutoCheck;
 	}
-	public void setIsAutoCheck(Integer isAutoCheck) {
+	public void setIsAutoCheck(Boolean isAutoCheck) {
 		this.isAutoCheck = isAutoCheck;
 	}
-	public Integer getIsShowAnswer() {
+	public Boolean getIsShowAnswer() {
 		return isShowAnswer;
 	}
-	public void setIsShowAnswer(Integer isShowAnswer) {
+	public void setIsShowAnswer(Boolean isShowAnswer) {
 		this.isShowAnswer = isShowAnswer;
+	}
+	public String getData() {
+		return data;
+	}
+	public void setData(String data) {
+		this.data = data;
+	}
+	public Double getTotalScore() {
+		return totalScore;
+	}
+	public void setTotalScore(Double totalScore) {
+		this.totalScore = totalScore;
+	}
+	public String getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+	public String getModifyDate() {
+		return modifyDate;
+	}
+	public void setModifyDate(String modifyDate) {
+		this.modifyDate = modifyDate;
 	}
 	
 }

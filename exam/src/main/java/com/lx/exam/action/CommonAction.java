@@ -20,11 +20,15 @@ public class CommonAction {
 	}
 	@RequestMapping("login")
 	public String login(){
-		return "login";
+		return "user/html/login";
 	}
 	@RequestMapping("logout")
 	public String logout(){
-		return "logout";
+		return "user/html/logout";
+	}
+	@RequestMapping("admin")
+	public String admin(){
+		return "admin/html/index";
 	}
 	@RequestMapping("{module}/{url}")
 	public String goUrl(@PathVariable String module, @PathVariable String url, Model model) {
@@ -35,7 +39,7 @@ public class CommonAction {
 			Model model) {
 		return module + "/html/" + url;
 	}
-	@RequestMapping("menu/{module}/{url}/{tempparam}/{tempparam2}")
+	@RequestMapping("{module}/{url}/{tempparam}/{tempparam2}")
 	public String goUrl2P(HttpServletRequest req, @PathVariable String module, @PathVariable String url,
 			@PathVariable String tempparam, @PathVariable String tempparam2, Model model) throws Exception {
 		return module + "/html/" + url;

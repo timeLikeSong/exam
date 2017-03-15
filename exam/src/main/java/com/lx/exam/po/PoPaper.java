@@ -3,6 +3,7 @@ package com.lx.exam.po;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,13 +14,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
+
 import com.lx.exam.util.DateUtil;
-import com.lx.exam.util.ObjectUtil;
 import com.lx.exam.vo.Paper;
-import com.lx.exam.vo.Question;
 
 @Entity
-@Table(name="PO_PAPER")
+@Table(name="T_PAPER")
 public class PoPaper implements Serializable{
 
 	/**
@@ -35,41 +37,29 @@ public class PoPaper implements Serializable{
 	 */
 	private String name;
 	/**
-	 * 试卷状态   0未开考 1正在考试 2考试结束 
-	 */
-	private Integer status;
-	/**
-	 * 开考时间
-	 */
-	private Date startTime;
-	/**
-	 * 考试结束时间
-	 */
-	private Date endTime;
-	/**
-	 * 报名开始时间
-	 */
-	private Date enrollStart;
-	/**
-	 * 报名结束时间
-	 */
-	private Date enrollEnd;
-	/**
-	 * 考试时长
-	 */
-	private Integer duration;
-	/**
 	 * 总分
 	 */
-	private Integer totalScore;
+	@Column(name="total_score")
+	@Value("0")
+	private Double totalScore;
 	/**
 	 * 试题顺序  0 正常顺序  1随机顺序
 	 */
-	private Integer questionOrder;
+	@Column(name="view_order")
+	@Value("0")
+	private Integer viewOrder;
 	/**
 	 * 是否随机出题
 	 */
-	private Integer isRandom;
+	@Column(name="is_random")
+	@Value("false")
+	private Boolean isRandom;
+	/**
+	 * 是否自动阅卷
+	 */
+	@Column(name="is_auto_check")
+	@Value("false")
+	private Boolean isAutoCheck;
 	/**
 	 * 试卷描述 
 	 */
@@ -78,10 +68,6 @@ public class PoPaper implements Serializable{
 	 * 存放具体试题的xml数据
 	 */
 	private String data;
-	/**
-	 * 是否自动判卷 ，0 不是  1 是
-	 */
-	private Integer isAutoCheck;
 	/**
 	 * 试卷创建人
 	 */
@@ -92,6 +78,7 @@ public class PoPaper implements Serializable{
 	 * 试卷创建时间
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="create_date")
 	private Date createDate;
 	/**
 	 * 试卷修改人
@@ -102,41 +89,30 @@ public class PoPaper implements Serializable{
 	/**
 	 * 试卷修改时间
 	 */
+	@Column(name="modify_date")
 	private Date modifyDate;
-	/**
-	 * 分数公布时间
-	 */
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date showTime;
 	/**
 	 * 是否显示答案
 	 */
+	@Column(name="is_show_answer")
 	private Integer isShowAnswer;
 	
 	public PoPaper(){}
 	public PoPaper(Paper paper){
-		ObjectUtil.o2o(this, paper);
+		BeanUtils.copyProperties(paper, this);
 		poster=new PoAdmin();
 		poster.setId(paper.getPosterId());
+		modifyor = new PoAdmin();
 		modifyor.setId(paper.getModifyorId());
-		startTime=DateUtil.parseDate(paper.getStartTime(),"yyyy-MM-dd HH:mm:ss");
-		endTime=DateUtil.parseDate(paper.getEndTime(),"yyyy-MM-dd HH:mm:ss");
-		enrollStart=DateUtil.parseDate(paper.getEnrollStart(),"yyyy-MM-dd HH:mm:ss");
-		enrollEnd=DateUtil.parseDate(paper.getEnrollEnd(),"yyyy-MM-dd HH:mm:ss");
-		showTime=DateUtil.parseDate(paper.getShowTime(),"yyyy-MM-dd HH:mm:ss");
-
+		createDate=DateUtil.parseDate(paper.getCreateDate());
+		modifyDate = DateUtil.parseDate(paper.getModifyDate());
 	}
 	public PoPaper wrap(Paper paper){
-		ObjectUtil.o2o(this, paper);
+		BeanUtils.copyProperties(paper, this);
 		poster=new PoAdmin();
 		poster.setId(paper.getPosterId());
 		modifyor=new PoAdmin();
 		modifyor.setId(paper.getModifyorId());
-		startTime=DateUtil.parseDate(paper.getStartTime(),"yyyy-MM-dd HH:mm:ss");
-		endTime=DateUtil.parseDate(paper.getEndTime(),"yyyy-MM-dd HH:mm:ss");
-		enrollStart=DateUtil.parseDate(paper.getEnrollStart(),"yyyy-MM-dd HH:mm:ss");
-		enrollEnd=DateUtil.parseDate(paper.getEnrollEnd(),"yyyy-MM-dd HH:mm:ss");
-		showTime=DateUtil.parseDate(paper.getShowTime(),"yyyy-MM-dd HH:mm:ss");
 		return this;
 	}
 	public Long getId() {
@@ -151,59 +127,23 @@ public class PoPaper implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Integer getStatus() {
-		return status;
+	public Integer getViewOrder() {
+		return viewOrder;
 	}
-	public void setStatus(Integer status) {
-		this.status = status;
+	public void setViewOrder(Integer viewOrder) {
+		this.viewOrder = viewOrder;
 	}
-	public Date getStartTime() {
-		return startTime;
-	}
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-	public Date getEndTime() {
-		return endTime;
-	}
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
-	public Date getEnrollStart() {
-		return enrollStart;
-	}
-	public void setEnrollStart(Date enrollStart) {
-		this.enrollStart = enrollStart;
-	}
-	public Date getEnrollEnd() {
-		return enrollEnd;
-	}
-	public void setEnrollEnd(Date enrollEnd) {
-		this.enrollEnd = enrollEnd;
-	}
-	public Integer getDuration() {
-		return duration;
-	}
-	public void setDuration(Integer duration) {
-		this.duration = duration;
-	}
-	public Integer getTotalScore() {
-		return totalScore;
-	}
-	public void setTotalScore(Integer totalScore) {
-		this.totalScore = totalScore;
-	}
-	public Integer getQuestionOrder() {
-		return questionOrder;
-	}
-	public void setQuestionOrder(Integer questionOrder) {
-		this.questionOrder = questionOrder;
-	}
-	public Integer getIsRandom() {
+	public Boolean getIsRandom() {
 		return isRandom;
 	}
-	public void setIsRandom(Integer isRandom) {
+	public void setIsRandom(Boolean isRandom) {
 		this.isRandom = isRandom;
+	}
+	public Boolean getIsAutoCheck() {
+		return isAutoCheck;
+	}
+	public void setIsAutoCheck(Boolean isAutoCheck) {
+		this.isAutoCheck = isAutoCheck;
 	}
 	public String getDescription() {
 		return description;
@@ -216,12 +156,6 @@ public class PoPaper implements Serializable{
 	}
 	public void setData(String data) {
 		this.data = data;
-	}
-	public Integer getIsAutoCheck() {
-		return isAutoCheck;
-	}
-	public void setIsAutoCheck(Integer isAutoCheck) {
-		this.isAutoCheck = isAutoCheck;
 	}
 	public PoAdmin getPoster() {
 		return poster;
@@ -247,18 +181,17 @@ public class PoPaper implements Serializable{
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}
-	public Date getShowTime() {
-		return showTime;
-	}
-	public void setShowTime(Date showTime) {
-		this.showTime = showTime;
-	}
 	public Integer getIsShowAnswer() {
 		return isShowAnswer;
 	}
 	public void setIsShowAnswer(Integer isShowAnswer) {
 		this.isShowAnswer = isShowAnswer;
 	}
-	
+	public Double getTotalScore() {
+		return totalScore;
+	}
+	public void setTotalScore(Double totalScore) {
+		this.totalScore = totalScore;
+	}
 	
 }

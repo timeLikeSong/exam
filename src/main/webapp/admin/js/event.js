@@ -1,18 +1,46 @@
 $(document).ready(function() {
 	layui.use([ 'form', 'laypage', 'layer' ], function() {
 	});
-	$('#data_table').DataTable();
+	$('#data_table').DataTable({
+		ajax: basePath+"/event/list.json",
+		columns: [
+			{data:'id',title:'ID'},
+			{data:'name',title:'竞赛名称'},
+			{data:'description',title:'竞赛描述'},
+			{data:'enrollStartTime',title:'报名开始时间'},
+			{data:'enrollEndTime',title:'报名结束时间'},
+			{data:'status',title:'状态',render:statusRender},
+			{data:'operation',title:'操作',render:operationRender}
+		],
+		columnDefs: [
+		    {
+		      "data": null,
+		      "defaultContent": operationRender,
+		      "targets": -1
+		    }
+		  ],
+		createdRow: function (row, data, dataIndex) {
+			console.log(data);//,
+			var param ={
+					'onText' : '开启',
+					'offText' : '关闭'
+				};
+			if(data.status==1){
+				param['']
+			}
+			$(row).find('.switch').bootstrapSwitch({
+				'onSwitchChange':switchStatus
+			});
+		}
+	});
 	$("[name='status']").bootstrapSwitch({
 		'onText' : '开启',
 		'offText' : '关闭'
 	});
-	/*		$('#enrollStartTime').datetimepicker({
-	 format : 'yyyy-mm-dd hh:ii'
-	 });
-	 */
 	$('.form_datetime').datetimepicker({
 		language : 'cn',
-		format : "yyyy-mm-dd hh:ii",
+		format : "yyyy-mm-dd hh:ii:ss",
+		value:new Date(),
 		autoclose : true,
 		todayBtn : true,
 		pickerPosition : "bottom-left"
@@ -51,6 +79,32 @@ $(document).ready(function() {
 		addStep(stepName);
 	})
 })
+function statusRender(data, type, row, meta ){
+	return '<input type="checkbox" data-id="'+row.id+'" class="switch" '+(row.status==1?'checked':'')+' ) />';
+}
+function operationRender(data,type,row,meta){
+	var editHtml = '<a style="color:#00c0ef;" href="javascript:void()" onclick="editEvent('+row.id+')"><i class="fa fa-edit"></i>编辑</a>&nbsp;&nbsp;';
+	var deleteHtml = '<a style="color:#00c0ef;" href="javascript:void()" onclick="deleteEvent('+row.id+')"><i class="fa fa-remove"></i>删除</a>';
+	return editHtml+deleteHtml;
+}
+function switchStatus(event,state){
+	var id = $(this).attr('data-id');
+	var url = basePath+'/event/switchStatus.json';
+	var param={id:id};
+	var callback=function(data){
+		if('EDIT_SUCCESS'==data.STATUS){
+			layer.msg(data.MSG);
+			return true;
+		}
+		else{
+			layer.msg(data.MSG);
+			return false;
+		}
+		layer.msg(data.MSG);
+	}
+	$.post(url,param,callback);
+	return true;
+}
 function addEvent(){
 	layer.open({
         type : 1,
@@ -108,10 +162,11 @@ function saveEvent(index){
 	param.enrollStartTime=enrollStartTime;
 	param.enrollEndTime=enrollEndTime;
 	param.status=status;
-	param.groupRules=groupRules;
-	param.steps=steps;
+	param.groupRule=JSON.stringify(groupRules);
+	param.steps=JSON.stringify(steps);
+	param.currentStep=0;
 	console.log(param);
-	var url = '/admin/event/add.json';
+	var url = basePath+'/event/add.json';
 	var callback=function(e){
 		//更新表格
 		layer.close(index);

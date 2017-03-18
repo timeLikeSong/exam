@@ -35,14 +35,15 @@ public class EventAction {
 				model.addAttribute("MSG", MessageConstant.MESSAGE.PARAM_ERROR);
 				return ;
 			}
-			String name = event.getName().trim();
-			if("".equals(name) || null==event.getCurrentStep() || null==event.getEnrollEndTime() 
+			String name = event.getName();
+			if(null==name||"".equals(name.trim()) || null==event.getCurrentStep() || null==event.getEnrollStartTime()|| null==event.getEnrollEndTime() 
 				|| "".equals(event.getGroupRule())|| "".equals(event.getSteps())|| null==event.getStatus()){
 				model.addAttribute("STATUS", MessageConstant.STATUS.PARAM_ERROR);
 				model.addAttribute("MSG", MessageConstant.MESSAGE.PARAM_ERROR);
 				return ;
 			}
-			eventIbfService.add(PoEvent.class, event, "id", "Long");
+			event = eventIbfService.add(PoEvent.class, event, "id", "Long");
+			model.addAttribute("event",event);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("STATUS", MessageConstant.STATUS.EXCEPTION);
@@ -97,7 +98,38 @@ public class EventAction {
 			List<Event> list = eventIbfService.list(PoEvent.class, Event.class, eventSm, pb);
 			if(list.size()>0){
 				model.addAttribute("STATUS",  MessageConstant.STATUS.FOUND);
-				model.addAttribute("list",  list);
+				model.addAttribute("data",  list);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("STATUS", MessageConstant.STATUS.EXCEPTION);
+			model.addAttribute("MSG", MessageConstant.MESSAGE.EXCEPTION);
+		}
+	}
+	@RequestMapping("switchStatus")
+	public void switchStatus(Model model,Long id,Integer status){
+		if(null==id){
+			model.addAttribute("STATUS", MessageConstant.STATUS.PARAM_ERROR);
+			model.addAttribute("MSG", MessageConstant.MESSAGE.PARAM_ERROR);
+			return;
+		}
+		try {
+			PoEvent poEvent = eventIbfService.getById(PoEvent.class, id);
+			if(null==poEvent){
+				model.addAttribute("STATUS", MessageConstant.STATUS.PARAM_ERROR);
+				model.addAttribute("MSG", MessageConstant.MESSAGE.PARAM_ERROR);
+				return;
+			}
+			else{
+				if(poEvent.getStatus()==0){
+					poEvent.setStatus(1);
+				}
+				else{
+					poEvent.setStatus(0);
+				}
+				eventIbfService.edit(poEvent);
+				model.addAttribute("STATUS", MessageConstant.STATUS.EDIT_SUCCESS);
+				model.addAttribute("MSG", MessageConstant.MESSAGE.EDIT_SUCCESS);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

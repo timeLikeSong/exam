@@ -1,11 +1,13 @@
 package com.lx.exam.vo;
 
+import java.io.Serializable;
+
 import org.springframework.beans.BeanUtils;
 
 import com.lx.exam.po.PoEvent;
 import com.lx.exam.util.DateUtil;
 
-public class Event {
+public class Event implements Serializable{
 	private Long id;
 	private String name;
 	private String description;

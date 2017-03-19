@@ -472,9 +472,10 @@ public class BfService<Po, Vo, Sm> implements IBfService<Po, Vo, Sm> {
 		this.setParamOfConditions(q, (Map<String, Object>) map.get("fields"));
 		if (pb != null) {
 			Integer page = pb.getPage();
-			Integer rows = pb.getRows();
+			Integer rows = pb.getLength();
 			if (page != null) {
-				q.setFirstResult((page - 1) * rows);
+//				q.setFirstResult((page - 1) * rows);
+				q.setFirstResult(pb.getStart());
 				q.setMaxResults(rows);
 			}
 		}
@@ -495,9 +496,10 @@ public class BfService<Po, Vo, Sm> implements IBfService<Po, Vo, Sm> {
 		this.setParamOfConditions(q, (Map<String, Object>) map.get("fields"));
 		if (pb != null) {
 			Integer page = pb.getPage();
-			Integer rows = pb.getRows();
+			Integer rows = pb.getLength();
 			if (page != null) {
-				q.setFirstResult((page - 1) * rows);
+//				q.setFirstResult((page - 1) * rows);
+				q.setFirstResult(pb.getStart());
 				q.setMaxResults(rows);
 			}
 		}

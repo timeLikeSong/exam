@@ -85,16 +85,25 @@ public class PoEvent implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date enrollEndTime;
 	
+	/**
+	 * 创建日期
+	 */
+	@Column(name="create_time")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createTime;
+	
 	public PoEvent(){}
 	public PoEvent(Event event){
 		BeanUtils.copyProperties(event,this);
 		this.enrollStartTime=DateUtil.parseDate(event.getEnrollStartTime());
 		this.enrollEndTime=DateUtil.parseDate(event.getEnrollEndTime());
+		this.createTime=DateUtil.parseDate(event.getCreateTime());
 	}
 	public PoEvent wrap(Event event){
 		BeanUtils.copyProperties(event,this);
 		this.enrollStartTime=DateUtil.parseDate(event.getEnrollStartTime());
 		this.enrollEndTime=DateUtil.parseDate(event.getEnrollEndTime());
+		this.createTime=DateUtil.parseDate(event.getCreateTime());
 		return this;
 	}
 	public Long getId() {
@@ -150,6 +159,15 @@ public class PoEvent implements Serializable {
 	}
 	public void setEnrollEndTime(Date enrollEndTime) {
 		this.enrollEndTime = enrollEndTime;
+	}
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 }

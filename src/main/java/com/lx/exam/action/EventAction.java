@@ -92,14 +92,24 @@ public class EventAction {
 		}
 	}
 	@RequestMapping("list")
-	public void list(Model model,PageBean pb,EventSM eventSm){
+	public void list(Model model,PageBean pb,EventSM eventSM){
 		model.addAttribute("STATUS",  MessageConstant.STATUS.NOT_FOUND);
 		try {
-			List<Event> list = eventIbfService.list(PoEvent.class, Event.class, eventSm, pb);
-			if(list.size()>0){
+			Long count = eventIbfService.getCount(PoEvent.class, eventSM);
+			int recordsTotal = 0;
+			if(count>0){
+				List<Event> list = eventIbfService.list(PoEvent.class, Event.class, eventSM, pb);
 				model.addAttribute("STATUS",  MessageConstant.STATUS.FOUND);
 				model.addAttribute("data",  list);
+				recordsTotal =list.size();
 			}
+			else{
+				model.addAttribute("data", "");
+			}
+			//总记录数
+			model.addAttribute("recordsTotal",recordsTotal);
+			//符合条件的记录数
+			model.addAttribute("recordsFiltered",count);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("STATUS", MessageConstant.STATUS.EXCEPTION);

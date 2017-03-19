@@ -1,6 +1,7 @@
 package com.lx.exam.vo;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import org.springframework.beans.BeanUtils;
 
@@ -17,12 +18,14 @@ public class Event implements Serializable{
 	private Integer currentStep;
 	private String enrollStartTime;
 	private String enrollEndTime;
+	private String createTime=DateUtil.format(new Date());
 	
 	public Event(){}
 	public Event(PoEvent poEvent){
 		BeanUtils.copyProperties(poEvent,this);
 		this.enrollStartTime=DateUtil.format(poEvent.getEnrollStartTime());
 		this.enrollEndTime=DateUtil.format(poEvent.getEnrollEndTime());
+		this.createTime=DateUtil.format(poEvent.getCreateTime()); 
 	}
 	
 	public Long getId() {
@@ -78,6 +81,12 @@ public class Event implements Serializable{
 	}
 	public void setEnrollEndTime(String enrollEndTime) {
 		this.enrollEndTime = enrollEndTime;
+	}
+	public String getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
 	}
 	
 }

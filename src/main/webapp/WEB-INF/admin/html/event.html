@@ -7,9 +7,9 @@
 						<div class="col-md-6" style="margin-right: 0">
 							<div class="row-fluid">
 								<div class="input-group margin" style="margin-right: 0">
-									<input type="text" class="form-control"> <span
-										class="input-group-btn">
-										<button type="button" class="btn btn-primary ">
+									<input id="searchText" type="text" class="form-control">
+									<span class="input-group-btn">
+										<button id="searchBtn" type="button" class="btn btn-primary ">
 											<i class="fa fa-search"></i> 搜索
 										</button>
 									</span>
@@ -58,29 +58,25 @@
 		<div class="form-group">
 			<label for="status" class="col-sm-2 control-label"
 				style="margin-right: 1em;">状态</label> <input type="checkbox"
-				name="status"  id="status" />
+				name="status" id="status" />
 		</div>
 		<div class="form-group">
 			<label for="enrollStartTime" class="col-sm-2 control-label"
 				style="margin-right: 1em;">报名开始时间</label>
-			<div class="input-group date form_datetime col-md-5" data-date=""
-				data-link-field="enrollStartTime">
-				<input class="form-control" size="16" type="text" value="" readonly>
-				<span class="input-group-addon"><span
-					class="glyphicon glyphicon-th"></span></span>
+			<div class="form-inline">
+				<input class="form-control form_datetime" name="enrollStartTime"
+					id="enrollStartTime" value="2017-3-18 00:00:00" size="16"
+					type="text" readonly>
 			</div>
-			<input type="hidden" name="enrollStartTime" id="enrollStartTime" value="2017-3-18 00:00:00" /><br />
 		</div>
 		<div class="form-group">
 			<label for="enrollEndTime" class="col-sm-2 control-label"
 				style="margin-right: 1em;">报名结束时间</label>
-			<div class="input-group date form_datetime col-md-5" data-date=""
-				data-link-field="enrollEndTime">
-				<input class="form-control" size="16" type="text" value="" readonly>
-				<span class="input-group-addon"><span
-					class="glyphicon glyphicon-th"></span></span>
+			<div class="form-inline">
+				<input class="form-control form_datetime" name="enrollEndTime"
+					id="enrollEndTime" value="2017-3-18 00:00:00" size="16" type="text"
+					readonly>
 			</div>
-			<input type="hidden" name="enrollEndTime" id="enrollEndTime" value="2017-3-18 00:00:00" /><br />
 		</div>
 		<div class="form-group">
 			<label for="" class="col-sm-2 control-label"
@@ -89,29 +85,29 @@
 				组别:<input size="5" class="form-control" type="text" name="groupName"
 					id="groupName" /> 人数:<input size="5" class="form-control"
 					type="text" name="groupCount" id="groupCount" />
-				<button onclick="return false;" id="addGroupRuleBtn" class="btn btn-info">
+				<button onclick="return false;" id="addGroupRuleBtn"
+					class="btn btn-info">
 					<i class="fa fa-plus"></i>
 				</button>
 			</div>
 		</div>
-		<div id="groupRules">
-		</div>
+		<div id="groupRules"></div>
 		<div class="form-group">
 			<label for="" class="col-sm-2 control-label"
 				style="margin-right: 1em;">竞赛阶段</label>
 			<div class="form-inline">
-				阶段名称:<input size="19" id="stepName" class="form-control" type="text" name="stepName" />
+				阶段名称:<input size="19" id="stepName" class="form-control" type="text"
+					name="stepName" />
 				<button onclick="return false" id="addStepBtn" class="btn btn-info">
 					<i class="fa fa-plus"></i>
 				</button>
 			</div>
 		</div>
-		<div id="steps">
-		</div>
+		<div id="steps"></div>
 	</form>
 </div>
 <script src="${basePath}/admin/js/event.js"></script>
 <script>
-var groupRules = [];
-var steps=[];
+	var groupRules = [];
+	var steps = [];
 </script>

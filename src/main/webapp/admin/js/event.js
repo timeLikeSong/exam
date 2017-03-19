@@ -1,49 +1,20 @@
+var table;
 $(document).ready(function() {
-	layui.use([ 'form', 'laypage', 'layer' ], function() {
+	layui.use([ 'form', 'layer' ], function() {
 	});
-	$('#data_table').DataTable({
-		ajax: basePath+"/event/list.json",
-		columns: [
-			{data:'id',title:'ID'},
-			{data:'name',title:'竞赛名称'},
-			{data:'description',title:'竞赛描述'},
-			{data:'enrollStartTime',title:'报名开始时间'},
-			{data:'enrollEndTime',title:'报名结束时间'},
-			{data:'status',title:'状态',render:statusRender},
-			{data:'operation',title:'操作',render:operationRender}
-		],
-		columnDefs: [
-		    {
-		      "data": null,
-		      "defaultContent": operationRender,
-		      "targets": -1
-		    }
-		  ],
-		createdRow: function (row, data, dataIndex) {
-			console.log(data);//,
-			var param ={
-					'onText' : '开启',
-					'offText' : '关闭'
-				};
-			if(data.status==1){
-				param['']
-			}
-			$(row).find('.switch').bootstrapSwitch({
-				'onSwitchChange':switchStatus
-			});
-		}
-	});
-	$("[name='status']").bootstrapSwitch({
+	table = list({});
+	$("#status").bootstrapSwitch({
 		'onText' : '开启',
 		'offText' : '关闭'
 	});
 	$('.form_datetime').datetimepicker({
 		language : 'cn',
 		format : "yyyy-mm-dd hh:ii:ss",
-		value:new Date(),
+		value:"2017-3-20 00:00:00",
 		autoclose : true,
 		todayBtn : true,
-		pickerPosition : "bottom-left"
+		pickerPosition : "bottom-left",
+		'z-index':999999
 	});
 	$('#addGroupRuleBtn').click(function() {
 		var groupName = $('#groupName').val();
@@ -78,13 +49,65 @@ $(document).ready(function() {
 		}
 		addStep(stepName);
 	})
+	$('#searchBtn').click(function(){
+		table.ajax.reload();
+	})
 })
+function list(param){
+	return $('#data_table').DataTable({
+		ajax:{
+			url:basePath+"/event/list.json",
+			data:function(d){
+				var searchText = $('#searchText').val();
+				if(null!=searchText && searchText.trim()!=''){
+					d.sm_like_name=searchText;
+				}
+				d.sm_orderby='order by create_time desc';
+				return d;
+			}
+		},
+		columns: [
+			{data:'id',title:'ID'},
+			{data:'name',title:'竞赛名称'},
+			{data:'description',title:'竞赛描述'},
+			{data:'enrollStartTime',title:'报名开始时间'},
+			{data:'enrollEndTime',title:'报名结束时间'},
+			{data:'status',title:'状态',render:statusRender},
+			{data:'operation',title:'操作',render:operationRender}
+		],
+		columnDefs: [
+		    {
+		      "data": null,
+		      "defaultContent": operationRender,
+		      "targets": -1
+		    }
+		  ],
+		createdRow: function (row, data, dataIndex) {
+			var param ={
+					'onText' : '开启',
+					'offText' : '关闭'
+				};
+			$(row).find('.switch').bootstrapSwitch({
+				'onSwitchChange':switchStatus
+			});
+		},
+		searching: false,
+	    ordering:  false,
+	    info : false,
+	    paging: true,
+	    pagingType: "full_numbers",
+	    serverSide: true,   //启用服务器端分页
+	    ordering:true,
+	    processing:true
+	});
+}
+
 function statusRender(data, type, row, meta ){
 	return '<input type="checkbox" data-id="'+row.id+'" class="switch" '+(row.status==1?'checked':'')+' ) />';
 }
 function operationRender(data,type,row,meta){
-	var editHtml = '<a style="color:#00c0ef;" href="javascript:void()" onclick="editEvent('+row.id+')"><i class="fa fa-edit"></i>编辑</a>&nbsp;&nbsp;';
-	var deleteHtml = '<a style="color:#00c0ef;" href="javascript:void()" onclick="deleteEvent('+row.id+')"><i class="fa fa-remove"></i>删除</a>';
+	var editHtml = '<a style="color:#00c0ef;" href="javascript:void(0);" onclick="editEvent('+row.id+')"><i class="fa fa-edit"></i>编辑</a>&nbsp;&nbsp;';
+	var deleteHtml = '<a style="color:#00c0ef;" href="javascript:void(0);" onclick="deleteEvent('+row.id+')"><i class="fa fa-remove"></i>删除</a>';
 	return editHtml+deleteHtml;
 }
 function switchStatus(event,state){
@@ -106,6 +129,8 @@ function switchStatus(event,state){
 	return true;
 }
 function addEvent(){
+	clearForm();
+	
 	layer.open({
         type : 1,
         title : "添加赛事",
@@ -115,12 +140,86 @@ function addEvent(){
         content : $('#eventContainer'),      
         resize:false,
         btnAlign: 'c',
-        zIndex:101,
+        zIndex:1000,
     	btn : ['保存','取消'],
 		yes: function(index){
 			saveEvent(index);        	
 		}
     });
+}
+function deleteEvent(id){
+	layer.confirm("确定要删除该竞赛吗？", {
+	    btn: ['确定','取消'], //按钮
+	    shade: false //不显示遮罩
+	}, function(){
+		var url = basePath+'/event/delete.json';
+		var param={'sm_eq_id':id};
+		var callback=function(e){
+			if('DEL_SUCCESS'==e.STATUS){
+				removeRow(id);
+			}
+			layer.msg(e.MSG);
+		}
+		$.post(url,param,callback);
+	}, function(){
+	});
+}
+function removeRow(id){
+	table.ajax.reload();
+}
+function editEvent(id){
+	clearForm();
+	var url = basePath+'/event/get.json';
+	var param={'sm_eq_id':id};
+	var callback=function(e){
+		if('FOUND'==e.STATUS){
+			$('#id').val(e.event.id);
+			$('#name').val(e.event.name);
+			$('#description').val(e.event.description);
+			groupRules = eval(e.event.groupRule);
+			console.log(groupRules);
+			steps= eval(e.event.steps);
+			console.log(steps);
+			$('#enrollStartTime').val(e.event.enrollStartTime);
+			$('#enrollEndTime').val(e.event.enrollEndTime);
+			if(1==e.event.status){
+				if (!$('#status').bootstrapSwitch('state')) {
+					$('#status').bootstrapSwitch('toggleState');
+				}
+				
+			}
+			else{
+				if ($('#status').bootstrapSwitch('state')) {
+					$('#status').bootstrapSwitch('toggleState');
+				}
+			}
+						//此方法会报错！！！！！
+						//$('#status').bootstrapSwitch('setState', true);
+			refreshGroupRules();
+			refreshSteps();
+			
+			layer.open({
+		        type : 1,
+		        title : "修改赛事",
+		        shadeClose : true, //点击遮罩关闭
+		        maxmin: true,
+		        area : [ '55%', '70%' ],
+		        content : $('#eventContainer'),      
+		        resize:false,
+		        btnAlign: 'c',
+		        zIndex:1000,
+		    	btn : ['保存','取消'],
+				yes: function(index){
+					saveEvent(index);        	
+				}
+		    });
+		}
+		else{
+			layer.msg('未找到');
+		}
+	}
+	$.post(url,param,callback);
+	
 }
 function saveEvent(index){
 	var name = $('#name').val();
@@ -157,6 +256,14 @@ function saveEvent(index){
 		status=0;
 	}
 	var param ={};
+	
+	var id = $('#id').val();
+	var url = basePath+'/event/add.json';
+	//判断是更新还是添加
+	if(null!=id && ''!=id){
+		param['id']=id;
+		url = basePath+'/event/edit.json';
+	}
 	param.name=name;
 	param.description=$('#description').val();
 	param.enrollStartTime=enrollStartTime;
@@ -165,12 +272,20 @@ function saveEvent(index){
 	param.groupRule=JSON.stringify(groupRules);
 	param.steps=JSON.stringify(steps);
 	param.currentStep=0;
-	console.log(param);
-	var url = basePath+'/event/add.json';
 	var callback=function(e){
-		//更新表格
+		layer.msg(e.MSG);
+		//判断返回值
+		if('ADD_SUCCESS'==e.STATUS){
+			//更新表格
+			table.ajax.reload();
+		}
+		else if('EDIT_SUCCESS'==e.STATUS){
+			
+		}
+		else{
+			return;
+		}
 		layer.close(index);
-		layer.msg('添加成功');
 	}
 	$.post(url,param,callback);
 }
@@ -205,6 +320,15 @@ function addGroupRule(groupName,groupCount){
 		layer.msg("该组别已经存在");
 	}
 	
+}
+function clearForm(){
+	$('#eventForm input').each(function(){
+		$(this).val('');
+	})
+	groupRules=[];
+	steps=[];
+	refreshGroupRules();
+	refreshSteps();
 }
 function deleteGroupRule(groupName){
 	var i = atGroupRules(groupName);
@@ -289,4 +413,21 @@ function getValidationRules(){
 			}
 		}
 	};
+}
+function getCurrentTime() {
+    var date = new Date();
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + date.getHours() + seperator2 + date.getMinutes()
+            + seperator2 + date.getSeconds();
+    return currentdate;
 }

@@ -7,8 +7,9 @@ package com.lx.exam.common.vo;
  */
 public class PageBean {
 	private int total; // 总记录数
-	private int rows; // 每页的条数
-	private int page; // 当前页号
+	private int length=10; // 每页的条数
+	private int page=1; // 当前页号
+	private int start=0;//开始的索引
 
 	public int getTotal() {
 		return total;
@@ -18,12 +19,12 @@ public class PageBean {
 		this.total = total;
 	}
 
-	public int getRows() {
-		return rows;
+	public int getLength() {
+		return length;
 	}
 
-	public void setRows(int rows) {
-		this.rows = rows;
+	public void setLength(int length) {
+		this.length = length;
 	}
 
 	public int getPage() {
@@ -32,6 +33,14 @@ public class PageBean {
 
 	public void setPage(int page) {
 		this.page = page;
+	}
+
+	public int getStart() {
+		return start;
+	}
+
+	public void setStart(int start) {
+		this.start = start;
 	}
 
 }

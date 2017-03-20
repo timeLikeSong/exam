@@ -1,0 +1,270 @@
+var table;
+$(document).ready(function() {
+	layui.use([ 'form', 'layer' ], function() {
+	});
+	table = list({});
+	$('.form_datetime').datetimepicker({
+		language : 'cn',
+		format : "yyyy-mm-dd hh:ii:ss",
+		value:"2017-3-20 00:00:00",
+		autoclose : true,
+		todayBtn : true,
+		pickerPosition : "bottom-left",
+		'z-index':999999
+	});
+	$('#searchBtn').click(function(){
+		table.ajax.reload();
+	})
+})
+function list(param){
+	return $('#data_table').DataTable({
+		ajax:{
+			url:basePath+"/exam/list.json",
+			data:function(d){
+				var searchText = $('#searchText').val();
+				if(null!=searchText && searchText.trim()!=''){
+					d.sm_like_name=searchText;
+				}
+				d.sm_orderby='order by start_time desc';
+				return d;
+			}
+		},
+		columns: [
+			{data:'id',title:'ID'},
+			{data:'name',title:'竞赛名称'},
+			{data:'eventName',title:'所属赛事'},
+			{data:'faceGroup',title:'面向组别'},
+			{data:'step',title:'当前阶段',render:stepRender},
+			{data:'paperName',title:'试卷'},
+			{data:'startTime',title:'开始时间'},
+			{data:'endTime',title:'结束时间'},
+			{data:'duration',title:'时长(分钟)'},
+		],
+		createdRow: function (row, data, dataIndex) {
+			
+		},
+		searching: false,
+	    ordering:  false,
+	    info : false,
+	    paging: true,
+	    pagingType: "full_numbers",
+	    serverSide: true,   //启用服务器端分页
+	    ordering:true,
+	    processing:true
+	});
+}
+function addExam(){
+	clearForm();
+	loadSelector(basePath+'/event/list','eventId','data','name','id',{},function(){},'');
+	layer.open({
+        type : 1,
+        title : "添加竞赛阶段",
+        shadeClose : true, //点击遮罩关闭
+        maxmin: true,
+        area : [ '55%', '70%' ],
+        content : $('#examContainer'),      
+        resize:false,
+        btnAlign: 'c',
+        zIndex:1000,
+    	btn : ['保存','取消'],
+		yes: function(index){
+			saveExam(index);        	
+		}
+    });
+}
+function deleteEvent(id){
+	layer.confirm("确定要删除该阶段吗？", {
+	    btn: ['确定','取消'], //按钮
+	    shade: false //不显示遮罩
+	}, function(){
+		var url = basePath+'/exam/delete.json';
+		var param={'sm_eq_id':id};
+		var callback=function(e){
+			if('DEL_SUCCESS'==e.STATUS){
+				removeRow(id);
+			}
+			layer.msg(e.MSG);
+		}
+		$.post(url,param,callback);
+	}, function(){
+	});
+}
+function removeRow(id){
+	table.ajax.reload();
+}
+function editEvent(id){
+	clearForm();
+	var url = basePath+'/exam/get.json';
+	var param={'sm_eq_id':id};
+	var callback=function(e){
+		if('FOUND'==e.STATUS){
+			$('#id').val(e.exam.id);
+			$('#name').val(e.exam.name);
+			$('#eventId').select(e.exam.eventId);
+			canIn = eval(e.exam.canIn);
+			console.log(canIn);
+			$('#faceGroup').select(e.exam.faceGroup);
+			$('#paperId').select(e.exam.paperId);
+			$('#startTime').val(e.exam.startTime);
+			$('#endTime').val(e.exam.endTime);
+			$('#duration').val(e.exam.duration);
+			layer.open({
+		        type : 1,
+		        title : "修改竞赛阶段",
+		        shadeClose : true, //点击遮罩关闭
+		        maxmin: true,
+		        area : [ '55%', '70%' ],
+		        content : $('#examContainer'),      
+		        resize:false,
+		        btnAlign: 'c',
+		        zIndex:1000,
+		    	btn : ['保存','取消'],
+				yes: function(index){
+					saveExam(index);        	
+				}
+		    });
+		}
+		else{
+			layer.msg('未找到');
+		}
+	}
+	$.post(url,param,callback);
+	
+}
+function saveExam(index){
+	var name = $('#name').val();
+	if (!$("#examForm").validate(getValidationRules()).form()) {
+		return;
+	}
+	var eventId = $('#eventId').val();
+	if(null==eventId || ''==eventId){
+		layer.msg('请选择所属赛事');
+		return;
+	}
+	var faceGroup = $('#faceGroup').val();
+	if(null==faceGroup || ''==faceGroup){
+		layer.msg('请选择面向的组别');
+		return;
+	}
+	if($.isEmptyObject(canIn)){
+		layer.msg('请添加参赛条件');
+		return;
+	}
+	var paperId = $('#paperId').val();
+	if(null==paperId || ''==paperId){
+		layer.msg('请选择试卷');
+		return;
+	}
+	var startTime = $('#startTime').val();
+	if(null==startTime || ''==startTime){
+		layer.msg('请选择开始时间');
+		return;
+	}
+	var endTime = $('#endTime').val();
+	if(null==endTime || ''==endTime){
+		layer.msg('请选择结束时间');
+		return;
+	}
+	
+	var duration = $('#duration').val();
+	if(isNaN(parseInt(duration))){
+		layer.msg('请输入正确时长');
+		return;
+	}
+	var param ={};
+	
+	var id = $('#id').val();
+	var url = basePath+'/event/add.json';
+	//判断是更新还是添加
+	if(null!=id && ''!=id){
+		param['id']=id;
+		url = basePath+'/event/edit.json';
+	}
+	param.name=name;
+	param.eventId=eventId;
+	param.faceGroup=faceGroup;
+	param.canIn=JSON.stringify(canIn);;
+	param.paperId=paperId;
+	param.startTime=startTime;
+	param.endTime=endTime;
+	param.duration=duration;
+	var callback=function(e){
+		layer.msg(e.MSG);
+		//判断返回值
+		if('ADD_SUCCESS'==e.STATUS){
+			//更新表格
+			table.ajax.reload();
+		}
+		else if('EDIT_SUCCESS'==e.STATUS){
+			
+		}
+		else{
+			return;
+		}
+		layer.close(index);
+	}
+	$.post(url,param,callback);
+}
+function clearForm(){
+	$('#examForm input').each(function(){
+		$(this).val('');
+	})
+	canIn={};
+}
+function stepRender(data, type, row, meta){
+	if(0==row.step){
+		return '初赛';
+	}
+	else if(1==row.step){
+		return '复赛';
+	}
+	else if(2==row.step){
+		return '决赛';
+	}
+}
+function getValidationRules(){
+	return {
+		rules : {
+			name : {
+				required : true,
+				maxlength : 50
+			},
+			eventId : {
+				required : true,
+			},
+			faceGroup:{
+				required : true,
+				maxlength : 10
+			},
+			paperId:{
+				required : true,
+			},
+			duration:{
+				required : true,
+				min : 1,
+				max : 300
+			}
+		},
+		messages : {
+			name : {
+				required : '请输入竞赛阶段名称',
+				maxlength : '长度最大不超过50'
+			},
+			eventId : {
+				required : '请选择所属赛事',
+			},
+			faceGroup:{
+				required :'请选择所面向的组别',
+				maxlength:'参数错误'
+			},
+			paperId:{
+				required : '请选择试卷',
+			},
+			duration:{
+				required : '请输入时长',
+				min : '时长不能小于0',
+				max : '请输入正常范围的时长'
+			}
+		}
+	};
+}

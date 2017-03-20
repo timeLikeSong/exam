@@ -16,6 +16,7 @@ import com.lx.exam.po.PoAddress;
 import com.lx.exam.po.PoEvent;
 import com.lx.exam.searchmodel.AddressSM;
 import com.lx.exam.searchmodel.EventSM;
+import com.lx.exam.util.StringUtil;
 import com.lx.exam.vo.Address;
 import com.lx.exam.vo.Event;
 import com.mchange.v2.lang.ObjectUtils;
@@ -35,12 +36,18 @@ public class EventAction {
 				model.addAttribute("MSG", MessageConstant.MESSAGE.PARAM_ERROR);
 				return ;
 			}
-			String name = event.getName();
-			if(null==name||"".equals(name.trim()) || null==event.getCurrentStep() || null==event.getEnrollStartTime()|| null==event.getEnrollEndTime() 
-				|| "".equals(event.getGroupRule())|| "".equals(event.getSteps())|| null==event.getStatus()){
-				model.addAttribute("STATUS", MessageConstant.STATUS.PARAM_ERROR);
-				model.addAttribute("MSG", MessageConstant.MESSAGE.PARAM_ERROR);
-				return ;
+			if(
+				StringUtil.isEmpty(event.getName())||
+				null==event.getCurrentStep()||
+				StringUtil.isEmpty(event.getEnrollStartTime())||
+				StringUtil.isEmpty(event.getEnrollEndTime())||
+				StringUtil.isEmpty(event.getSteps())||
+				StringUtil.isEmpty(event.getGroupRule())||
+				null==event.getStatus()
+				){
+					model.addAttribute("STATUS", MessageConstant.STATUS.PARAM_ERROR);
+					model.addAttribute("MSG", MessageConstant.MESSAGE.PARAM_ERROR);
+					return ;
 			}
 			event = eventIbfService.add(PoEvent.class, event, "id", "Long");
 			model.addAttribute("event",event);
@@ -65,6 +72,19 @@ public class EventAction {
 	@RequestMapping("edit")
 	public void edit(Model model,Event event){
 		try {
+			if(null==event.getId()||
+				StringUtil.isEmpty(event.getName())||
+				null==event.getCurrentStep()||
+				StringUtil.isEmpty(event.getEnrollStartTime())||
+				StringUtil.isEmpty(event.getEnrollEndTime())||
+				StringUtil.isEmpty(event.getSteps())||
+				StringUtil.isEmpty(event.getGroupRule())||
+				null==event.getStatus()
+				){
+				model.addAttribute("STATUS", MessageConstant.STATUS.PARAM_ERROR);
+				model.addAttribute("MSG", MessageConstant.MESSAGE.PARAM_ERROR);
+				return;
+			}
 			PoEvent poEvent = new PoEvent(event);
 			event = new Event(eventIbfService.edit(poEvent));
 			model.addAttribute("STATUS", MessageConstant.STATUS.EDIT_SUCCESS);

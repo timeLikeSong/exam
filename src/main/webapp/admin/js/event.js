@@ -68,8 +68,8 @@ function list(param){
 		},
 		columns: [
 			{data:'id',title:'ID'},
-			{data:'name',title:'竞赛名称'},
-			{data:'description',title:'竞赛描述'},
+			{data:'name',title:'赛事名称'},
+			{data:'description',title:'赛事描述'},
 			{data:'enrollStartTime',title:'报名开始时间'},
 			{data:'enrollEndTime',title:'报名结束时间'},
 			{data:'status',title:'状态',render:statusRender},
@@ -106,6 +106,15 @@ function statusRender(data, type, row, meta ){
 	return '<input type="checkbox" data-id="'+row.id+'" class="switch" '+(row.status==1?'checked':'')+' ) />';
 }
 function operationRender(data,type,row,meta){
+	console.log(this);
+	console.log("data");
+	console.log(data);
+	console.log("type");
+	console.log(type);
+	console.log("row");
+	console.log(row);
+	console.log("meta");
+	console.log(meta);
 	var editHtml = '<a style="color:#00c0ef;" href="javascript:void(0);" onclick="editEvent('+row.id+')"><i class="fa fa-edit"></i>编辑</a>&nbsp;&nbsp;';
 	var deleteHtml = '<a style="color:#00c0ef;" href="javascript:void(0);" onclick="deleteEvent('+row.id+')"><i class="fa fa-remove"></i>删除</a>';
 	return editHtml+deleteHtml;
@@ -148,7 +157,7 @@ function addEvent(){
     });
 }
 function deleteEvent(id){
-	layer.confirm("确定要删除该竞赛吗？", {
+	layer.confirm("确定要删除该赛事吗？", {
 	    btn: ['确定','取消'], //按钮
 	    shade: false //不显示遮罩
 	}, function(){
@@ -237,13 +246,13 @@ function saveEvent(index){
 		return;
 	}
 	if(groupRules.length==0){
-		layer.msg('请添加竞赛规则');
+		layer.msg('请添加赛事规则');
 		$('#groupName').focus();
 		$('#groupName').select();
 		return;
 	}
 	if(steps.length==0){
-		layer.msg('请添加竞赛阶段');
+		layer.msg('请添加赛事阶段');
 		$('#stepName').focus();
 		$('#stepName').select();
 		return;
@@ -313,7 +322,7 @@ function addGroupRule(groupName,groupCount){
 			'count' : groupCount
 		};
 		groupRules.push(rule);
-		//刷新竞赛规则
+		//刷新赛事规则
 		refreshGroupRules();
 	}
 	else{
@@ -353,11 +362,11 @@ function addStep(stepName){
 			'name' : stepName
 		};
 		steps.push(step);
-		//刷新竞赛规则
+		//刷新赛事规则
 		refreshSteps();
 	}
 	else{
-		layer.msg("该竞赛阶段已经存在");
+		layer.msg("该赛事阶段已经存在");
 	}
 }
 function deleteStep(stepName){
@@ -405,7 +414,7 @@ function getValidationRules(){
 		},
 		messages : {
 			name : {
-				required : '请输入竞赛名称',
+				required : '请输入赛事名称',
 				maxlength : '长度最大不超过50'
 			},
 			description : {

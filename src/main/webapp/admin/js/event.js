@@ -56,7 +56,7 @@ $(document).ready(function() {
 function list(param){
 	return $('#data_table').DataTable({
 		ajax:{
-			url:basePath+"/event/list.json",
+			url:basePath+"/admin/event/list.json",
 			data:function(d){
 				var searchText = $('#searchText').val();
 				if(null!=searchText && searchText.trim()!=''){
@@ -90,15 +90,7 @@ function list(param){
 			$(row).find('.switch').bootstrapSwitch({
 				'onSwitchChange':switchStatus
 			});
-		},
-		searching: false,
-	    ordering:  false,
-	    info : false,
-	    paging: true,
-	    pagingType: "full_numbers",
-	    serverSide: true,   //启用服务器端分页
-	    ordering:true,
-	    processing:true
+		}
 	});
 }
 
@@ -106,22 +98,13 @@ function statusRender(data, type, row, meta ){
 	return '<input type="checkbox" data-id="'+row.id+'" class="switch" '+(row.status==1?'checked':'')+' ) />';
 }
 function operationRender(data,type,row,meta){
-	console.log(this);
-	console.log("data");
-	console.log(data);
-	console.log("type");
-	console.log(type);
-	console.log("row");
-	console.log(row);
-	console.log("meta");
-	console.log(meta);
 	var editHtml = '<a style="color:#00c0ef;" href="javascript:void(0);" onclick="editEvent('+row.id+')"><i class="fa fa-edit"></i>编辑</a>&nbsp;&nbsp;';
 	var deleteHtml = '<a style="color:#00c0ef;" href="javascript:void(0);" onclick="deleteEvent('+row.id+')"><i class="fa fa-remove"></i>删除</a>';
 	return editHtml+deleteHtml;
 }
 function switchStatus(event,state){
 	var id = $(this).attr('data-id');
-	var url = basePath+'/event/switchStatus.json';
+	var url = basePath+'/admin/event/switchStatus.json';
 	var param={id:id};
 	var callback=function(data){
 		if('EDIT_SUCCESS'==data.STATUS){
@@ -161,7 +144,7 @@ function deleteEvent(id){
 	    btn: ['确定','取消'], //按钮
 	    shade: false //不显示遮罩
 	}, function(){
-		var url = basePath+'/event/delete.json';
+		var url = basePath+'/admin/event/delete.json';
 		var param={'sm_eq_id':id};
 		var callback=function(e){
 			if('DEL_SUCCESS'==e.STATUS){
@@ -178,7 +161,7 @@ function removeRow(id){
 }
 function editEvent(id){
 	clearForm();
-	var url = basePath+'/event/get.json';
+	var url = basePath+'/admin/event/get.json';
 	var param={'sm_eq_id':id};
 	var callback=function(e){
 		if('FOUND'==e.STATUS){
@@ -186,27 +169,12 @@ function editEvent(id){
 			$('#name').val(e.event.name);
 			$('#description').val(e.event.description);
 			groupRules = eval(e.event.groupRule);
-			console.log(groupRules);
 			steps= eval(e.event.steps);
-			console.log(steps);
 			$('#enrollStartTime').val(e.event.enrollStartTime);
 			$('#enrollEndTime').val(e.event.enrollEndTime);
-			if(1==e.event.status){
-				if (!$('#status').bootstrapSwitch('state')) {
-					$('#status').bootstrapSwitch('toggleState');
-				}
-				
-			}
-			else{
-				if ($('#status').bootstrapSwitch('state')) {
-					$('#status').bootstrapSwitch('toggleState');
-				}
-			}
-						//此方法会报错！！！！！
-						//$('#status').bootstrapSwitch('setState', true);
+			setSwitchState('#status',e.event.status);
 			refreshGroupRules();
 			refreshSteps();
-			
 			layer.open({
 		        type : 1,
 		        title : "修改赛事",
@@ -231,10 +199,10 @@ function editEvent(id){
 	
 }
 function saveEvent(index){
-	var name = $('#name').val();
 	if (!$("#eventForm").validate(getValidationRules()).form()) {
 		return;
 	}
+	var name = $('#name').val();
 	var enrollStartTime = $('#enrollStartTime').val();
 	if(null==enrollStartTime || ''==enrollStartTime){
 		layer.msg('请选择开始报名时间');
@@ -257,21 +225,15 @@ function saveEvent(index){
 		$('#stepName').select();
 		return;
 	}
-	var status = $('#status').attr('checked');
-	if($('input[name="status"]').bootstrapSwitch('state')){
-		status=1;
-	}
-	else{
-		status=0;
-	}
+	var status = getSwitchState('#status');
 	var param ={};
 	
 	var id = $('#id').val();
-	var url = basePath+'/event/add.json';
+	var url = basePath+'/admin/event/add.json';
 	//判断是更新还是添加
 	if(null!=id && ''!=id){
 		param['id']=id;
-		url = basePath+'/event/edit.json';
+		url = basePath+'/admin/event/edit.json';
 	}
 	param.name=name;
 	param.description=$('#description').val();

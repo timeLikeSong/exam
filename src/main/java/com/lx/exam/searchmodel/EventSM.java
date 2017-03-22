@@ -3,6 +3,7 @@ package com.lx.exam.searchmodel;
 import java.io.Serializable;
 
 public class EventSM implements Serializable{
+	private static final long serialVersionUID = -4583167960805136374L;
 	private String sm_like_name;
 	private String sm_eq_id;
 	private String sm_orderby;
@@ -24,6 +25,4 @@ public class EventSM implements Serializable{
 	public void setSm_orderby(String sm_orderby) {
 		this.sm_orderby = sm_orderby;
 	}
-	
-	
 }

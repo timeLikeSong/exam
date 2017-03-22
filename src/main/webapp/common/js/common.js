@@ -1,17 +1,42 @@
+// 默认datatables 的配置
+$.extend( $.fn.dataTable.defaults, {
+    ordering:  false,
+    lengthChange:false,//选择一页显示的记录数
+    info : false,
+    searching: false,
+    ordering:  false,
+    info : false,
+    paging: true,
+    pagingType: "full_numbers",
+    serverSide: true,   //启用服务器端分页
+    processing:true,
+    language: {
+        "decimal":        "",
+        "emptyTable":     "没有记录",
+        "info":           "Showing _START_ to _END_ of _TOTAL_ entries",
+        "infoEmpty":      "Showing 0 to 0 of 0 entries",
+        "infoFiltered":   "(filtered from _MAX_ total entries)",
+        "infoPostFix":    "",
+        "thousands":      ",",
+        "lengthMenu":     "",
+        "loadingRecords": "正在加载...",
+        "processing":     "正在处理...",
+        "search":         "搜索:",
+        "zeroRecords":    "没有找到记录",
+        "paginate": {
+            "first":      "首页",
+            "last":       "末页",
+            "next":       "下一页",
+            "previous":   "上一页"
+        },
+        "aria": {
+            "sortAscending":  ": 顺序排序",
+            "sortDescending": ": 倒序排序"
+        }
+    }
+} );
 $(document).ready(function(){
-	// 默认禁用搜索和排序
-//	$.extend( $.fn.dataTable.defaults, {
-//	    searching: false,
-//	    ordering:  false,
-//	    info : false,
-//	    language: {
-//            "lengthMenu": "每页 _MENU_ 条记录",
-//            "zeroRecords": "没有找到记录",
-//            "info": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
-//            "infoEmpty": "无记录",
-//            "infoFiltered": "(从 _MAX_ 条记录过滤)"
-//        }
-//	} );
+	
 })
 function getCurrentTime() {
     var date = new Date();
@@ -43,6 +68,7 @@ function getCurrentTime() {
  * @returns
  */
 function loadSelector(url, id, objName, textName, valueName, config,func,selValue) {
+	$('#'+id).html('');
 	$.post(url,config,function(data) {
 						if ('FOUND'==data.STATUS) {
 							if (data[objName] && data[objName].length > 0) {
@@ -58,9 +84,38 @@ function loadSelector(url, id, objName, textName, valueName, config,func,selValu
 													+ '</option>');
 								}
 								if(func && func!=undefined){
-									func();
+									func(data);
 								}
 							}
 						}
 					}, 'json')
+}
+/**
+ * 设置bootstrap-switch 插件状态  0  和 1
+ * @param selector      已经初始化为switch的jQuery选择器
+ * @param status  要设置的状态  0 off，1 on
+ * @returns
+ */
+function setSwitchState(selector,status){
+	var $obj = $(selector);
+	if(1==status){
+		if (!$obj.bootstrapSwitch('state')) {
+			$obj.bootstrapSwitch('toggleState');
+		}
+	}
+	else{
+		if ($obj.bootstrapSwitch('state')) {
+			$obj.bootstrapSwitch('toggleState');
+		}
+	}
+}
+function getSwitchState(selector){
+	var status ;
+	if($(selector).bootstrapSwitch('state')){
+		status=1;
+	}
+	else{
+		status=0;
+	}
+	return status;
 }

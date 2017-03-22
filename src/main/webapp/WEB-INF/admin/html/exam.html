@@ -56,6 +56,13 @@
 			</div>
 		</div>
 		<div class="form-group">
+			<label for="eventId" class="col-sm-2 control-label" style="margin-right: 1em;">竞赛阶段</label>
+			<div class="form-inline">
+				<select name="step" id="step" class="form-control input-sm">
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
 			<label for="faceGroup" class="col-sm-2 control-label"
 				style="margin-right: 1em;">面向组别</label> 
 			<div class="form-inline">
@@ -68,11 +75,11 @@
 				style="margin-right: 1em;">参赛条件</label> 
 			<div class="form-inline">
 				<select name="canInAct" id="canInAct" class="form-control input-sm">
-					<option value="enroll">报名</option>
+					<option value="enroll">报名此竞赛</option>
 					<option value="pass">通过</option>
 				</select>
-				<select name="canInObj" id="canInObj" class="form-control input-sm">
-					<option value="eventId">Event</option>
+				<select style="display:none;" name="canInObj" id="canInObj" class="form-control input-sm">
+					<option value="examId">Event</option>
 					<option value="examId">Exam</option>
 				</select>
 			</div>

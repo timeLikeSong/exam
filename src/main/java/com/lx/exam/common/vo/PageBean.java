@@ -6,6 +6,7 @@ package com.lx.exam.common.vo;
  * @author redesthorse
  */
 public class PageBean {
+	private boolean paging;
 	private int total; // 总记录数
 	private int length=10; // 每页的条数
 	private int page=1; // 当前页号
@@ -41,6 +42,14 @@ public class PageBean {
 
 	public void setStart(int start) {
 		this.start = start;
+	}
+
+	public boolean isPaging() {
+		return paging;
+	}
+
+	public void setPaging(boolean paging) {
+		this.paging = paging;
 	}
 
 }

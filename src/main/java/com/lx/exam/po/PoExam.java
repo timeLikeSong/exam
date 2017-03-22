@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -21,6 +23,9 @@ import com.lx.exam.util.DateUtil;
 import com.lx.exam.vo.Exam;
 @Entity
 @Table(name="T_EXAM")
+@NamedQueries({
+	@NamedQuery(name="exam.selector",query="from PoExam")
+})
 public class PoExam implements Serializable{
 
 	/**

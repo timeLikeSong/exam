@@ -2,13 +2,19 @@ package com.lx.exam.action;
 
 import java.util.List;
 
+import org.hibernate.annotations.NamedQuery;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
+import com.fasterxml.jackson.core.util.JsonParserDelegate;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.BeanUtil;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.lx.exam.common.MessageConstant;
 import com.lx.exam.common.service.itf.IBfService;
 import com.lx.exam.common.vo.PageBean;
@@ -22,7 +28,7 @@ import com.lx.exam.vo.Event;
 import com.mchange.v2.lang.ObjectUtils;
 
 @Controller
-@RequestMapping("/event/")
+@RequestMapping("/admin/event/")
 public class EventAction {
 	@Autowired
 	IBfService<PoEvent, Event, EventSM> eventIbfService;
@@ -85,8 +91,7 @@ public class EventAction {
 				model.addAttribute("MSG", MessageConstant.MESSAGE.PARAM_ERROR);
 				return;
 			}
-			PoEvent poEvent = new PoEvent(event);
-			event = new Event(eventIbfService.edit(poEvent));
+			event = eventIbfService.edit(PoEvent.class, event, "id");
 			model.addAttribute("STATUS", MessageConstant.STATUS.EDIT_SUCCESS);
 			model.addAttribute("MSG", MessageConstant.MESSAGE.EDIT_SUCCESS);
 			model.addAttribute("event",event);
@@ -136,6 +141,17 @@ public class EventAction {
 			model.addAttribute("MSG", MessageConstant.MESSAGE.EXCEPTION);
 		}
 	}
+	@RequestMapping("getSelector")
+	public void getSelector(Model model){
+		List<Event> list = eventIbfService.listBySql("event.selector");
+		if(list.isEmpty()){
+			model.addAttribute("STATUS",  MessageConstant.STATUS.NOT_FOUND);
+		}
+		else{
+			model.addAttribute("STATUS",  MessageConstant.STATUS.FOUND);
+			model.addAttribute("data",list);
+		}
+	}
 	@RequestMapping("switchStatus")
 	public void switchStatus(Model model,Long id,Integer status){
 		if(null==id){
@@ -162,6 +178,56 @@ public class EventAction {
 				model.addAttribute("MSG", MessageConstant.MESSAGE.EDIT_SUCCESS);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("STATUS", MessageConstant.STATUS.EXCEPTION);
+			model.addAttribute("MSG", MessageConstant.MESSAGE.EXCEPTION);
+		}
+	}
+	@RequestMapping("getGroupRuleById")
+	public void getGroupRuleById(Model model,Long id){
+		if(null==id){
+			model.addAttribute("STATUS", MessageConstant.STATUS.PARAM_ERROR);
+			model.addAttribute("MSG", MessageConstant.MESSAGE.PARAM_ERROR);
+			return;
+		}
+		try {
+			PoEvent poEvent = eventIbfService.getById(PoEvent.class, id);
+			if(null==poEvent){
+				model.addAttribute("STATUS", MessageConstant.STATUS.PARAM_ERROR);
+				model.addAttribute("MSG", MessageConstant.MESSAGE.PARAM_ERROR);
+			}
+			else{
+				Object groupRule = new ObjectMapper().readValue(poEvent.getGroupRule(), Object.class);
+				model.addAttribute("data",groupRule);
+				model.addAttribute("STATUS",  MessageConstant.STATUS.FOUND);
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			model.addAttribute("STATUS", MessageConstant.STATUS.EXCEPTION);
+			model.addAttribute("MSG", MessageConstant.MESSAGE.EXCEPTION);
+		}
+	}
+	@RequestMapping("getStepsById")
+	public void getStepsById(Model model,Long id){
+		if(null==id){
+			model.addAttribute("STATUS", MessageConstant.STATUS.PARAM_ERROR);
+			model.addAttribute("MSG", MessageConstant.MESSAGE.PARAM_ERROR);
+			return;
+		}
+		try {
+			PoEvent poEvent = eventIbfService.getById(PoEvent.class, id);
+			if(null==poEvent){
+				model.addAttribute("STATUS", MessageConstant.STATUS.PARAM_ERROR);
+				model.addAttribute("MSG", MessageConstant.MESSAGE.PARAM_ERROR);
+			}
+			else{
+				Object steps = new ObjectMapper().readValue(poEvent.getSteps(), Object.class);
+				model.addAttribute("data",steps);
+				model.addAttribute("STATUS",  MessageConstant.STATUS.FOUND);
+			}
+		}
+		catch(Exception e){
 			e.printStackTrace();
 			model.addAttribute("STATUS", MessageConstant.STATUS.EXCEPTION);
 			model.addAttribute("MSG", MessageConstant.MESSAGE.EXCEPTION);

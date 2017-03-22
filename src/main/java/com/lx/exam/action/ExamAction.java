@@ -19,7 +19,7 @@ import com.lx.exam.vo.Event;
 import com.lx.exam.vo.Exam;
 
 @Controller
-@RequestMapping("/exam/")
+@RequestMapping("/admin/exam/")
 public class ExamAction {
 	@Autowired
 	IBfService<PoExam, Exam, ExamSM> examIbfService;
@@ -29,7 +29,6 @@ public class ExamAction {
 		model.addAttribute("MSG", MessageConstant.MESSAGE.ADD_SUCCESS);
 		try {
 			if(
-				null==exam.getId()||
 				StringUtil.isEmpty(exam.getName())||
 				StringUtil.isEmpty(exam.getCanIn())||
 				null==exam.getEventId()||
@@ -83,8 +82,7 @@ public class ExamAction {
 				model.addAttribute("MSG", MessageConstant.MESSAGE.PARAM_ERROR);
 				return;
 			}
-			PoExam poExam = new PoExam(exam);
-			exam = new Exam(examIbfService.edit(poExam));
+			exam = examIbfService.edit(PoExam.class,exam,"id");
 			model.addAttribute("STATUS", MessageConstant.STATUS.EDIT_SUCCESS);
 			model.addAttribute("MSG", MessageConstant.MESSAGE.EDIT_SUCCESS);
 			model.addAttribute("exam",exam);
@@ -122,6 +120,7 @@ public class ExamAction {
 				recordsTotal =list.size();
 			}
 			else{
+				model.addAttribute("STATUS",  MessageConstant.STATUS.NOT_FOUND);
 				model.addAttribute("data", "");
 			}
 			//总记录数
@@ -132,6 +131,17 @@ public class ExamAction {
 			e.printStackTrace();
 			model.addAttribute("STATUS", MessageConstant.STATUS.EXCEPTION);
 			model.addAttribute("MSG", MessageConstant.MESSAGE.EXCEPTION);
+		}
+	}
+	@RequestMapping("getSelector")
+	public void getSelector(Model model){
+		List<Exam> list = examIbfService.listBySql("exam.selector");
+		if(list.isEmpty()){
+			model.addAttribute("STATUS",  MessageConstant.STATUS.NOT_FOUND);
+		}
+		else{
+			model.addAttribute("STATUS",  MessageConstant.STATUS.FOUND);
+			model.addAttribute("data",list);
 		}
 	}
 }

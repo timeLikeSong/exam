@@ -14,12 +14,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 import org.springframework.beans.BeanUtils;
 
 import com.lx.exam.util.DateUtil;
 import com.lx.exam.vo.QuestionDB;
 @Entity
 @Table(name="T_QUESTION_DB")
+@NamedQueries({
+	@NamedQuery(name="questionDB.selector",query="from PoQuestionDB where status=1")
+})
 public class PoQuestionDB implements Serializable{
 
 	/**

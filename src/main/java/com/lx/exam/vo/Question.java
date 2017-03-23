@@ -25,6 +25,7 @@ public class Question {
 	private String modifyorName;
 	private String modifyDate;
 	private String data;
+	private Float score;
 	public Question(){}
 	public Question(PoQuestion poQuestion){
 		BeanUtils.copyProperties(poQuestion, this);
@@ -148,6 +149,12 @@ public class Question {
 	}
 	public void setData(String data) {
 		this.data = data;
+	}
+	public Float getScore() {
+		return score;
+	}
+	public void setScore(Float score) {
+		this.score = score;
 	}
 	
 	

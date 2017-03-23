@@ -7,19 +7,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.lx.exam.common.MessageConstant;
+import com.lx.exam.common.service.itf.IBfService;
 import com.lx.exam.dao.DataCodeRepository;
 import com.lx.exam.po.PoDataCode;
+import com.lx.exam.po.PoPaper;
+import com.lx.exam.searchmodel.PaperSM;
 import com.lx.exam.service.itf.DataCodeService;
 import com.lx.exam.vo.DataCode;
+import com.lx.exam.vo.Paper;
 
 @Controller
-@RequestMapping("/datacode/")
+@RequestMapping("/admin/datacode/")
 public class DataCodeAction {
 	@Autowired
 	DataCodeRepository dataCodeRepository;
 	@Autowired
 	DataCodeService dataCodeService;
-	
+	@Autowired
+	IBfService<PoPaper, Paper, PaperSM> dataCodeIbfService;
 	@RequestMapping("tree")
 	public String tree(){
 		return "admin/html/tree";
@@ -77,6 +83,39 @@ public class DataCodeAction {
 		}
 		else{
 			model.addAttribute("msg", "Failed");
+		}
+	}
+	@RequestMapping("getQuestionTypeSelector")
+	public void getQuestionTypeSelector(Model model){
+		List<PoDataCode> list = dataCodeIbfService.listBySql("questionType.selector");
+		if(list.isEmpty()){
+			model.addAttribute("STATUS",  MessageConstant.STATUS.NOT_FOUND);
+		}
+		else{
+			model.addAttribute("STATUS",  MessageConstant.STATUS.FOUND);
+			model.addAttribute("data",list);
+		}
+	}
+	@RequestMapping("getEventStepSelector")
+	public void getEventStepSelector(Model model){
+		List<PoDataCode> list = dataCodeIbfService.listBySql("eventStep.selector");
+		if(list.isEmpty()){
+			model.addAttribute("STATUS",  MessageConstant.STATUS.NOT_FOUND);
+		}
+		else{
+			model.addAttribute("STATUS",  MessageConstant.STATUS.FOUND);
+			model.addAttribute("data",list);
+		}
+	}
+	@RequestMapping("getQuestionLevelSelector")
+	public void getQuestionLevelSelector(Model model){
+		List<PoDataCode> list = dataCodeIbfService.listBySql("questionLevel.selector");
+		if(list.isEmpty()){
+			model.addAttribute("STATUS",  MessageConstant.STATUS.NOT_FOUND);
+		}
+		else{
+			model.addAttribute("STATUS",  MessageConstant.STATUS.FOUND);
+			model.addAttribute("data",list);
 		}
 	}
 }

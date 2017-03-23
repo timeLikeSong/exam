@@ -30,7 +30,6 @@ public class PaperAction {
 		model.addAttribute("MSG", MessageConstant.MESSAGE.ADD_SUCCESS);
 		try {
 			if(
-				null==paper.getId()||
 				StringUtil.isEmpty(paper.getName())
 				){
 				model.addAttribute("STATUS", MessageConstant.STATUS.PARAM_ERROR);

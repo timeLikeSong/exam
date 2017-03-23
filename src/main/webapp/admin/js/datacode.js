@@ -106,7 +106,7 @@ function initZTree() {
 			beforeRemove: zTreeBeforeRemove
 		}
 	};
-	var url = basePath + "/datacode/list.json";
+	var url = basePath + "/admin/datacode/list.json";
 	var options = {
 		pid : 0
 	};
@@ -194,7 +194,7 @@ function deleteDataCode(){
 		layer.msg("请选择要删除的项");
 		return;
 	}
-	var url = basePath + '/datacode/delete.json';
+	var url = basePath + '/admin/datacode/delete.json';
 	var data = {id:id};
 	var success = function(data) {
 		if(data.msg=="OK"){
@@ -208,7 +208,7 @@ function deleteDataCode(){
 	$.post(url, data, success);
 }
 function doAdd() {
-	var url = basePath + '/datacode/add.json';
+	var url = basePath + '/admin/datacode/add.json';
 	var data = $("form").serialize();
 	var success = function(data) {
 		if(data.msg=="OK"){
@@ -223,7 +223,7 @@ function doAdd() {
 	$.post(url, data, success);
 }
 function doEdit() {
-	var url = basePath + '/datacode/edit.json';
+	var url = basePath + '/admin/datacode/edit.json';
 	var data = $("form").serialize();
 	var success = function(data) {
 		if(data.msg=="OK"){

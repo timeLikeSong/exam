@@ -90,9 +90,13 @@ public class PoQuestion implements Serializable{
 	@Column(name="modify_date")
 	private Date modifyDate;
 	/**
-	 * xml格式的数据
+	 * json格式的数据
 	 */
 	private String data;
+	/**
+	 * 试题分数
+	 */
+	private Float score;
 	public PoQuestion(){}
 	public PoQuestion(Question question){
 		BeanUtils.copyProperties(question, this);
@@ -197,6 +201,12 @@ public class PoQuestion implements Serializable{
 	}
 	public void setData(String data) {
 		this.data = data;
+	}
+	public Float getScore() {
+		return score;
+	}
+	public void setScore(Float score) {
+		this.score = score;
 	}
 	
 }

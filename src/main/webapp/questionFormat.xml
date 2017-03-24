@@ -1,0 +1,68 @@
+<!--单选-->
+<com.tom.model.paper.QuestionSingleChoice>\n  
+	<id>1e65e7a9-2005-4cdf-9419-d14d4327ab8a</id>\n  
+	<type>1</type>\n  
+	<content>车辆在较窄的山路上行驶时，如果靠山体的一方不让行，应怎样做？</content>\n  
+	<key>C</key>\n  
+	<score>0</score>\n  
+	<options>\n    
+		<com.tom.model.paper.Option>\n      
+			<alisa>A</alisa>\n      
+			<text>鸣喇叭催其让行</text>\n    
+		</com.tom.model.paper.Option>\n    
+		<com.tom.model.paper.Option>\n      
+			<alisa>B</alisa>\n      
+			<text>保持正常车速行驶</text>\n    
+		</com.tom.model.paper.Option>\n    
+		<com.tom.model.paper.Option>\n      
+			<alisa>C</alisa>\n      
+			<text>提前减速或停车避让</text>\n    
+		</com.tom.model.paper.Option>\n    
+		<com.tom.model.paper.Option>\n      
+			<alisa>D</alisa>\n      
+			<text>向左占道，谨慎驶过</text>\n    
+		</com.tom.model.paper.Option>\n  
+	</options>\n
+</com.tom.model.paper.QuestionSingleChoice>');
+<!--多选 -->
+<com.tom.model.paper.QuestionMultipleChoice>\n  
+	<id>6aa0e536-a5a4-4eda-a58c-0be064599ca9</id>\n  
+	<type>2</type>\n  
+	<content>交通信号灯由（）组成。</content>\n  
+	<key>ABC</key>\n  
+	<score>0</score>\n  
+	<options>\n    
+		<com.tom.model.paper.Option>\n      
+			<alisa>A</alisa>\n      
+			<text>红灯</text>\n    
+		</com.tom.model.paper.Option>\n    
+		<com.tom.model.paper.Option>\n      
+			<alisa>B</alisa>\n      
+			<text>绿灯</text>\n    
+		</com.tom.model.paper.Option>\n    
+		<com.tom.model.paper.Option>\n      
+			<alisa>C</alisa>\n      
+			<text>黄灯</text>\n    
+		</com.tom.model.paper.Option>\n    
+		<com.tom.model.paper.Option>\n      
+			<alisa>D</alisa>\n      
+			<text>蓝灯</text>\n    
+		</com.tom.model.paper.Option>\n  
+	</options>\n
+</com.tom.model.paper.QuestionMultipleChoice>
+<!--判断-->
+<com.tom.model.paper.QuestionJudgment>\n  
+	<id>2b94d57e-d5cb-408b-902d-9c5421c6fc4a</id>\n  
+	<type>3</type>\n  
+	<content>驾驶人要按照驾驶证载明的准驾车型驾驶车辆。</content>\n  
+	<key>Y</key>\n  
+	<score>0</score>\n
+</com.tom.model.paper.QuestionJudgment>');
+<!--简答-->
+'<com.tom.model.paper.QuestionEssay>\n  
+	<id>19fbe701-7c09-4443-89bb-87508d98fa80</id>\n  
+	<type>5</type>\n  
+	<content>简述机动车辆安全行车的的基本要求</content>\n  
+	<key>执行派车制度，不应将车辆交他人驾驶; 驾驶人员随时携带国家公安交通管理机关核发的《中华人民共和国机动车驾驶证》和《烟草系统机动车驾驶员上岗证》; 严禁酒后、醉酒、超速等违章驾驶;货车载物应当符合核定的载物量，严禁超载;载物的长、宽、高不应违反装载要求，不应遗洒、飘散载运物;机动车行驶时，驾驶人、乘坐人员应按规定使用安全带;进入厂(场)区主干道最高行驶速度为30 km/h，其它道路最高行驶速度为20 km/h;道口、交叉口、装卸作业、人行稠密地段、下坡道和设有警告标识处，最高行驶速度为15 km/h;进出厂房、仓库大门、停车场、危险地段和生产现场，最高行驶速度为5 km/h;机动车在高速公路上发生故障时，警告标志应当设置在故障车来车方向150 m以外，车上人员应当迅速转移到右侧路肩上或者应急车道内;在道路上发生故障，需要停车排除故障时，驾驶人应当立即开启危险报警闪光灯，将机动车移至不妨碍交。通的地方停放;难以移动的，应当持续开启危险报警闪光灯，并在来车方向设置警告标志等措施扩大示警距离;交通事故专项应急预案的演练，具体执行YC/T384第1部分4.18的要求。</key>\n  
+	<score>0</score>\n
+</com.tom.model.paper.QuestionEssay>');

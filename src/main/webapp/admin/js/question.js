@@ -10,11 +10,12 @@ $(document).ready(function() {
 	$('#searchBtn').click(function(){
 		table.ajax.reload();
 	})
+	
 })
 function list(param){
 	return $('#data_table').DataTable({
 		ajax:{
-			url:basePath+"/admin/questiondb/list.json",
+			url:basePath+"/admin/question/list.json",
 			data:function(d){
 				var searchText = $('#searchText').val();
 				if(null!=searchText && searchText.trim()!=''){
@@ -26,9 +27,9 @@ function list(param){
 		},
 		columns: [
 			{data:'id',title:'ID'},
-			{data:'name',title:'题库名称'},
+			{data:'content',title:'题目内容'},
+			{data:'type',title:'类型',render:typeRender},
 			{data:'status',title:'状态',render:statusRender},
-			{data:'description',title:'描述'},
 			{data:'posterName',title:'创建者'},
 			{data:'createDate',title:'创建时间'},
 			{data:'modifyorName',title:'修改者'},
@@ -50,11 +51,11 @@ function statusRender(data, type, row, meta ){
 	return '<input type="checkbox" data-id="'+row.id+'" class="switch" '+(row.status==1?'checked':'')+' ) />';
 }
 function operationRender(data,type,row,meta){
-	var editHtml = '<a class="operationBtn" style="color:#00c0ef;" href="javascript:void(0);" onclick="editQuestiondb('+row.id+')"><i class="fa fa-edit"></i>编辑</a>&nbsp;&nbsp;';
-	var deleteHtml = '<a class="operationBtn" style="color:#00c0ef;" href="javascript:void(0);" onclick="deleteQuestiondb('+row.id+')"><i class="fa fa-remove"></i>删除</a>';
+	var editHtml = '<a class="operationBtn" style="color:#00c0ef;" href="javascript:void(0);" onclick="editQuestion('+row.id+')"><i class="fa fa-edit"></i>编辑</a>&nbsp;&nbsp;';
+	var deleteHtml = '<a class="operationBtn" style="color:#00c0ef;" href="javascript:void(0);" onclick="deleteQuestion('+row.id+')"><i class="fa fa-remove"></i>删除</a>';
 	return editHtml+deleteHtml;
 }
-function switchStatus(questiondb,state){
+function switchStatus(question,state){
 	var id = $(this).attr('data-id');
 	var url = basePath+'/admin/questiondb/switchStatus.json';
 	var param={id:id};
@@ -72,15 +73,32 @@ function switchStatus(questiondb,state){
 	$.post(url,param,callback);
 	return true;
 }
-function addQuestiondb(){
-	clearForm();
+function addQuestion(questionType){
+//	resetVar();
+	switch(questionType){
+		case 'singleChoice':{
+			
+		}
+		case 'multipleChoice':{
+			
+		}
+		case 'judgement':{
+			
+		}
+		case 'essay':{
+			
+		}
+		case 'program':{
+			
+		}
+	}
 	layer.open({
         type : 1,
         title : "添加题库",
         shadeClose : true, //点击遮罩关闭
         maxmin: true,
         area : [ '55%', '70%' ],
-        content : $('#questiondbContainer'),      
+        content : $('#'+questionType+'Container'),      
         resize:false,
         btnAlign: 'c',
         zIndex:1000,

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>${APP_NAME}-后台管理</title>
+ [@include.common /][@include.jquery_1_8_3 /][@include.layui_css /]
+[@include.icon /] [@include.bootstrap_css /][@include.bootstrap_js /]
+[@include.flat_ui_css /][@include.ztree3_css /][@include.iconpicker_css
+/]
+[@include.jquery_1_8_3 /] [@include.layui_js /][@include.jquery_validation /]
+[@include.flat_ui_js /][@include.ztree3_js /][@include.iconpicker_js/]
+[@include.adminLTE_css/][@include.adminLTE_js/][@include.datatables_css/]
+<link rel="stylesheet" href="css/admin.css" />
+</head>
+<body >
+	<div id="top" style="height:50px;width:100%;z-index:10000;">
+		[#include "top.html"]
+	</div>
+	<div id="left_menu" style="width:20%;overflow:scroll;float:left;position:relative;">
+		[#include "leftmenu.html"]
+	</div>
+	<div id="main_page" style="float:right;height:100%;margin-top:40px">
+		[#include "datacode.html"]
+	</div>
+	<script>
+		$(document).ready(function(){
+			resizeLeftMenu();
+			resizeMainPage();
+		})
+		layui.use([ 'form', 'element' ], function() {
+			var element  = layui.element();
+			console.log(element);
+			element.on('nav(menu)', function(elem){
+				console.log(elem.attr('data-page'));
+				loadPage(elem.attr('data-page')); //得到当前点击的DOM对象
+			});
+		});
+		function resizeLeftMenu(){
+			$('#left_menu').css('height',$(window).height()); 
+		}
+		function resizeMainPage(){
+			var w = $(window).width();
+			var h = $(window).height();
+			var leftMenuW = $('#left_menu').width();
+			$('#main_page').css('width',w-leftMenuW-40);
+			$('#main_page').css('height',h);
+		}
+		function loadPage(pageName){
+			var url = '${basePath}/admin/'+pageName;
+			var options={};
+			var callback = function(data){
+				$('#main_page').html(data);
+			}
+			$.post(url,options,callback);
+		}
+		$(window).resize(function(){
+			resizeLeftMenu();
+			resizeMainPage();
+		});
+		$(document).resize(function(){
+			resizeLeftMenu();
+			resizeMainPage();
+		});
+	</script>
+</body>
+
+</html>

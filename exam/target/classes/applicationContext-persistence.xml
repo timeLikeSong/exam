@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+      http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+      http://www.springframework.org/schema/tx 
+      http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-3.2.xsd
+      http://www.springframework.org/schema/data/jpa 
+      http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd">
+
+	<context:component-scan base-package="com.lx.exam.dao" />
+	<context:component-scan base-package="com.lx.exam.common.service.impl" />
+	<context:component-scan base-package="com.lx.exam.service.itf" />
+	<context:component-scan base-package="com.lx.exam.service.impl" />
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	<bean id="EMF"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="com.lx.exam.po" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect" >${hibernate.dialect}</prop>            
+				<prop key="hibernate.max_fetch_depth" >${hibernate.max_fetch_depth}</prop>
+				<prop key="hibernate.hbm2ddl.auto" >${hibernate.hbm2ddl.auto}</prop>           
+				<prop key="hibernate.jdbc.fetch_size" >${hibernate.jdbc.fetch_size}</prop>
+				<prop key="hibernate.jdbc.batch_size" >${hibernate.jdbc.batch_size}</prop>
+				<prop key="hibernate.show_sql" >${hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql" >${hibernate.format_sql}</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${driverClass}" />
+		<property name="jdbcUrl" value="${jdbcUrl}" />
+		<property name="user" value="${user}" />
+		<property name="password" value="${password}" />
+		<property name="minPoolSize" value="5" />
+		<property name="maxPoolSize" value="30" />
+		<property name="initialPoolSize" value="10" />
+		
+		<property name="maxIdleTime" value="7200" />
+		<property name="maxIdleTimeExcessConnections" value="1800"/>
+		<property name="autoCommitOnClose" value="true"/>
+		<property name="checkoutTimeout" value="5000"/>
+		
+		<property name="acquireIncrement" value="5" />
+		<property name="maxStatements" value="0" />
+		<property name="idleConnectionTestPeriod" value="0" />
+		<property name="acquireRetryAttempts" value="30" />
+		<property name="breakAfterAcquireFailure" value="false" />
+		<property name="testConnectionOnCheckout" value="false" />
+	</bean>
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="EMF" />
+	</bean>
+	<tx:annotation-driven />
+
+	<bean id="persistenceExceptionTranslationPostProcessor"
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+	<jpa:repositories base-package="com.lx.exam.dao"
+		entity-manager-factory-ref="EMF"
+		transaction-manager-ref="transactionManager" />
+
+</beans>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html >
+<head>
+<meta charset="UTF-8">
+<title>登陆</title> [@include.jquery_1_8_3 /] [@include.icon /]
+[@include.bootstrap_css /] [@include.flat_ui_css /]
+
+</head>
+<body >
+	<div class="login" style="width:950px;margin:50px auto;">
+		<div class="login-screen" style="width:870px;">
+			<div class="login-icon">
+				<img src="/exam/admin/image/login_icon.png" alt="Java竞赛管理系统">
+			</div>
+			<h4>
+				欢迎来到 <small>Java竞赛管理系统</small>
+			</h4>
+			<div class="login-form" style="width:100%;height:100%;">
+				<div class="form-group">
+					<input name="login_name" type="text"
+						class="form-control login-field" value="" placeholder="Username"
+						id="login-name" /> <label class="login-field-icon fui-user"
+						for="login-name"></label>
+				</div>
+				<div class="form-group">
+					<input name="login_password" type="password"
+						class="form-control login-field" value="" placeholder="Password"
+						id="login-pass" /> <label class="login-field-icon fui-lock"
+						for="login-pass"></label>
+				</div>
+				<div class="form-group">
+					<input name="login_validcode" type="text" style="width:120px;display:inline-block;"
+						class="form-control login-field" value="" placeholder="Validcode"
+						id="login-valid" /> 
+					<img src="" alt="validcode" style="line-height:25px;"/>
+					<a style="font-size:14px;" href="javascript:void(0);">看不清，换一张</a>
+				</div>
+				<div class="form-group">
+					<input class="btn btn-primary btn-lg btn-block" type="submit"
+					name="dlf_submit" value="登录" />
+					<a style="float:right;" href="javascript:void(0);">忘记密码?</a>
+				</div >
+			</div>
+		</div>
+	</div>
+[@include.flat_ui_js /]
+	<script>
+	</script>
+</body>
+</html>

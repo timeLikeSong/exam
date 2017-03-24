@@ -1,0 +1,109 @@
+{
+	type:"singleChoice",
+	singleChoice:{
+		id:1,
+		content:"",
+		key:"A",
+		score:20,
+		options:{
+			[{
+				alias:"A",
+				text:"选项说明"
+			},
+			{
+				alias:"B",
+				text:"选项说明"
+			},
+			{
+				alias:"C",
+				text:"选项说明"
+			},
+			{
+				alias:"D",
+				text:"选项说明"
+			}
+			]
+
+		}
+	},
+	result:"A",
+	isTrue:true,
+	getScore:20
+}
+
+{
+	type:"multipleChoice",
+	multipleChoice:{
+		id:2,
+		content:"",
+		key:"ABC",
+		score:0,
+		options:{
+			[{
+				alias:"A",
+				text:"选项说明"
+			},
+			{
+				alias:"B",
+				text:"选项说明"
+			},
+			{
+				alias:"C",
+				text:"选项说明"
+			},
+			{
+				alias:"D",
+				text:"选项说明"
+			},
+			{
+				alias:"E",
+				text:"选项说明"
+			}
+			]
+
+		}
+	},
+	result:"A",
+	isTrue:false,
+	getScore:0
+}
+{
+	type:"judgement",
+	judgement:{
+		id:3,
+		content:"",
+		key:"1",
+		score:0
+	},
+	result:"0",
+	isTrue:false,
+	getScore:0
+}
+
+{
+	type:"essay",
+	essay:{
+		id:4,
+		content:"题干",
+		key:"111111111111",
+		score:0
+	},
+	result:"2221111211",
+	getScore:0
+}
+
+{
+	type:"program",
+	program:{
+		id:5,
+		content:"题干",
+		key:"1",
+		score:0
+	},
+	result:{
+		compile:"" 编译结果 success,  error,
+		run:"" 运行结果 success, error, exception,
+		out:"" 程序输出 123,321
+	},
+	getScore:0
+}

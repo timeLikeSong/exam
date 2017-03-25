@@ -5,7 +5,7 @@
 <title>${APP_NAME}-后台管理</title> [@include.common /][@include.icon /] [@include.bootstrap_css /] [@include.ztree3_css
 /][@include.iconpicker_css /][@include.adminLTE_css/][@include.switch_css/][@include.datetime_css/]
 [@include.datatables_css/]
-[@include.layui_css/] 
+[@include.layui_css/] [@include.jqueryui_css/]
 
 <link rel="stylesheet" href="css/admin.css" />
 </head>
@@ -250,7 +250,7 @@
 			</section>
 			<!-- /.sidebar -->
 		</aside>
-		[@include.jquery_3_1_1 /] [@include.bootstrap_js /]
+		[@include.jquery_3_1_1 /] [@include.bootstrap_js /][@include.jqueryui_js/]
 		[@include.datatables_js/][@include.adminLTE_js/][@include.layui_js/][@include.iconpicker_js/]
 		[@include.ztree3_js/][@include.jquery_validation/][@include.switch_js/][@include.datetime_js/]
 		
@@ -412,7 +412,6 @@
 			$.post(url, options, callback);
 		}
 		$(document).ready(function() {
-			
 			$('.treeview-menu li').click(function(e) {
 				loadPage($(this).attr('data-page'));
 			})

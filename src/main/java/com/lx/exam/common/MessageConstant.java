@@ -11,6 +11,15 @@ public class MessageConstant {
 		public final static String EDIT_SUCCESS="EDIT_SUCCESS";
 		public final static String EDIT_FAILURE="EDIT_FAILURE";
 		
+		public final static String EMAIL_EXIST = "EMAIL_EXIST";
+		public final static String USER_EXIST = "USER_EXIST";
+		public final static String USER_NOT_EXIST = "USER_NOT_EXIST";
+		public final static String PASSWORD_ERROR="PASSWORD_ERROR";
+		public final static String VALIDCODE_ERROR="VALIDCODE_ERROR";
+		public final static String LOGIN_SUCCESS="LOGIN_SUCCESS";
+		
+		public final static String NO_LOGIN="NO_LOGIN";
+		
 		
 		public final static String FOUND="FOUND";
 		public final static String NOT_FOUND="NOT_FOUND";
@@ -26,6 +35,15 @@ public class MessageConstant {
 		
 		public final static String EDIT_SUCCESS="修改成功";
 		public final static String EDIT_FAILURE="修改失败";
+		
+		public final static String EMAIL_EXIST = "邮箱已经被注册";
+		public final static String USER_EXIST = "用户已存在";
+		public final static String USER_NOT_EXIST = "用户不存在";
+		public final static String PASSWORD_ERROR="密码错误";
+		public final static String VALIDCODE_ERROR="验证码错误";
+		public final static String LOGIN_SUCCESS="登陆成功";
+		
+		public final static String NO_LOGIN="未登陆";
 		
 		public final static String NOT_FOUND="没有记录";
 		public final static String EXCEPTION="服务器忙";

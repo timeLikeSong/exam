@@ -47,22 +47,51 @@
 		</div>
 	</div>
 </div>
+<div id="commonDiv" style="display:none;">
+	<input name="id" type="hidden" value="" id="id" />
+	<input name="typeId" type="hidden" value="" id="typeId" />
+	<input name="typeName" type="hidden" value="" id="typeName" />
+	<div class="form-group">
+		<label for="questiondbId" class="col-sm-2 control-label">所属题库</label>
+		<div class="col-sm-10">
+			<select class="form-control input-sm"  name="questiondbId" id="questiondbId">
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+			<label for="levelId" class="col-sm-2 control-label">难度</label>
+			<div class="col-sm-10">
+				<select class="form-control input-sm"  name="levelId" id="levelId">
+					<option value="24">简单</option>
+					<option value="25">普通</option>
+					<option value="26">困难</option>
+				</select>
+			</div>
+		</div>
+	<div class="form-group">
+			<label for="score" class="col-sm-2 control-label">分数</label>
+			<div class="col-sm-10">
+				<input type="number"
+					class="form-control" size="10" name="score" id="score"
+					placeholder="请输入分数"></textarea>
+			</div>
+		</div>
+</div>
 <div style="display: none; padding: 30px;" id="singleChoiceContainer">
 	<form class="form-horizontal" name="singleChoiceForm"
 		id="singleChoiceForm" action="" method="post">
-		<input name="id" type="hidden" value="" id="id" />
 		<div class="form-group">
-			<label for="content" class="col-sm-2 control-label">题干</label>
+			<label for="singleChoiceContent" class="col-sm-2 control-label">题干</label>
 			<div class="col-sm-10">
 				<textarea style="resize: none;" rows=5 type="text"
-					class="form-control" name="content" id="content"
+					class="form-control" name="singleChoiceContent" id="singleChoiceContent"
 					placeholder="请输入题干"></textarea>
 			</div>
 		</div>
 		<div class="form-group" id="singleChoiceOption" >
 			<label id="optionLabel" for="" class="col-sm-2 control-label">选项</label>
 			<div  class="col-sm-10">
-				<div class="input-group">
+				<div class="input-group singleChoiceOption">
 					<span class="input-group-addon"> 
 						<input type="radio" name="singleChoiceOptionAlias" class="singleChoiceOptionAlias" value="A" ><span class="alias">A</span>
 					</span> 
@@ -80,41 +109,5 @@
 </div>
 <script src="${basePath}/admin/js/question.js"></script>
 <script>
-	//试题类型
-	var type = 'singleChoice';//multipleChoice,judgement,essay,program
-	//data存放试题的json格式数据
-	var data = {};
-	//记录当前已添加的选项数量 ， 如添加了A选项和B选项之后，count=2
-	var count = 0;
-	//记录选项
-	var optionAlias = ['A','B','C','D','E','F','G','H'];
-	//重置全局变量
-	function resetVar() {
-		type = 'singleChoice';
-		data = {};
-		count = 0;
-	}
-	alert();
-	$('#singleChoiceForm').delegate(".addBtn", "click", function(){
-		if(7==count){
-			layer.alert("选项过多！");
-			return;
-		}
-		count++;
-		var $div = $("#singleChoiceOption").clone();
-		$div.find('.addBtn').hide();
-		$div.find(".removeBtn").show();
-		$div.find("#optionLabel").html('');
-		$div.find('.singleChoiceOptionAlias').val(optionAlias[count]);
-		$div.find('.alias').html(optionAlias[count]);
-		$("#singleChoiceOption:last-child").after($div);
-	});
-	$('#singleChoiceForm').delegate(".removeBtn", "click", function(){
-		if(0==count){
-			layer.alert("选项过少！");
-			return;
-		}
-		count--;
-		$(this).parent().parent().parent().remove();
-	});
+	
 </script>

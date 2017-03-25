@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div style="width:600px;height:100px">
+		<div >
+			<input id="school" type="text" name="school" />
+		</div>
+	</div>
+	
+	[@include.jquery_3_1_1 /] [@include.bootstrap_js /]
+		[@include.datatables_js/][@include.adminLTE_js/][@include.layui_js/][@include.iconpicker_js/]
+		[@include.ztree3_js/][@include.jquery_validation/][@include.switch_js/][@include.datetime_js/]
+	[@include.jqueryui_css/][@include.jqueryui_js/]
+	<script>
+		$(document).ready(function(){
+			 $( "#school" ).autocomplete({
+				 source: function( request, response ) {
+				        $.ajax({
+				          url: "/exam/school/list.json",
+				          dataType: "json",
+				          data: {
+				            sm_like_name: request.term
+				          },
+				          success: function( data ) {
+				        	  console.log(data.data);
+				            response( $.map( data.data, function( item ) {
+				              return {
+				                label: item.name,
+				                value: item.name,
+				                id:item.id
+				              }
+				            }));
+				          }
+				        });
+				      },
+				      minLength: 1,
+				      select: function( event, ui ) {
+				        console.log( ui.item ?
+				          "Selected: " + ui.item.id :
+				          "Nothing selected, input was " + this.value);
+				      }
+			    });
+		})
+	</script>
+</body>
+</html>

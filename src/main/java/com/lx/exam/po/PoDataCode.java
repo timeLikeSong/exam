@@ -17,9 +17,9 @@ import com.lx.exam.vo.DataCode;
 @Entity
 @Table(name="T_DATACODE")
 @NamedQueries({
-	@NamedQuery(name="questionType.selector",query="from PoDataCode where poDataCode.id=14"),
-	@NamedQuery(name="eventStep.selector",query="from PoDataCode where poDataCode.id=20"),
-	@NamedQuery(name="questionLevel.selector",query="from PoDataCode where poDataCode.id=24")
+	@NamedQuery(name="questionType.selector",query="from PoDataCode dc where poDataCode.description='questionType'"),
+	@NamedQuery(name="questionLevel.selector",query="from PoDataCode where poDataCode.description='questionLevel'"),
+	@NamedQuery(name="userType.selector",query="from PoDataCode where poDataCode.description='userType'")
 })
 public class PoDataCode implements Serializable{
 	private static final long serialVersionUID = -5449174047350692088L;

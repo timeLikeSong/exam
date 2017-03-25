@@ -16,6 +16,7 @@ import javax.persistence.TemporalType;
 
 import org.springframework.beans.BeanUtils;
 
+import com.lx.exam.util.DateUtil;
 import com.lx.exam.util.ObjectUtil;
 import com.lx.exam.vo.Question;
 
@@ -100,8 +101,10 @@ public class PoQuestion implements Serializable{
 	public PoQuestion(){}
 	public PoQuestion(Question question){
 		BeanUtils.copyProperties(question, this);
+		createDate = DateUtil.parseDate(question.getCreateDate());
 		poster=new PoAdmin();
 		poster.setId(question.getPosterId());
+		modifyDate = DateUtil.parseDate(question.getModifyDate());
 		modifyor=new PoAdmin();
 		modifyor.setId(question.getModifyorId());
 		poQuestionDB= new PoQuestionDB();
@@ -114,6 +117,7 @@ public class PoQuestion implements Serializable{
 	}
 	public PoQuestion wrap(Question question){
 		ObjectUtil.o2o(this,question);
+		modifyDate = DateUtil.parseDate(question.getModifyDate());
 		modifyor=new PoAdmin();
 		modifyor.setId(question.getModifyorId());
 		poQuestionDB= new PoQuestionDB();

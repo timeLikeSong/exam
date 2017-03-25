@@ -96,9 +96,9 @@ public class DataCodeAction {
 			model.addAttribute("data",list);
 		}
 	}
-	@RequestMapping("getEventStepSelector")
+	@RequestMapping("getUserTypeSelector")
 	public void getEventStepSelector(Model model){
-		List<PoDataCode> list = dataCodeIbfService.listBySql("eventStep.selector");
+		List<PoDataCode> list = dataCodeIbfService.listBySql("userType.selector");
 		if(list.isEmpty()){
 			model.addAttribute("STATUS",  MessageConstant.STATUS.NOT_FOUND);
 		}

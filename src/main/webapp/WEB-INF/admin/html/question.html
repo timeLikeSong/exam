@@ -23,13 +23,12 @@
 									class="btn btn-default dropdown-toggle" aria-expanded="false">
 									添加<span class="caret"></span>
 								</button>
-								<ul class="dropdown-menu">
-									<li><a href="javascript:addQuestion('singleChoice')">单选题</a></li>
-									<li><a href="javascript:addQuestion('multipleChoice')">多选题</a></li>
-									<li><a href="javascript:addQuestion('judgement')">判断题</a></li>
-									<li><a href="javascript:addQuestion('essay')">简述题</a></li>
-									<li><a href="javascript:addQuestion('program')">编程题</a></li>
-									<li class="divider"></li>
+								<ul id="addQuestionDropDownMenu" class="dropdown-menu">
+									<li><a href="javascript:addQuestion('singleChoice')"><i class="fa fa-check-circle-o"></i>单选题</a></li>
+									<li><a href="javascript:addQuestion('multipleChoice')"><i class="fa fa-check-square-o"></i>多选题</a></li>
+									<li><a href="javascript:addQuestion('judgement')"><i class="fa fa-check"></i>判断题</a></li>
+									<li><a href="javascript:addQuestion('essay')"><i class="fa fa-pencil-square-o"></i>简述题</a></li>
+									<li><a href="javascript:addQuestion('program')"><i class="fa fa-code"></i>编程题</a></li>
 								</ul>
 							</div>
 						</div>
@@ -89,7 +88,7 @@
 			</div>
 		</div>
 		<div class="form-group" id="singleChoiceOption" >
-			<label id="optionLabel" for="" class="col-sm-2 control-label">选项</label>
+			<label id="" for="" class="col-sm-2 control-label optionLabel">选项</label>
 			<div  class="col-sm-10">
 				<div class="input-group singleChoiceOption">
 					<span class="input-group-addon"> 
@@ -99,10 +98,112 @@
 					<button  style="display: block;" onclick="return false;" id="" class="addBtn btn btn-info btn-sm">
 						<i class="fa fa-plus"></i>
 					</button>
-					<button style="display: none;" onclick="return false;" id="" class="removeBtn btn btn-info btn-sm">
+					<button style="display: none;" onclick="return false;" id="" class="removeBtn btn btn-danger btn-sm">
 						<i class="fa fa-minus"></i>
 					</button>
 				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div style="display: none; padding: 30px;" id="multipleChoiceContainer">
+	<form class="form-horizontal" name="multipleChoiceForm"
+		id="multipleChoiceForm" action="" method="post">
+		<div class="form-group">
+			<label for="multipleChoiceContent" class="col-sm-2 control-label">题干</label>
+			<div class="col-sm-10">
+				<textarea style="resize: none;" rows=5 type="text"
+					class="form-control" name="multipleChoiceContent" id="multipleChoiceContent"
+					placeholder="请输入题干"></textarea>
+			</div>
+		</div>
+		<div class="form-group" id="multipleChoiceOption" >
+			<label for="" class="col-sm-2 control-label optionLabel">选项</label>
+			<div  class="col-sm-10">
+				<div class="input-group multipleChoiceOption">
+					<span class="input-group-addon"> 
+						<input type="checkbox" name="multipleChoiceOptionAlias" class="multipleChoiceOptionAlias" value="A" ><span class="alias">A</span>
+					</span> 
+					<input type="text" name="text" style="width:90%;" class="form-control multipleChoiceOptionText" >
+					<button  style="display: block;" onclick="return false;" id="" class="addBtn btn btn-info btn-sm">
+						<i class="fa fa-plus"></i>
+					</button>
+					<button style="display: none;" onclick="return false;" id="" class="removeBtn btn btn-danger btn-sm">
+						<i class="fa fa-minus"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div style="display: none; padding: 30px;" id="judgementContainer">
+	<form class="form-horizontal" name="judgementForm"
+		id="judgementForm" action="" method="post">
+		<div class="form-group">
+			<label for="judgementContent" class="col-sm-2 control-label">题干</label>
+			<div class="col-sm-10">
+				<textarea style="resize: none;" rows=5 type="text"
+					class="form-control" name="judgementContent" id="judgementContent"
+					placeholder="请输入题干"></textarea>
+			</div>
+		</div>
+		<div class="form-group" id="judgementOption" >
+			<label for="" class="col-sm-2 control-label optionLabel">选项</label>
+			<div  class="col-sm-10 judgementOption">
+				<div class="col-sm-2">
+					<input type="radio" checked id="judgementOptionTrue" name="judgementOptionAlias" class="judgementOptionAlias" value="1" ><label for="judgementOptionTrue" class="alias">正确</label>
+				</div>
+				<div class="col-sm-2">
+					<input type="radio" id="judgementOptionFalse" name="judgementOptionAlias" class="judgementOptionAlias" value="0" ><label for="judgementOptionFalse" class="alias">错误</label>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div style="display: none; padding: 30px;" id="essayContainer">
+	<form class="form-horizontal" name="essayForm"
+		id="essayForm" action="" method="post">
+		<div class="form-group">
+			<label for="essayContent" class="col-sm-2 control-label">题干</label>
+			<div class="col-sm-10">
+				<textarea style="resize: none;" rows=5 type="text"
+					class="form-control" name="essayContent" id="essayContent"
+					placeholder="请输入题干"></textarea>
+			</div>
+		</div>
+		<div class="form-group" id="judgementOption" >
+			<label for="" class="col-sm-2 control-label optionLabel">答案</label>
+			<div class="col-sm-10">
+				<textarea style="resize: none;" rows=5 type="text"
+					class="form-control" name="essayKey" id="essayKey"
+					placeholder="请输入答案"></textarea>
+			</div>
+		</div>
+	</form>
+</div>
+<div style="display: none; padding: 30px;" id="programContainer">
+	<form class="form-horizontal" name="programForm"
+		id="programForm" action="" method="post">
+		<div class="form-group">
+			<label for="programContent" class="col-sm-2 control-label">题干</label>
+			<div class="col-sm-10">
+				<textarea style="resize: none;" rows=5 type="text"
+					class="form-control" name="programContent" id="programContent"
+					placeholder="请输入题干"></textarea>
+			</div>
+		</div>
+		<div class="form-group" id="" >
+			<label for="" class="col-sm-2 control-label optionLabel">答案</label>
+			<div class="col-sm-10">
+				<textarea style="resize: none;" rows=5 type="text"
+					class="form-control" name="programKey" id="programKey"
+					placeholder="请输入答案"></textarea>
+			</div>
+		</div>
+		<div class="form-group" id="" >
+			<label for="" class="col-sm-2 control-label optionLabel">输出结果</label>
+			<div class="col-sm-10">
+				<input type="text" id="programOutput" name="programOutput" style="width:90%;" class="form-control programOutput" >
 			</div>
 		</div>
 	</form>

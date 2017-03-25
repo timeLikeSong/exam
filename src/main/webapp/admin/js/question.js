@@ -9,11 +9,11 @@ var count = 0;
 var optionAlias = ['A','B','C','D','E','F','G','H'];
 
 var typeIds={
-		singleChoice:0,
-		multipleChoice:1,
-		judgement:2,
-		essay:3,
-		program:4
+		singleChoice:6,
+		multipleChoice:7,
+		judgement:8,
+		essay:9,
+		program:10
 }
 //重置全局变量
 function resetVar() {
@@ -30,7 +30,7 @@ $('#singleChoiceForm').delegate(".addBtn", "click", function(){
 	var $div = $("#singleChoiceOption").clone();
 	$div.find('.addBtn').hide();
 	$div.find(".removeBtn").show();
-	$div.find("#optionLabel").html('');
+	$div.find(".optionLabel").html('');
 	$div.find('.singleChoiceOptionAlias').val(optionAlias[count]);
 	$div.find('.singleChoiceOptionAlias').prop('checked',false);
 	$div.find('.singleChoiceOptionText').val('');
@@ -46,8 +46,41 @@ $('#singleChoiceForm').delegate(".removeBtn", "click", function(){
 	count--;
 	$(this).parent().parent().parent().remove();
 });
+$('#multipleChoiceForm').delegate(".addBtn", "click", function(){
+	if(7==count){
+		layer.alert("选项过多！");
+		return;
+	}
+	count++;
+	var $div = $("#multipleChoiceOption").clone();
+	$div.find('.addBtn').hide();
+	$div.find(".removeBtn").show();
+	$div.find(".optionLabel").html('');
+	$div.find('.multipleChoiceOptionAlias').val(optionAlias[count]);
+	$div.find('.multipleChoiceOptionAlias').prop('checked',false);
+	$div.find('.multipleChoiceOptionText').val('');
+	$div.find('.alias').html(optionAlias[count]);
+	$div.addClass('multipleOptionCopy');
+	$("#multipleChoiceOption:last-child").after($div);
+});
+$('#multipleChoiceForm').delegate(".removeBtn", "click", function(){
+	if(0==count){
+		layer.alert("选项过少！");
+		return;
+	}
+	count--;
+	$(this).parent().parent().parent().remove();
+});
+loadQuestionTypeMenu();
 $(document).ready(function() {
-	layui.use([ 'form', 'layer' ], function() {
+	layui.use([ 'layedit','form', 'layer' ], function() {
+//		var layedit = layui.layedit;
+//		layedit.build('singleChoiceContent',layeditOptions);	
+//		layedit.build('multipleChoiceContent',layeditOptions);	
+//		layedit.build('judgementContent',layeditOptions);	
+//		layedit.build('essayContent',layeditOptions);	
+//		layedit.build('programContent',layeditOptions);	
+		
 	});
 	$("#status").bootstrapSwitch({
 		'onText' : '开启',
@@ -57,8 +90,28 @@ $(document).ready(function() {
 	$('#searchBtn').click(function(){
 		table.ajax.reload();
 	})
-	
 })
+function loadQuestionTypeMenu(){
+	var html = '';
+	var url = basePath+'/admin/datacode/getQuestionTypeSelector.json';
+	var param={};
+	$.post(url,param,function(rs){
+		if('FOUND'==rs.STATUS){
+			var data = rs.data;
+			for(var i = 0;i<data.length;i++){
+				html+="<li><a href=\"javascript:addQuestion('"+data[i].description+"')\"><i class='fa "+data[i].icon+"'></i>"+data[i].title+"</a></li>";
+			}
+		}
+		else{
+			html="<li><a href=\"javascript:addQuestion('singleChoice')\"><i class=\"fa fa-check-circle-o\"></i>单选题</a></li>"
+					+"<li><a href=\"javascript:addQuestion('multipleChoice')\"><i class=\"fa fa-check-square-o\"></i>多选题</a></li>"
+					+"<li><a href=\"javascript:addQuestion('judgement')\"><i class=\"fa fa-check\"></i>判断题</a></li>"
+					+"<li><a href=\"javascript:addQuestion('essay')\"><i class=\"fa fa-pencil-square-o\"></i>简述题</a></li>"
+					+"<li><a href=\"javascript:addQuestion('program')\"><i class=\"fa fa-code\"></i>编程题</a></li>";
+		}
+		$('#addQuestionDropDownMenu').html(html);
+	});
+}
 function list(param){
 	return $('#data_table').DataTable({
 		ajax:{
@@ -121,7 +174,15 @@ function switchStatus(question,state){
 	return true;
 }
 function addQuestion(questionType){
-//	resetVar();
+	resetVar();
+	clearForm();
+	loadSelector(basePath+'/admin/datacode/getQuestionLevelSelector.json','levelId','data','title','id',{},function(data){
+		console.log(data);
+		if(data.STATUS!='FOUND'){
+			layer.alert("请先添加数据代码！");
+			return;
+		}
+	},'');
 	loadSelector(basePath+'/admin/questiondb/getSelector.json','questiondbId','data','name','id',{},function(data){
 		console.log(data);
 		if(data.STATUS!='FOUND'){
@@ -132,20 +193,30 @@ function addQuestion(questionType){
 	var title  = '';
 	if('singleChoice' == questionType){
 		title  = '单选题';
+		
 		$('#commonDiv').show();
 		$('#singleChoiceForm').prepend($('#commonDiv'));
 	}
 	else if('multipleChoice'==questionType){
 		title  = '多选题';
+		$('#commonDiv').show();
+		$('#multipleChoiceForm').prepend($('#commonDiv'));
 	}
 	else if('judgement' == questionType){
 		title  = '判断题';
+		$('#commonDiv').show();
+		$('#judgementForm').prepend($('#commonDiv'));
+		
 	}
 	else if('essay' == questionType){
 		title  = '简述题';
+		$('#commonDiv').show();
+		$('#essayForm').prepend($('#commonDiv'));
 	}
 	else if('program' == questionType){
 		title  = '编程题';
+		$('#commonDiv').show();
+		$('#programForm').prepend($('#commonDiv'));
 	}
 	else{
 		return;
@@ -163,7 +234,7 @@ function addQuestion(questionType){
         zIndex:1000,
     	btn : ['保存','取消'],
 		yes: function(index){
-			saveQuestion(index);        	
+			saveQuestion(index,questionType);        	
 		}
     });
 }
@@ -220,73 +291,238 @@ function editQuestiondb(id){
 	}
 	$.post(url,param,callback);
 }
-function saveQuestion(index){
-	var questionType = $('#typeName').val();
+function saveQuestion(index,questionType){
+//	var questionType = $('#typeName').val();
+	var questiondbId = $('#questiondbId').val();
+	$('#typeId').val(typeIds[questionType])
+	if(null==questiondbId||''==questiondbId||''==questiondbId.trim()){
+		layer.msg("请选择题库");
+		return;
+	}
 	
+	var score = $('#score').val();
+	if(isNaN(parseFloat(score))){
+		layer.msg("请输入正确的分数");
+		$('#score').focus().select();
+		return;
+	}
+	var typeId = $('#typeId').val();
+	if(null==typeId || ''==typeId||''==typeId.trim()){
+		layer.msg("请选择试题类型");
+		return;
+	}
+	var levelId = $('#levelId').val();
+	if(null==levelId || ''==levelId||''==levelId.trim()){
+		layer.msg("请选择试题难度");
+		return;
+	}
+	var key = '';
+	var content='';
 	if('singleChoice' == questionType){
-		$('#typeId').val(typeIds[questionType])
-		saveSingleChoice(index);
+		content = $('#singleChoiceContent').val();
+		if(null==content||''==content||''==content.trim()){
+			layer.msg("题干不能为空");
+			$('#singleChoiceContent').focus();
+			return;
+		}
+		$('.singleChoiceOptionText').each(function(){
+			var text = $(this).val();
+			if(null==text || ''==text ||''==text.trim()){
+				layer.msg('请输入选项内容');
+				$(this).focus();
+				return;
+			}
+		})
+		var checkedAlias = $('.singleChoiceOptionAlias:checked');
+		if(checkedAlias.length<=0){
+			layer.msg('请选择一个答案');
+			return;
+		}
+		var options=[];
+		$('.singleChoiceOption').each(function(){
+			var alias = $(this).find('.singleChoiceOptionAlias').val();
+			var text = $(this).find('.singleChoiceOptionText').val();
+			options.push({alias:alias,text:text});
+		})
+		key = checkedAlias.val();
+		data=
+		{
+			type:"singleChoice",
+			singleChoice:{
+				content:content,
+				key:key,
+				score:score,
+				options:options
+			}
+		}
 	}
 	else if('multipleChoice'==questionType){
-		saveMultipleChoice(index);
+		content = $('#multipleChoiceContent').val();
+		if(null==content||''==content||''==content.trim()){
+			layer.msg("题干不能为空");
+			$('#multipleChoiceContent').focus();
+			return;
+		}
+		$('.multipleChoiceOptionText').each(function(){
+			var text = $(this).val();
+			if(null==text || ''==text ||''==text.trim()){
+				layer.msg('请输入选项内容');
+				$(this).focus();
+			}
+		})
+		var checkedAlias = $('.multipleChoiceOptionAlias:checked');
+		if(checkedAlias.length<=0){
+			layer.msg('请至少选择一个答案');
+			return;
+		}
+		checkedAlias.each(function(){
+			console.log("check:");
+			console.log($(this).prop('checked'));
+			if($(this).prop('checked')){
+				key=key+''+$(this).val();
+			}
+		})
+		console.log(key);
+		
+		var options=[];
+		$('.multipleChoiceOption').each(function(){
+			var alias = $(this).find('.multipleChoiceOptionAlias').val();
+			var text = $(this).find('.multipleChoiceOptionText').val();
+			options.push({alias:alias,text:text});
+		})
+		data=
+		{
+			type:"multipleChoice",
+			multipleChoice:{
+				content:content,
+				key:key,
+				score:score,
+				options:options
+			}
+		}
 	}
 	else if('judgement' == questionType){
-		saveJudgement(index);
+		content = $('#judgementContent').val();
+		if(null==content||''==content||''==content.trim()){
+			layer.msg("题干不能为空");
+			$('#judgementContent').focus();
+			return;
+		}
+		
+		var checkedAlias = $('.judgementOptionAlias:checked');
+		if(checkedAlias.length<=0){
+			layer.msg("请选择一个答案");
+			return;
+		}
+		key = checkedAlias.val();
+		data=
+		{
+			type:"judgement",
+			judgement:{
+				content:content,
+				key:key,
+				score:score
+			}
+		}
+		console.log(data);
 	}
 	else if('essay' == questionType){
-		saveEssay(index);
+		content = $('#essayContent').val();
+		if(null==content||''==content||''==content.trim()){
+			layer.msg("题干不能为空");
+			$('#essayContent').focus();
+			return;
+		}
+		key = $('#essayKey').val();
+		if(null==key||''==key||''==key.trim()){
+			layer.msg("答案不能为空");
+			$('#essayKey').focus();
+			return;
+		}
+		data=
+		{
+			type:"essay",
+			essay:{
+				content:content,
+				key:key,
+				score:score
+			}
+		}
 	}
 	else if('program' == questionType){
-		saveProgram(index);
+		content = $('#programContent').val();
+		if(null==content||''==content||''==content.trim()){
+			layer.msg("题干不能为空");
+			$('#programContent').focus();
+			return;
+		}
+		key = $('#programKey').val();
+		if(null==key||''==key||''==key.trim()){
+			layer.msg("答案不能为空");
+			$('#programKey').focus();
+			return;
+		}
+		var output = $('#programOutput').val();
+//		if(null==output||''==output||''==output.trim()){
+//			layer.msg("输出结果不能为空");
+//			$('#programOutput').focus();
+//			return;
+//		}
+		data=
+		{
+			type:"program",
+			program:{
+				content:content,
+				key:key,
+				output:output,
+				score:score,
+			}
+		}
 	}
 	else{
 		return;
 	}
-	if (!$("#questiondbForm").validate(getValidationRules()).form()) {
-		return;
-	}
-	var name = $('#name').val();
-	var status = getSwitchState('#status');
-	var description = $('#description').val();
 	
-	var param ={};
-	
-	var id = $('#id').val();
-	var url = basePath+'/admin/questiondb/add.json';
-	//判断是更新还是添加
-	if(null!=id && ''!=id){
-		param['id']=id;
-		url = basePath+'/admin/questiondb/edit.json';
-	}
-	param.name=name;
-	param.status=status;
-	param.description=description;
-	var callback=function(e){
-		layer.msg(e.MSG);
-		//判断返回值
-		if('ADD_SUCCESS'==e.STATUS){
-			//更新表格
-			table.ajax.reload();
-		}
-		else if('EDIT_SUCCESS'==e.STATUS){
-			//更新表格
-			table.ajax.reload();
+	var url=basePath+'/admin/question/add.json'
+	var param={
+			questionDBId:questiondbId,
+			typeId:typeId,
+			levelId:levelId,
+			status:1,
+			content:content,
+			answer:key,
+			score:score,
+			data:JSON.stringify(data)
+	};
+	$.post(url,param,function(data){
+		layer.msg(data.MSG);
+		if('ADD_SUCCESS'==data.STATUS){
+			layer.close(index);
 		}
 		else{
-			return;
+			
 		}
-		layer.close(index);
-	}
-	$.post(url,param,callback);
+	})
 }
-function clearSingleChoice(){
+function clearForm(){
+	$('#score').val('');
+	
 	$('#singleChoiceContent').val('');
-	$('#singleChoiceScore').val('');
-	$('#singleChoiceLevelId').val('');
 	$('.singleOptionCopy').remove();
-	count=0;
+	$('.singleChoiceOptionText').val('');
+	
+	$('#multipleChoiceContent').val('');
+	$('.multipleOptionCopy').remove();
+	$('.multipleChoiceOptionText').val('');
+	
+	$('#judgementContent').val('');
+	
+	$('#essayContent').val('');
+	
+	$('#programContent').val('');
 }
-function saveSingleChoice(){
+
+function saveSingleChoice(index){
 	var questiondbId = $('#questiondbId').val();
 	if(null==questiondbId||''==questiondbId||''==questiondbId.trim()){
 		layer.msg("请选择题库");
@@ -353,11 +589,6 @@ function saveSingleChoice(){
 		else{
 			
 		}
-	})
-}
-function clearForm(){
-	$('#questiondbForm input').each(function(){
-		$(this).val('');
 	})
 }
 function getSingleChoiceValidationRules(){
